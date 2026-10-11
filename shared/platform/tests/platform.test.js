@@ -125,3 +125,19 @@ test('Backup export, import and Vantagepoint CSV import go through the platform'
   const r = await Backup.importVp('projects', 'ProjectID,ProjectNumber,ProjectName,Client,Status\nP0777,26-777,New one,Someone,Active\n');
   assert.strictEqual(r.added, 1);
 }));
+
+test('Cache keeps a per-person local copy (memory and browser-storage paths)', () => withServer(async (t) => {
+  const { Cache } = await import('../index.js');
+  await signIn(t, 's.patel');
+  const mine = await Cache.open('demo');
+  assert.strictEqual(await mine.get('state'), null);
+  await mine.set('state', '{"a":1}');
+  assert.strictEqual(await mine.get('state'), '{"a":1}');
+  await signIn(t, 'm.lee');
+  const hers = await Cache.open('demo');
+  assert.strictEqual(await hers.get('state'), null, 'another person on the same computer sees nothing of it');
+  await signIn(t, 's.patel');
+  assert.strictEqual(await (await Cache.open('demo')).get('state'), '{"a":1}', 'the first person still has theirs');
+  await mine.remove('state');
+  assert.strictEqual(await mine.get('state'), null);
+}));

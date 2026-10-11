@@ -15,7 +15,7 @@ const TOOLS = [
   { id: 'scheduler', name: 'Scheduler', icon: 'chart-gantt', module: true, blurb: 'Project schedules, with dependencies and live editing.',
     sub: [{ label: 'Templates', href: '#/scheduler/templates', icon: 'layout-template', match: /^#\/scheduler\/(templates|t\/)/ }] },
   { id: 'fee-builder', name: 'Fee Builder', icon: 'sheet', module: true, blurb: 'Fee proposals and scenarios.' },
-  { id: 'minutes', name: 'Minutes', icon: 'file-text', phase: 4, blurb: 'Meeting agendas, minutes and action items.' },
+  { id: 'minutes', name: 'Minutes', icon: 'file-text', module: true, blurb: 'Meeting agendas, minutes and action items.' },
 ];
 
 const displayChanged = () => window.dispatchEvent(new Event('toolbox:display'));

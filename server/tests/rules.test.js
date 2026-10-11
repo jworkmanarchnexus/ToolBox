@@ -15,7 +15,7 @@ const walk = (dir, out = []) => {
   return out;
 };
 const files = (ext) => fs.readdirSync(MODULES).flatMap(m => walk(path.join(MODULES, m))).filter(f => f.endsWith(ext));
-const DATA_FILES = /pdffonts\.js$|logo\.js$|logopng|\.b64$/; // embedded font and image data
+const DATA_FILES = /pdffonts\.js$|logo\.js$|logopng|\.b64$|assets-[a-z]+\.js$/; // embedded font, image and document-style data
 
 test('rule 1: modules never call the server or browser storage themselves', () => {
   const bad = [];

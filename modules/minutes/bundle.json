@@ -1,0 +1,9 @@
+{
+  "id": "minutes",
+  "files": [
+    "logic/logic.js", "logic/pdf.js",
+    "ui/assets-fonts.js", "ui/assets-logo.js", "ui/assets-sheet.js",
+    "ui/app.js", "ui/api.js"
+  ],
+  "css": ["ui/tokens.css", "ui/minutes.css"]
+}

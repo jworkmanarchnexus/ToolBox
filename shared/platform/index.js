@@ -5,3 +5,4 @@ export { Directory } from './directory.js';
 export { Store, Backup, POLL_MS } from './store.js';
 export { Files } from './files.js';
 export { Locks } from './locks.js';
+export { Cache } from './cache.js';

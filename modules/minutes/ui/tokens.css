@@ -1,0 +1,7 @@
+/* Minutes-only tokens: brand marks used on the screens, and the paper colors of the on-screen published page and page preview
+   (a printed page is white in every theme). This is the only Minutes stylesheet that may name a hex color or a raw brand value. */
+:root {
+  --g-blue: var(--nx-blue); --g-light: var(--nx-lightblue); --g-lightblue: var(--nx-lightblue); --g-bluegray: var(--nx-bluegray);
+  --g-orange: var(--nx-orange); --g-green: var(--nx-green);
+  --on-fill: #fff; --sheet-paper: #fff; --pv-bg: #e4e6e8;
+}
