@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server/index.js",
     "test": "node --test \"server/**/*.test.js\" \"shared/**/*.test.js\" \"modules/**/*.test.js\"",
-    "seed": "node -e \"console.log('Seeding arrives in Phase 1.')\"",
-    "backup": "node -e \"console.log('Backup arrives in Phase 1.')\""
+    "seed": "node server/seed.js",
+    "backup": "node server/backup-cli.js"
   }
 }

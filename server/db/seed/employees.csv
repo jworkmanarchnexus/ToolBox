@@ -1,0 +1,9 @@
+EmployeeID,Username,FirstName,LastName,Email,Title,Status
+E001,a.rivera,Alex,Rivera,a.rivera@example.test,Principal,Active
+E002,m.lee,Morgan,Lee,m.lee@example.test,Principal in Charge,Active
+E003,s.patel,Sam,Patel,s.patel@example.test,Project Manager,Active
+E004,j.kim,Jordan,Kim,j.kim@example.test,Project Manager,Active
+E005,t.brooks,Taylor,Brooks,t.brooks@example.test,Project Administrator,Active
+E006,c.nguyen,Casey,Nguyen,c.nguyen@example.test,Designer,Active
+E007,r.ortiz,Riley,Ortiz,r.ortiz@example.test,Designer,Active
+E008,d.hollis,Drew,Hollis,d.hollis@example.test,Chief Financial Officer,Active

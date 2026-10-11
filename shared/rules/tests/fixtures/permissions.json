@@ -1,0 +1,52 @@
+{
+  "description": "Permission rules (Scheduler SPEC 4.3 and 4.4). Language-neutral: each case is a function name, an input and the expected output. Levels: 0 none, 1 read, 2 write, 3 admin.",
+  "base": {
+    "firmRoles": { "boss": ["admin"], "cfo": ["viewer"] },
+    "vpTeam": [
+      { "user": "pm", "role": "pm" }, { "user": "pic", "role": "pic" },
+      { "user": "tm", "role": "team" }, { "user": "gone", "role": "team" }
+    ],
+    "overrides": [
+      { "user": "gone", "kind": "deny" }, { "user": "guest", "kind": "grant_viewer" },
+      { "user": "helper", "kind": "grant_editor" }, { "user": "pm2", "kind": "deny" }
+    ]
+  },
+  "effectiveAccess": [
+    { "name": "firm admin is admin everywhere", "user": "boss", "expect": 3 },
+    { "name": "PM from Vantagepoint is project admin", "user": "pm", "expect": 3 },
+    { "name": "PIC from Vantagepoint is project admin", "user": "pic", "expect": 3 },
+    { "name": "team member can view", "user": "tm", "expect": 1 },
+    { "name": "a manual removal beats Vantagepoint", "user": "gone", "expect": 0 },
+    { "name": "manual viewer grant", "user": "guest", "expect": 1 },
+    { "name": "manual editor grant", "user": "helper", "expect": 2 },
+    { "name": "firm viewer reads every project", "user": "cfo", "expect": 1 },
+    { "name": "everyone else has no access", "user": "stranger", "expect": 0 },
+    { "name": "a firm admin cannot be denied", "user": "boss", "extraOverrides": [{ "user": "boss", "kind": "deny" }], "expect": 3 }
+  ],
+  "canDo": [
+    { "level": 1, "action": "view", "expect": true },
+    { "level": 1, "action": "edit", "expect": false },
+    { "level": 1, "action": "duplicateFrom", "expect": true },
+    { "level": 2, "action": "edit", "expect": true },
+    { "level": 2, "action": "manageAccess", "expect": false },
+    { "level": 3, "action": "manageAccess", "expect": true },
+    { "level": 3, "action": "edit", "opts": { "archived": true }, "expect": false },
+    { "level": 3, "action": "view", "opts": { "archived": true }, "expect": true },
+    { "level": 3, "action": "delete", "opts": { "archived": true }, "expect": false },
+    { "level": 3, "action": "delete", "opts": { "archived": true, "firmAdmin": true }, "expect": true },
+    { "level": 0, "action": "view", "expect": false },
+    { "level": 3, "action": "nonsense", "expect": false }
+  ],
+  "canDeny": [
+    { "actor": "pm", "target": "pic", "expect": false },
+    { "actor": "pm", "target": "pm", "expect": false },
+    { "actor": "pm", "target": "tm", "expect": true },
+    { "actor": "boss", "target": "pm", "expect": true },
+    { "actor": "tm", "target": "guest", "expect": false }
+  ],
+  "canDuplicate": [
+    { "src": 1, "dest": 2, "destArchived": false, "expect": true },
+    { "src": 2, "dest": 1, "destArchived": false, "expect": false },
+    { "src": 1, "dest": 2, "destArchived": true, "expect": false }
+  ]
+}
