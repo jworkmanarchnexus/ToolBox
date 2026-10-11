@@ -1,0 +1,8 @@
+node_modules/
+server/db/*.sqlite*
+backups/
+.DS_Store
+Thumbs.db
+*.log
+reference/source-zips/*.zip
+reference/source/
