@@ -4,22 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Archnexus Toolbox</title>
-<style>
-  body { font-family: Lato, system-ui, sans-serif; margin: 0; display: grid; place-items: center; min-height: 100vh; background: #f6f7f8; color: #1d2733; }
-  main { text-align: center; }
-  p { color: #5b6773; }
-</style>
+<link rel="stylesheet" href="/shared/design-system/toolbox.css">
+<link rel="stylesheet" href="/shell/shell.css">
+<script src="/shared/design-system/bundle.js"></script>
 </head>
 <body>
-<main>
-  <h1>Archnexus Toolbox</h1>
-  <p>The empty shell is running. Scheduler, Fee Builder and Minutes arrive in later phases.</p>
-  <p id="status">Checking server&hellip;</p>
-</main>
-<script>
-  fetch('/api/health').then(r => r.json())
-    .then(d => { document.getElementById('status').textContent = d.ok ? 'Server: OK' : 'Server: problem'; })
-    .catch(() => { document.getElementById('status').textContent = 'Server: not reachable'; });
-</script>
+<div id="app"></div>
+<script type="module" src="/shell/main.js"></script>
 </body>
 </html>

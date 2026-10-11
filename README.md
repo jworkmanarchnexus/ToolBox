@@ -46,7 +46,7 @@ Each phase ends with Claude Code stopping to show you what works and how to try 
 
 ## Day to day
 
-- **Run the Toolbox:** `npm start` in this folder, then open http://localhost:5280. Only your computer can reach it.
+- **Run the Toolbox:** `npm start` in this folder (in Windows PowerShell type `npm.cmd start`), then open http://localhost:5280. Only your computer can reach it.
 - **Changes:** describe them to Claude Code here, not in a chat. It works in the repo, runs the tests and commits.
 - **Design changes:** say what should change ("primary buttons should be Nexus Blue"). Claude Code edits `design-system/` first, then every module.
 - **Backups:** `npm run backup` writes everything to a JSON file in `backups/`.

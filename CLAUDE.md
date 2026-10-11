@@ -77,12 +77,15 @@ reference/          existing apps, read-only
     - Technical decisions inside these rules are yours: make them and record the non-obvious ones in `docs/DECISIONS.md`.
 11. **Talking to Josh:** plain language, short, no jargon without a one-line explanation. He wants honest assessments, not reassurance. Say what you did not test.
 
-## Commands (to be created in Phase 0)
+## Commands
+
+On Windows PowerShell, type `npm.cmd` instead of `npm` (PowerShell blocks the `npm` script).
 
 - `npm start`: run the Toolbox at http://localhost:5280
 - `npm test`: all unit tests (server, shared, every module)
 - `npm run seed`: reset the local database to the seed data
 - `npm run backup`: write a full backup JSON to `backups/` (git-ignored)
+- `node design-system/tools/build_css.js`: regenerate `shared/design-system/` after changing `design-system/project/`
 
 ## Open questions for Kent (do not block on these)
 
