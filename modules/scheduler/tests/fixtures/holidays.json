@@ -1,0 +1,176 @@
+{
+ "description": "US federal holidays (plus Utah Pioneer Day) for a year, as the Scheduler offers them: fixed dates, nth weekday rules, and Saturday to Friday / Sunday to Monday observance. `must` are dates checked by hand; `generated` is the full list the current code produces, pinned.",
+ "must": {
+  "2026": {
+   "Martin Luther King Jr. Day": "2026-01-19",
+   "Presidents' Day": "2026-02-16",
+   "Memorial Day": "2026-05-25",
+   "Juneteenth": "2026-06-19",
+   "Independence Day (observed)": "2026-07-03",
+   "Labor Day": "2026-09-07",
+   "Columbus / Indigenous Peoples' Day": "2026-10-12",
+   "Veterans Day": "2026-11-11",
+   "Thanksgiving": "2026-11-26",
+   "Christmas Day": "2026-12-25",
+   "Pioneer Day (Utah)": "2026-07-24"
+  },
+  "2027": {
+   "Juneteenth (observed)": "2027-06-18",
+   "Independence Day (observed)": "2027-07-05",
+   "Christmas Day (observed)": "2027-12-24",
+   "Pioneer Day (Utah) (observed)": "2027-07-23"
+  }
+ },
+ "generated": {
+  "2026": [
+   {
+    "date": "2026-01-01",
+    "name": "New Year's Day"
+   },
+   {
+    "date": "2026-01-19",
+    "name": "Martin Luther King Jr. Day"
+   },
+   {
+    "date": "2026-02-16",
+    "name": "Presidents' Day"
+   },
+   {
+    "date": "2026-05-25",
+    "name": "Memorial Day"
+   },
+   {
+    "date": "2026-06-19",
+    "name": "Juneteenth"
+   },
+   {
+    "date": "2026-07-03",
+    "name": "Independence Day (observed)"
+   },
+   {
+    "date": "2026-09-07",
+    "name": "Labor Day"
+   },
+   {
+    "date": "2026-10-12",
+    "name": "Columbus / Indigenous Peoples' Day"
+   },
+   {
+    "date": "2026-11-11",
+    "name": "Veterans Day"
+   },
+   {
+    "date": "2026-11-26",
+    "name": "Thanksgiving"
+   },
+   {
+    "date": "2026-12-25",
+    "name": "Christmas Day"
+   },
+   {
+    "date": "2026-07-24",
+    "name": "Pioneer Day (Utah)"
+   }
+  ],
+  "2027": [
+   {
+    "date": "2027-01-01",
+    "name": "New Year's Day"
+   },
+   {
+    "date": "2027-01-18",
+    "name": "Martin Luther King Jr. Day"
+   },
+   {
+    "date": "2027-02-15",
+    "name": "Presidents' Day"
+   },
+   {
+    "date": "2027-05-31",
+    "name": "Memorial Day"
+   },
+   {
+    "date": "2027-06-18",
+    "name": "Juneteenth (observed)"
+   },
+   {
+    "date": "2027-07-05",
+    "name": "Independence Day (observed)"
+   },
+   {
+    "date": "2027-09-06",
+    "name": "Labor Day"
+   },
+   {
+    "date": "2027-10-11",
+    "name": "Columbus / Indigenous Peoples' Day"
+   },
+   {
+    "date": "2027-11-11",
+    "name": "Veterans Day"
+   },
+   {
+    "date": "2027-11-25",
+    "name": "Thanksgiving"
+   },
+   {
+    "date": "2027-12-24",
+    "name": "Christmas Day (observed)"
+   },
+   {
+    "date": "2027-07-23",
+    "name": "Pioneer Day (Utah) (observed)"
+   }
+  ],
+  "2028": [
+   {
+    "date": "2027-12-31",
+    "name": "New Year's Day (observed)"
+   },
+   {
+    "date": "2028-01-17",
+    "name": "Martin Luther King Jr. Day"
+   },
+   {
+    "date": "2028-02-21",
+    "name": "Presidents' Day"
+   },
+   {
+    "date": "2028-05-29",
+    "name": "Memorial Day"
+   },
+   {
+    "date": "2028-06-19",
+    "name": "Juneteenth"
+   },
+   {
+    "date": "2028-07-04",
+    "name": "Independence Day"
+   },
+   {
+    "date": "2028-09-04",
+    "name": "Labor Day"
+   },
+   {
+    "date": "2028-10-09",
+    "name": "Columbus / Indigenous Peoples' Day"
+   },
+   {
+    "date": "2028-11-10",
+    "name": "Veterans Day (observed)"
+   },
+   {
+    "date": "2028-11-23",
+    "name": "Thanksgiving"
+   },
+   {
+    "date": "2028-12-25",
+    "name": "Christmas Day"
+   },
+   {
+    "date": "2028-07-24",
+    "name": "Pioneer Day (Utah)"
+   }
+  ]
+ }
+}

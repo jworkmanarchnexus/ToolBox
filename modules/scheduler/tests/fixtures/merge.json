@@ -1,0 +1,6647 @@
+{
+ "description": "Three-way merge of two edited copies of one schedule against the copy both started from (Scheduler SPEC 7.1). Each case has explicit base, mine and theirs documents; `choices` maps a conflict key (\"task:<id>:<field>\", \"task:<id>:dep:<id>\", \"task:<id>:delete\", \"set:<field>\", \"hol:<date>\") to \"mine\" for a conflict the person settled; `expect` lists what must hold of the merged result. Language-neutral: only JSON in, JSON-checkable results out. Task ids are stable strings; \"taskOrder\" is the ids in row order, joined.",
+ "cases": [
+  {
+   "name": "nobody changed anything",
+   "rule": "identical copies merge to the same schedule",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "taskOrder": "abcd"
+   }
+  },
+  {
+   "name": "different fields of the same task merge",
+   "rule": "edits to different fields of one task both survive",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha mine",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 9,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "task": {
+     "a": {
+      "name": "Alpha mine",
+      "duration": 9
+     }
+    }
+   }
+  },
+  {
+   "name": "the same field changed to different values is a conflict; theirs is the default",
+   "rule": "a conflict defaults to the other person's saved value",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 7,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 9,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 1,
+    "conflictLabelContains": "duration",
+    "task": {
+     "a": {
+      "duration": 9
+     }
+    }
+   }
+  },
+  {
+   "name": "choosing mine keeps my value",
+   "rule": "the person can choose their own value for each conflict",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 7,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 9,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": {
+    "task:a:duration": "mine"
+   },
+   "expect": {
+    "conflicts": 1,
+    "task": {
+     "a": {
+      "duration": 7
+     }
+    }
+   }
+  },
+  {
+   "name": "both change a field to the same value: no conflict",
+   "rule": "identical edits never conflict",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "X",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "X",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "task": {
+     "a": {
+      "name": "X"
+     }
+    }
+   }
+  },
+  {
+   "name": "each side adds a different task",
+   "rule": "additions from both sides are kept",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "m1",
+      "name": "Mine new",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "t1",
+      "name": "Their new",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "taskCount": 6,
+    "hasTasks": [
+     "m1",
+     "t1"
+    ]
+   }
+  },
+  {
+   "name": "deleted by them, edited by me: a conflict that defaults to deleted",
+   "rule": "a delete against an edit is a conflict; the default follows the other person",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta edited",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 1,
+    "missingTasks": [
+     "d"
+    ]
+   }
+  },
+  {
+   "name": "deleted by me, untouched by them",
+   "rule": "a one-sided delete goes through",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "missingTasks": [
+     "d"
+    ]
+   }
+  },
+  {
+   "name": "a deleted task's links are cleaned up",
+   "rule": "links to a deleted task are removed from the others",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "missingTasks": [
+     "b"
+    ],
+    "task": {
+     "c": {
+      "depsCount": 0
+     }
+    }
+   }
+  },
+  {
+   "name": "derived start dates never conflict (only the anchored one does)",
+   "rule": "a start date that the cascade computed is not an edit; only the activity someone moved by hand can conflict",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-14",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-21",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-28",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-16",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-23",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-30",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 1,
+    "conflictLabelContains": "start date"
+   }
+  },
+  {
+   "name": "I move Alpha, they rename Charlie: both survive",
+   "rule": "a move and an unrelated rename merge without conflict",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-14",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-21",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-28",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie renamed",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "task": {
+     "a": {
+      "start": "2026-10-14"
+     },
+     "c": {
+      "name": "Charlie renamed"
+     }
+    }
+   }
+  },
+  {
+   "name": "each side adds a different link to Delta",
+   "rule": "links are merged one by one",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "c",
+        "type": "SS",
+        "lag": 2
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "task": {
+     "d": {
+      "depsCount": 2
+     }
+    }
+   }
+  },
+  {
+   "name": "both change the same link differently: a conflict",
+   "rule": "the same link edited two ways is a conflict",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 2
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "SS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 1,
+    "conflictLabelContains": "link from"
+   }
+  },
+  {
+   "name": "a link removed by one side only",
+   "rule": "a one-sided link removal goes through",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "task": {
+     "b": {
+      "depsCount": 0
+     }
+    }
+   }
+  },
+  {
+   "name": "two edits that together make a loop are merged, and the engine flags the loop",
+   "rule": "the merge never refuses a result; the cycle check reports it",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "c",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "cycle": true
+   }
+  },
+  {
+   "name": "only they reordered: theirs",
+   "rule": "one side's reorder is taken",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "taskOrder": "dabc"
+   }
+  },
+  {
+   "name": "only I reordered, and they added a row: it stays next to its old neighbour",
+   "rule": "an added row is placed beside the neighbour it had",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "t1",
+      "name": "Their new",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "taskOrder": "dt1abc"
+   }
+  },
+  {
+   "name": "settings merge field by field",
+   "rule": "settings changed on different fields (scale, info, colors, holidays) all survive",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "quarters",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [
+     {
+      "date": "2026-11-26",
+      "name": "Thanksgiving"
+     }
+    ],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [
+     "#12ab9c"
+    ],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [
+     {
+      "date": "2026-12-25",
+      "name": "Christmas"
+     }
+    ],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [
+     "#ab12cd"
+    ],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "2026-014",
+     "client": "Hill AFB",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "setting": {
+     "scale": "quarters",
+     "info.number": "2026-014"
+    },
+    "customColorsCount": 2,
+    "holidaysCount": 2
+   }
+  },
+  {
+   "name": "both rename the schedule",
+   "rule": "the schedule name changed two ways is a conflict; theirs is the default",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "Mine",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "Theirs",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 1,
+    "setting": {
+     "name": "Theirs"
+    }
+   }
+  },
+  {
+   "name": "locks set on different tasks both survive",
+   "rule": "independent lock toggles merge",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": true,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": true,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "task": {
+     "a": {
+      "locked": true
+     },
+     "d": {
+      "locked": true
+     }
+    }
+   }
+  },
+  {
+   "name": "turning a task into a milestone keeps duration 0",
+   "rule": "kind and duration move together",
+   "base": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "mine": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta",
+      "kind": "milestone",
+      "duration": 0,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "theirs": {
+    "name": "S",
+    "scale": "weeks",
+    "colors": {
+     "client": "blue",
+     "design": "teal",
+     "internal": "violet"
+    },
+    "holidays": [],
+    "hset": false,
+    "offDays": [
+     0,
+     6
+    ],
+    "execOn": false,
+    "execColor": "blue",
+    "customColors": [],
+    "baselineOn": false,
+    "baseline": null,
+    "info": {
+     "number": "",
+     "client": "",
+     "issue": ""
+    },
+    "exportDefaults": {},
+    "commitWarn": 0,
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Alpha",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Bravo",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-19",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "c",
+      "name": "Charlie",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-26",
+      "locked": false,
+      "notBefore": null,
+      "deps": [
+       {
+        "id": "b",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     },
+     {
+      "id": "d",
+      "name": "Delta renamed",
+      "kind": "task",
+      "duration": 5,
+      "start": "2026-10-12",
+      "locked": false,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "lvl": "client",
+      "exec": false,
+      "exColor": null,
+      "commit": null
+     }
+    ]
+   },
+   "choices": null,
+   "expect": {
+    "conflicts": 0,
+    "task": {
+     "d": {
+      "kind": "milestone",
+      "duration": 0,
+      "name": "Delta renamed"
+     }
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,52 @@
+{
+  "description": "Minutes: dates, times and reference numbers. Language-neutral tables (input -> output). `today` is the clock the rule runs against. Dates are YYYY-MM-DD, times are stored as 24-hour HH:MM when they can be read and kept as typed when they cannot.",
+  "nextMeetingDate": {
+    "today": "2026-10-12",
+    "rule": "The next meeting is the previous meeting's date plus one cadence step (weekly +7 days, biweekly +14, monthly: the same day next month, or the month's last day when that day does not exist). It is never in the past: a date before today becomes today. With no previous meeting, or cadence 'none', it is today.",
+    "cases": [
+      { "previous": "2026-10-12", "cadence": "weekly", "expect": "2026-10-19" },
+      { "previous": "2026-10-12", "cadence": "biweekly", "expect": "2026-10-26" },
+      { "previous": "2026-10-12", "cadence": "monthly", "expect": "2026-11-12" },
+      { "previous": "2026-01-31", "cadence": "monthly", "expect": "2026-10-12", "note": "Feb 28 is in the past, so it becomes today" },
+      { "previous": "2026-10-31", "cadence": "monthly", "expect": "2026-11-30", "note": "November has no 31st" },
+      { "previous": "2026-09-01", "cadence": "weekly", "expect": "2026-10-12", "note": "never in the past" },
+      { "previous": "2026-10-12", "cadence": "none", "expect": "2026-10-12" },
+      { "previous": "", "cadence": "weekly", "expect": "2026-10-12" }
+    ]
+  },
+  "readTime": [
+    { "typed": "10:00 AM", "stored": "10:00" }, { "typed": "9:30pm", "stored": "21:30" }, { "typed": "12:00 AM", "stored": "00:00" }, { "typed": "12:15 PM", "stored": "12:15" },
+    { "typed": "8a", "stored": "08:00" }, { "typed": "14:45", "stored": "14:45" }, { "typed": "13:00 PM", "stored": "13:00 PM", "note": "not a valid 12-hour time: kept as typed" },
+    { "typed": "noon", "stored": "noon" }, { "typed": "", "stored": "" }, { "typed": "25:00", "stored": "25:00" }
+  ],
+  "showTime": [
+    { "stored": "10:00", "format": "12h", "expect": "10:00 AM" }, { "stored": "21:30", "format": "12h", "expect": "9:30 PM" }, { "stored": "00:05", "format": "12h", "expect": "12:05 AM" },
+    { "stored": "12:00", "format": "12h", "expect": "12:00 PM" }, { "stored": "21:30", "format": "24h", "expect": "21:30" }, { "stored": "noon", "format": "12h", "expect": "noon" }
+  ],
+  "addMinutes": [
+    { "start": "10:00", "minutes": 45, "expect": "10:45" }, { "start": "23:30", "minutes": 60, "expect": "00:30", "note": "wraps past midnight" },
+    { "start": "09:15", "minutes": 0, "expect": "", "note": "adding nothing gives nothing" }, { "start": "noon", "minutes": 30, "expect": "" }
+  ],
+  "topicReference": {
+    "rule": "A topic is numbered <category>.<topic> and an action under it may carry a letter. The 'plain' style shows 1.2.B as is; the 'padded' style shows 001.02.B (the firm's legacy Issue # form). Anything that is not a topic reference is shown unchanged.",
+    "cases": [
+      { "ref": "1.2", "style": "plain", "expect": "1.2" }, { "ref": "1.2.B", "style": "plain", "expect": "1.2.B" },
+      { "ref": "1.2", "style": "padded", "expect": "001.02" }, { "ref": "1.2.B", "style": "padded", "expect": "001.02.B" }, { "ref": "12.34.AB", "style": "padded", "expect": "012.34.AB" },
+      { "ref": "M1 1.2", "style": "padded", "expect": "M1 1.2" }, { "ref": "", "style": "padded", "expect": "" }
+    ],
+    "issueNumber": [{ "ref": "1.2", "expect": "001.02" }, { "ref": "10.5", "expect": "010.05" }, { "ref": "not a ref", "expect": "not a ref" }]
+  },
+  "documentId": {
+    "rule": "<firm prefix + space, if any><meeting number padded to 3>.<revision + 1 padded to 2>. Revision 0 is the first issue, so the first issue of meeting 7 is 007.01 and its first correction 007.02.",
+    "cases": [
+      { "prefix": "", "meeting": 7, "revision": 0, "expect": "007.01" }, { "prefix": "", "meeting": 7, "revision": 1, "expect": "007.02" },
+      { "prefix": "AN", "meeting": 12, "revision": 0, "expect": "AN 012.01" }, { "prefix": "AN", "meeting": 123, "revision": 9, "expect": "AN 123.10" }
+    ]
+  },
+  "shortDueDate": {
+    "rule": "A due date shows as 'Mon D', with the year added only when it differs from the reference date's year.",
+    "cases": [
+      { "date": "2026-10-30", "reference": "2026-10-12", "expect": "Oct 30" }, { "date": "2027-01-05", "reference": "2026-10-12", "expect": "Jan 5, 2027" }, { "date": "", "reference": "2026-10-12", "expect": "" }
+    ]
+  }
+}

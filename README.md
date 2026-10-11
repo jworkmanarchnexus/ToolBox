@@ -13,6 +13,7 @@ This folder becomes the Toolbox repo. Claude Code reads `CLAUDE.md` automaticall
 | `design-system/` | Tokens, component CSS, icons, fonts, logo, and the check scripts |
 | `reference/published/` | The three apps as currently published (read-only reference) |
 | `reference/source-zips/` | **Put your source zips here** (see the README in that folder) |
+| `docs/SPEC-*.md`, `docs/FOR-KENT.md` | What each tool must do, and everything Kent needs to host or rebuild it |
 
 ## One-time setup
 

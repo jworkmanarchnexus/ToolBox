@@ -1,0 +1,167 @@
+{
+ "description": "Commitments (Scheduler SPEC, commitments): a task or milestone may carry a committed date; the forecast (a milestone's date, an activity's finish) is compared with it. status is on | early | late | risk; margin is days (negative when late); riskMarginDays is the firm threshold (0 = off). Calendar: Monday to Friday, no holidays.",
+ "cases": [
+  {
+   "name": "forecast on the committed date",
+   "task": {
+    "id": "m",
+    "kind": "milestone",
+    "duration": 0,
+    "start": "2027-12-15",
+    "deps": [],
+    "locked": false,
+    "notBefore": null,
+    "ignore": [],
+    "commit": {
+     "date": "2027-12-15"
+    }
+   },
+   "riskMarginDays": 0,
+   "expect": {
+    "status": "on"
+   }
+  },
+  {
+   "name": "forecast 14 days late",
+   "task": {
+    "id": "m",
+    "kind": "milestone",
+    "duration": 0,
+    "start": "2027-12-29",
+    "deps": [],
+    "locked": false,
+    "notBefore": null,
+    "ignore": [],
+    "commit": {
+     "date": "2027-12-15"
+    }
+   },
+   "riskMarginDays": 0,
+   "expect": {
+    "status": "late",
+    "margin": -14,
+    "text": "14 days late"
+   }
+  },
+  {
+   "name": "forecast early with no risk threshold",
+   "task": {
+    "id": "m",
+    "kind": "milestone",
+    "duration": 0,
+    "start": "2027-12-10",
+    "deps": [],
+    "locked": false,
+    "notBefore": null,
+    "ignore": [],
+    "commit": {
+     "date": "2027-12-15"
+    }
+   },
+   "riskMarginDays": 0,
+   "expect": {
+    "status": "early"
+   }
+  },
+  {
+   "name": "early, but inside a 7-day risk margin",
+   "task": {
+    "id": "m",
+    "kind": "milestone",
+    "duration": 0,
+    "start": "2027-12-10",
+    "deps": [],
+    "locked": false,
+    "notBefore": null,
+    "ignore": [],
+    "commit": {
+     "date": "2027-12-15"
+    }
+   },
+   "riskMarginDays": 7,
+   "expect": {
+    "status": "risk",
+    "text": "5 days margin"
+   }
+  },
+  {
+   "name": "exactly at the threshold is not at risk",
+   "task": {
+    "id": "m",
+    "kind": "milestone",
+    "duration": 0,
+    "start": "2027-12-10",
+    "deps": [],
+    "locked": false,
+    "notBefore": null,
+    "ignore": [],
+    "commit": {
+     "date": "2027-12-15"
+    }
+   },
+   "riskMarginDays": 5,
+   "expect": {
+    "status": "early"
+   }
+  },
+  {
+   "name": "zero margin is at risk when a threshold is set",
+   "task": {
+    "id": "m",
+    "kind": "milestone",
+    "duration": 0,
+    "start": "2027-12-15",
+    "deps": [],
+    "locked": false,
+    "notBefore": null,
+    "ignore": [],
+    "commit": {
+     "date": "2027-12-15"
+    }
+   },
+   "riskMarginDays": 3,
+   "expect": {
+    "status": "risk"
+   }
+  },
+  {
+   "name": "an activity is judged by its finish date",
+   "task": {
+    "id": "a",
+    "kind": "task",
+    "duration": 10,
+    "start": "2027-12-01",
+    "deps": [],
+    "locked": false,
+    "notBefore": null,
+    "ignore": [],
+    "commit": {
+     "date": "2027-12-09"
+    }
+   },
+   "riskMarginDays": 0,
+   "expect": {
+    "status": "late",
+    "margin": -1,
+    "forecast": "2027-12-10"
+   }
+  },
+  {
+   "name": "no commitment, no status",
+   "task": {
+    "id": "z",
+    "kind": "task",
+    "duration": 3,
+    "start": "2027-12-01",
+    "deps": [],
+    "locked": false,
+    "notBefore": null,
+    "ignore": []
+   },
+   "riskMarginDays": 0,
+   "expect": {
+    "status": null
+   }
+  }
+ ]
+}

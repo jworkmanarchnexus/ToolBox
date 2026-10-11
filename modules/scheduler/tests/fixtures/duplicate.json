@@ -1,0 +1,283 @@
+{
+ "description": "Duplicating a schedule (SPEC 5.4). Every date moves by the same number of calendar days so links, locks and holds keep their meaning; id, save stamps, history and baseline are not copied; commitments are copied only within the same project and are never shifted (a promised date is a real date); project details come from the destination. `expect` is the full resulting document.",
+ "source": {
+  "id": "sched-1",
+  "sid": "x",
+  "name": "Design schedule",
+  "projectId": "proj-A",
+  "createdBy": "u1",
+  "createdAt": 1,
+  "updatedBy": "u2",
+  "updatedAt": 2,
+  "history": [
+   1
+  ],
+  "baseline": {
+   "at": 1,
+   "by": "u1",
+   "tasks": {
+    "a": {
+     "s": "2026-10-12",
+     "d": 5
+    }
+   }
+  },
+  "info": {
+   "number": "26-101",
+   "client": "Riverton",
+   "issue": "Rev 2"
+  },
+  "tasks": [
+   {
+    "id": "a",
+    "name": "Kickoff",
+    "kind": "milestone",
+    "duration": 0,
+    "start": "2026-10-12",
+    "locked": true,
+    "notBefore": null,
+    "deps": [],
+    "ignore": [],
+    "commit": {
+     "date": "2026-10-12",
+     "note": "contract"
+    }
+   },
+   {
+    "id": "b",
+    "name": "Design",
+    "kind": "task",
+    "duration": 20,
+    "start": "2026-10-13",
+    "locked": false,
+    "notBefore": "2026-10-19",
+    "deps": [
+     {
+      "id": "a",
+      "type": "FS",
+      "lag": 0
+     }
+    ],
+    "ignore": [],
+    "commit": {
+     "date": "2026-11-06"
+    }
+   }
+  ]
+ },
+ "cases": [
+  {
+   "name": "copy into the same project, keeping dates",
+   "opts": {
+    "name": "Design schedule (copy)",
+    "projectId": "proj-A",
+    "delta": 0
+   },
+   "expect": {
+    "name": "Design schedule (copy)",
+    "projectId": "proj-A",
+    "baseline": null,
+    "info": {
+     "number": "26-101",
+     "client": "Riverton",
+     "issue": "Rev 2"
+    },
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Kickoff",
+      "kind": "milestone",
+      "duration": 0,
+      "start": "2026-10-12",
+      "locked": true,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "commit": {
+       "date": "2026-10-12",
+       "note": "contract"
+      }
+     },
+     {
+      "id": "b",
+      "name": "Design",
+      "kind": "task",
+      "duration": 20,
+      "start": "2026-10-13",
+      "locked": false,
+      "notBefore": "2026-10-19",
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "commit": {
+       "date": "2026-11-06"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "name": "copy into the same project, starting 14 days later",
+   "opts": {
+    "name": "Later",
+    "projectId": "proj-A",
+    "delta": 14
+   },
+   "expect": {
+    "name": "Later",
+    "projectId": "proj-A",
+    "baseline": null,
+    "info": {
+     "number": "26-101",
+     "client": "Riverton",
+     "issue": "Rev 2"
+    },
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Kickoff",
+      "kind": "milestone",
+      "duration": 0,
+      "start": "2026-10-26",
+      "locked": true,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "commit": {
+       "date": "2026-10-12",
+       "note": "contract"
+      }
+     },
+     {
+      "id": "b",
+      "name": "Design",
+      "kind": "task",
+      "duration": 20,
+      "start": "2026-10-27",
+      "locked": false,
+      "notBefore": "2026-11-02",
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "commit": {
+       "date": "2026-11-06"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "name": "copy into another project, starting 7 days earlier, with that project's details",
+   "opts": {
+    "name": "Elsewhere",
+    "projectId": "proj-B",
+    "delta": -7,
+    "info": {
+     "number": "26-102",
+     "client": "Cedar Hills"
+    }
+   },
+   "expect": {
+    "name": "Elsewhere",
+    "projectId": "proj-B",
+    "baseline": null,
+    "info": {
+     "number": "26-102",
+     "client": "Cedar Hills",
+     "issue": "Rev 2"
+    },
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Kickoff",
+      "kind": "milestone",
+      "duration": 0,
+      "start": "2026-10-05",
+      "locked": true,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Design",
+      "kind": "task",
+      "duration": 20,
+      "start": "2026-10-06",
+      "locked": false,
+      "notBefore": "2026-10-12",
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "commit": null
+     }
+    ]
+   }
+  },
+  {
+   "name": "no name given: \"Copy of ...\"",
+   "opts": {
+    "projectId": "proj-B",
+    "delta": 0
+   },
+   "expect": {
+    "name": "Copy of Design schedule",
+    "projectId": "proj-B",
+    "baseline": null,
+    "info": {
+     "number": "26-101",
+     "client": "Riverton",
+     "issue": "Rev 2"
+    },
+    "tasks": [
+     {
+      "id": "a",
+      "name": "Kickoff",
+      "kind": "milestone",
+      "duration": 0,
+      "start": "2026-10-12",
+      "locked": true,
+      "notBefore": null,
+      "deps": [],
+      "ignore": [],
+      "commit": null
+     },
+     {
+      "id": "b",
+      "name": "Design",
+      "kind": "task",
+      "duration": 20,
+      "start": "2026-10-13",
+      "locked": false,
+      "notBefore": "2026-10-19",
+      "deps": [
+       {
+        "id": "a",
+        "type": "FS",
+        "lag": 0
+       }
+      ],
+      "ignore": [],
+      "commit": null
+     }
+    ]
+   }
+  }
+ ]
+}

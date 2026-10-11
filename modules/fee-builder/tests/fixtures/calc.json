@@ -1,0 +1,106 @@
+{
+  "description": "Fee Builder calculation fixtures: a proposal described in plain terms, and the figures it must produce. The worked examples come from the firm's own workbooks (EAC Plan calculator, WSU CAMP) and from hand arithmetic written next to each case. Language-neutral: a rebuild only needs to turn `build` into its own model and compare the `expect` figures within `tolerance` (dollars, unless a figure says otherwise). See docs/SPEC-fee-builder.md and the engine's CALCULATIONS.md for the formulas.\n\nHow to read `build`: one work package, one scenario. `proposal.method` is how the package is priced: `pctCost` (value = percent of construction cost) or `labor` (hours x billing rate). `proposal.templateId` picks the phase template (default Traditional SD to CA with the EAC percentages; `tpl-milestones` is the design-review milestone set). `package.basis` is `design` (the fee is the total design fee; consultants come out of it when included) or `arch` (the fee is Arch Nexus's own share; included consultants are added on top). Consultant `type`: `pctFee` (percent of the design fee), `pctCost` (percent of construction cost), `fixed` (dollars), `quote` (dollars, may carry a `markup` percent). `treatment`: `included` (inside the fee) or `additional` (added to the client fee). `cost` is Arch Nexus's expected cost for that consultant (exposure).",
+  "cases": [
+    {
+      "id": "percent-of-cost-top-down",
+      "name": "Percent of construction cost, top down: $15M at 5%",
+      "build": { "proposal": { "cost": 15000000, "method": "pctCost", "value": 5 } },
+      "expect": { "clientFee": 750000, "feePctOfCost": 5 }
+    },
+    {
+      "id": "included-consultant-comes-out-of-the-fee",
+      "name": "An included consultant does not change the client fee; it reduces Arch Nexus's share",
+      "build": { "proposal": { "cost": 15000000, "method": "pctCost", "value": 5 }, "consultants": [{ "name": "Structural", "type": "pctFee", "value": 10, "treatment": "included" }] },
+      "expect": { "clientFee": 750000, "archTotal": 675000 }
+    },
+    {
+      "id": "eac-worked-example",
+      "name": "EAC calculator: $10M at 5%, consultants 35% of the fee",
+      "build": { "proposal": { "cost": 10000000, "method": "pctCost", "value": 5 }, "consultants": [{ "name": "Consultants", "type": "pctFee", "value": 35, "treatment": "included" }] },
+      "expect": {
+        "clientFee": 500000, "consultantClient": 175000, "netRevenue": 325000, "targetProfit": 75000, "effortAllowance": 250000, "effortFteMonths": 15.625,
+        "phases": [
+          { "basic": 50000, "consClient": 17500, "arch": 32500, "allowance": 25000, "allowanceFteMonths": 1.5625, "allowanceFte": 1.5625 },
+          { "basic": 125000, "consClient": 43750, "arch": 81250, "allowance": 62500, "allowanceFteMonths": 3.90625, "allowanceFte": 2.6041666667 },
+          { "basic": 175000, "consClient": 61250, "arch": 113750, "allowance": 87500, "allowanceFteMonths": 5.46875, "allowanceFte": 2.1875 },
+          { "basic": 25000, "consClient": 8750, "arch": 16250, "allowance": 12500, "allowanceFteMonths": 0.78125, "allowanceFte": 0.390625 },
+          { "basic": 125000, "consClient": 43750, "arch": 81250, "allowance": 62500, "allowanceFteMonths": 3.90625, "allowanceFte": 0.2790178571 }
+        ],
+        "note": "target profit is 15% of the client fee; the effort allowance is net revenue minus target profit; FTE-months divide by $16,000; phases run 4, 6, 10, 8 and 56 weeks at 4 weeks a month"
+      }
+    },
+    {
+      "id": "eac-target-profit-on-net-revenue",
+      "name": "Target profit measured on net revenue instead of the client fee",
+      "build": { "proposal": { "cost": 10000000, "method": "pctCost", "value": 5 }, "settings": { "targetProfitBasis": "netRevenue" }, "consultants": [{ "name": "Consultants", "type": "pctFee", "value": 35, "treatment": "included" }] },
+      "expect": { "targetProfit": 48750, "effortAllowance": 276250 }
+    },
+    {
+      "id": "bottom-up-algebra",
+      "name": "Bottom-up: Arch Nexus fee $400,000 plus included consultants, one priced as a percent of the design fee",
+      "build": { "proposal": { "cost": 12500000 }, "package": { "basis": "arch", "components": [{ "method": "fixed", "amount": 400000 }] }, "consultants": [{ "name": "Civil", "type": "fixed", "value": 40000, "treatment": "included" }, { "name": "Electrical", "type": "pctFee", "value": 10, "treatment": "included" }] },
+      "expect": { "designTotal": 488888.8888889, "archTotal": 400000, "consultant": { "Electrical": { "shareOfDesign": 0.10 } }, "note": "design fee = (400,000 + 40,000) / (1 - 10%), so the Electrical consultant is exactly 10% of it" }
+    },
+    {
+      "id": "labor-buildup",
+      "name": "Hourly buildup: fee from hours x billing rate, with an included consultant added on top",
+      "build": { "proposal": { "method": "labor" }, "roles": [{ "index": 0, "billRate": 200 }, { "index": 2, "billRate": 150 }],
+        "laborRows": [{ "roleIndex": 0, "hours": [10, 5, 5, 5, 5] }, { "roleIndex": 2, "hours": [20, 20, 20, 20, 20] }], "consultants": [{ "name": "Structural", "type": "fixed", "value": 10000, "treatment": "included" }] },
+      "expect": { "plannedHours": 130, "designTotal": 31000, "clientFee": 31000, "archTotal": 21000, "note": "30 h x $200 + 100 h x $150 = $21,000 for Arch Nexus; on an Arch-basis fee the included consultant adds $10,000" }
+    },
+    {
+      "id": "included-and-additional-consultants",
+      "name": "Included consultants reduce Arch Nexus's share; additional consultants raise the client fee",
+      "build": { "proposal": { "cost": 10000000, "method": "pctCost", "value": 6 }, "consultants": [{ "name": "Civil", "type": "fixed", "value": 50000, "treatment": "included" }, { "name": "Estimator", "type": "fixed", "value": 20000, "treatment": "additional" }] },
+      "expect": { "designTotal": 600000, "archTotal": 550000, "clientFee": 620000 }
+    },
+    {
+      "id": "consultant-percent-pricing",
+      "name": "Consultants priced as a percent of construction cost and as a percent of the design fee",
+      "build": { "proposal": { "cost": 10000000, "method": "pctCost", "value": 6 }, "consultants": [{ "name": "Mechanical", "type": "pctCost", "value": 1.1, "treatment": "included" }, { "name": "Electrical", "type": "pctFee", "value": 12, "treatment": "included" }] },
+      "expect": { "consultant": { "Mechanical": { "client": 110000 }, "Electrical": { "client": 72000 } }, "archTotal": 418000 }
+    },
+    {
+      "id": "consultant-markup",
+      "name": "A quote marked up 10%: the client pays the marked-up amount and the markup stays in Arch Nexus's revenue",
+      "build": { "proposal": { "cost": 10000000, "method": "pctCost", "value": 6 }, "consultants": [{ "name": "Geotech", "type": "quote", "value": 20000, "markup": 10, "treatment": "additional" }] },
+      "expect": { "consultant": { "Geotech": { "client": 22000, "cost": 20000 } }, "clientFee": 622000, "netRevenue": 602000 }
+    },
+    {
+      "id": "consultant-exposure",
+      "name": "A percent-priced consultant with an explicit expected cost shows exposure against what the client pays",
+      "build": { "proposal": { "cost": 10000000, "method": "pctCost", "value": 6 }, "consultants": [{ "name": "Structural", "type": "pctFee", "value": 11, "cost": 80000, "treatment": "included" }] },
+      "expect": { "consultantClient": 66000, "consultantCost": 80000, "netRevenue": 520000 }
+    },
+    {
+      "id": "wsu-secure",
+      "name": "WSU Secure: Arch Nexus's total is 67% of $992,624 (the workbook's own subtotal row used other percentages)",
+      "build": { "proposal": { "templateId": "tpl-milestones" }, "package": { "components": [{ "method": "fixed", "amount": 992624 }] },
+        "consultants": [{ "name": "Structural", "type": "pctFee", "value": 10, "treatment": "included" }, { "name": "Mechanical", "type": "pctFee", "value": 13, "treatment": "included" }, { "name": "Electrical", "type": "pctFee", "value": 10, "treatment": "included" }] },
+      "expect": { "archTotalOfPackage": 665058.08, "tolerance": 0.01 }
+    },
+    {
+      "id": "wsu-cost-basis-with-credit",
+      "name": "WSU cost basis: 4.5% of cost, minus a concept-design credit entered as a negative component",
+      "build": { "proposal": { "cost": 29629019.63, "method": "pctCost", "value": 4.5 }, "addComponents": [{ "method": "fixed", "label": "Concept design credit", "amount": -85750 }] },
+      "expect": { "designTotal": 1247555.88, "tolerance": 0.01 }
+    },
+    {
+      "id": "wsu-camp-phase-split",
+      "name": "WSU CAMP: phase amounts typed in, Civil split by hand, and Arch Nexus's share by phase is the remainder after consultants",
+      "build": { "proposal": { "templateId": "tpl-milestones" }, "packageName": "CAMP", "package": { "components": [{ "method": "fixed", "label": "NTP scope", "amount": 1247556 }] },
+        "phaseAmounts": [249511, 311889, 311889, 124756, 249511],
+        "consultants": [{ "name": "Civil", "type": "fixed", "value": 39500, "treatment": "included", "split": "custom", "alloc": [0, 13500, 16000, 2000, 8000] }, { "name": "Structural", "type": "pctFee", "value": 10, "treatment": "included" }, { "name": "Mechanical", "type": "pctFee", "value": 13, "treatment": "included" }, { "name": "Electrical", "type": "pctFee", "value": 10, "treatment": "included" }] },
+      "expect": { "archByPhaseOfPackage": [167172.37, 195465.63, 192965.63, 81586.52, 159172.37], "archTotalOfPackage": 796362.52, "consultant": { "Civil": { "client": 39500 }, "Mechanical": { "client": 162182.28 } }, "designTotal": 1247556, "tolerance": 0.01 }
+    },
+    {
+      "id": "wsu-camp-with-additional-services",
+      "name": "WSU CAMP with four additional services comes to $1,359,056",
+      "build": { "proposal": { "templateId": "tpl-milestones" }, "packageName": "CAMP", "package": { "components": [{ "method": "fixed", "label": "NTP scope", "amount": 1247556 }] },
+        "phaseAmounts": [249511, 311889, 311889, 124756, 249511],
+        "consultants": [{ "name": "Civil", "type": "fixed", "value": 39500, "treatment": "included", "split": "custom", "alloc": [0, 13500, 16000, 2000, 8000] }, { "name": "Structural", "type": "pctFee", "value": 10, "treatment": "included" }, { "name": "Mechanical", "type": "pctFee", "value": 13, "treatment": "included" }, { "name": "Electrical", "type": "pctFee", "value": 10, "treatment": "included" }],
+        "items": [{ "kind": "service", "label": "FF&E coordination", "amount": 75000 }, { "kind": "service", "label": "ALTA survey", "amount": 10000 }, { "kind": "service", "label": "Geotechnical investigation", "amount": 17900 }, { "kind": "service", "label": "Seismic study", "amount": 8600 }] },
+      "expect": { "clientFee": 1359056 }
+    }
+  ]
+}

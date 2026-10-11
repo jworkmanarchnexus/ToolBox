@@ -1,0 +1,57 @@
+{
+  "description": "Minutes: how an action lives across meetings. A scenario in plain steps, with what must be true after each meeting is published. An assignment recorded in minutes becomes a numbered action that is carried onto every later agenda until it is completed or canceled; moving its due date needs a note and keeps the original date and a history; completed and canceled actions are never carried again; each action keeps its number for ever. People are named, not given ids. Dates are YYYY-MM-DD.",
+  "project": { "name": "Clinic TI", "parties": ["Sam Okafor", "Dana Reyes"] },
+  "series": { "name": "Weekly OAC", "cadence": "weekly", "topicTemplate": ["Site"] },
+  "meetings": [
+    {
+      "date": "2026-10-12",
+      "steps": [
+        { "assignment": { "topic": "Site", "text": "Send the updated site plan", "to": ["Sam Okafor"], "due": "2026-10-19" } },
+        { "assignment": { "topic": "Site", "text": "Confirm parking count", "to": ["Dana Reyes"], "due": "2026-10-26" } }
+      ],
+      "afterPublish": {
+        "carriedIntoThisMeeting": [],
+        "actions": [
+          { "text": "Send the updated site plan", "number": 1, "status": "open", "due": "2026-10-19", "originalDue": "2026-10-19", "moved": 0 },
+          { "text": "Confirm parking count", "number": 2, "status": "open", "due": "2026-10-26", "originalDue": "2026-10-26", "moved": 0 }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-19",
+      "steps": [
+        { "update": { "action": "Send the updated site plan", "done": true, "note": "Sent Tuesday." } },
+        { "update": { "action": "Confirm parking count", "extendTo": "2026-11-09", "note": "Waiting on the survey." } },
+        { "assignment": { "topic": "Site", "text": "Review the survey", "to": ["Sam Okafor"], "due": "2026-11-02" } }
+      ],
+      "afterPublish": {
+        "carriedIntoThisMeeting": ["Send the updated site plan", "Confirm parking count"],
+        "actions": [
+          { "text": "Send the updated site plan", "number": 1, "status": "done" },
+          { "text": "Confirm parking count", "number": 2, "status": "open", "due": "2026-11-09", "originalDue": "2026-10-26", "moved": 1 },
+          { "text": "Review the survey", "number": 3, "status": "open", "due": "2026-11-02", "originalDue": "2026-11-02", "moved": 0 }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-26",
+      "steps": [
+        { "update": { "action": "Confirm parking count", "cancel": true, "note": "No longer needed: the owner dropped the requirement." } }
+      ],
+      "afterPublish": {
+        "carriedIntoThisMeeting": ["Confirm parking count", "Review the survey"],
+        "actions": [
+          { "text": "Send the updated site plan", "number": 1, "status": "done" },
+          { "text": "Confirm parking count", "number": 2, "status": "canceled" },
+          { "text": "Review the survey", "number": 3, "status": "open", "due": "2026-11-02" }
+        ]
+      }
+    },
+    {
+      "date": "2026-11-02",
+      "steps": [],
+      "beforePublish": { "carriedIntoThisMeeting": ["Review the survey"] },
+      "publish": false
+    }
+  ]
+}

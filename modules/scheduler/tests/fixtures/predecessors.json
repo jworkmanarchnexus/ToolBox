@@ -1,0 +1,81 @@
+{
+ "description": "Predecessor text as typed in the table (Scheduler SPEC / EDITOR-FEATURES). \"3\" = after row 3 finishes (FS); \"5SS+2\" = two days after row 5 starts; \"1FS-2\" = two days before row 1 finishes. Rows are 1-based. Listing a row twice keeps the last. A task cannot follow itself or a row that does not exist.",
+ "tasksCount": 3,
+ "parse": [
+  {
+   "text": "1, 2SS+3, 1FS-2",
+   "row": 3,
+   "expect": {
+    "deps": [
+     {
+      "row": 1,
+      "type": "FS",
+      "lag": -2
+     },
+     {
+      "row": 2,
+      "type": "SS",
+      "lag": 3
+     }
+    ],
+    "note": "the same row twice: the later one wins; rows are 1-based"
+   }
+  },
+  {
+   "text": "",
+   "row": 3,
+   "expect": {
+    "deps": []
+   }
+  },
+  {
+   "text": "9",
+   "row": 3,
+   "expect": {
+    "error": true,
+    "note": "no such row"
+   }
+  },
+  {
+   "text": "3",
+   "row": 3,
+   "expect": {
+    "error": true,
+    "note": "a task cannot follow itself"
+   }
+  },
+  {
+   "text": "x",
+   "row": 3,
+   "expect": {
+    "error": true,
+    "note": "not a row number"
+   }
+  }
+ ],
+ "format": {
+  "rows": [
+   "a",
+   "b",
+   "a2"
+  ],
+  "deps": [
+   {
+    "row": 1,
+    "type": "FS",
+    "lag": 0
+   },
+   {
+    "row": 2,
+    "type": "SS",
+    "lag": 3
+   },
+   {
+    "row": 3,
+    "type": "FS",
+    "lag": -1
+   }
+  ],
+  "expect": "1, 2SS+3, 3-1"
+ }
+}

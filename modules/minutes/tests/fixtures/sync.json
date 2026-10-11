@@ -1,0 +1,26 @@
+{
+  "description": "Minutes: keeping two devices in step. Every record carries `updatedAt` (milliseconds, strictly increasing per device). A device remembers for each record the `updatedAt` it last synced (`base`) and whether it has unsent edits (`dirty`). When it pulls (`pull`) or is about to write (`beforeWrite`) it compares its copy with the server's. Nothing is ever overwritten silently: when both sides changed since `base`, the record is held for a person to choose. Outcomes: `adopt` take the server copy; `keep` keep the local copy as is; `queue` keep it and send it; `conflict` hold both copies; `clear` the copies are identical, so nothing is left to send; `queue-new` a record the server does not have is sent.",
+  "pull": [
+    { "name": "a record this device has never seen", "local": null, "remote": { "updatedAt": 200 }, "expect": "adopt" },
+    { "name": "no unsent edits, the server copy is newer", "local": { "updatedAt": 100, "dirty": false, "base": 100 }, "remote": { "updatedAt": 200 }, "expect": "adopt" },
+    { "name": "no unsent edits, the server copy is the same", "local": { "updatedAt": 100, "dirty": false, "base": 90 }, "remote": { "updatedAt": 100 }, "expect": "keep", "baseBecomes": 100 },
+    { "name": "no unsent edits, the server copy is older", "local": { "updatedAt": 300, "dirty": false, "base": 300 }, "remote": { "updatedAt": 200 }, "expect": "keep" },
+    { "name": "unsent edits, and the server has not moved since the last sync", "local": { "updatedAt": 250, "dirty": true, "base": 200 }, "remote": { "updatedAt": 200 }, "expect": "queue" },
+    { "name": "unsent edits, and the server copy changed since the last sync: held", "local": { "updatedAt": 250, "dirty": true, "base": 100 }, "remote": { "updatedAt": 200 }, "expect": "conflict" },
+    { "name": "unsent edits that turn out identical to the server copy", "local": { "updatedAt": 200, "dirty": true, "base": 100 }, "remote": { "updatedAt": 200 }, "expect": "clear" },
+    { "name": "unsent edits and no record of a last sync: the newer copy wins", "local": { "updatedAt": 250, "dirty": true, "base": null }, "remote": { "updatedAt": 200 }, "expect": "queue" },
+    { "name": "a record only this device has", "local": { "updatedAt": 100, "dirty": false, "base": null }, "remote": null, "expect": "queue-new" }
+  ],
+  "beforeWrite": [
+    { "name": "the server has no copy", "local": { "updatedAt": 250, "base": null }, "remote": null, "expect": "ok" },
+    { "name": "the server copy is the one this device last synced", "local": { "updatedAt": 250, "base": 200 }, "remote": { "updatedAt": 200 }, "expect": "ok" },
+    { "name": "the server copy is identical", "local": { "updatedAt": 250, "base": 100 }, "remote": { "updatedAt": 250 }, "expect": "ok" },
+    { "name": "someone else saved since the last sync", "local": { "updatedAt": 250, "base": 100 }, "remote": { "updatedAt": 200 }, "expect": "conflict" },
+    { "name": "no record of a last sync, and this copy is newer", "local": { "updatedAt": 250, "base": null }, "remote": { "updatedAt": 200 }, "expect": "ok" },
+    { "name": "no record of a last sync, and this copy is older", "local": { "updatedAt": 150, "base": null }, "remote": { "updatedAt": 200 }, "expect": "conflict" }
+  ],
+  "resolve": [
+    { "name": "use theirs: their copy replaces mine and nothing is left to send", "choice": "theirs", "expect": { "record": "remote", "dirty": false } },
+    { "name": "keep mine: my copy becomes the newest and is sent", "choice": "mine", "expect": { "record": "local", "dirty": true, "newerThanRemote": true } }
+  ]
+}

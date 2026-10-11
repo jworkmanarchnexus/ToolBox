@@ -1,0 +1,1530 @@
+{
+ "description": "The starter template library (data) and the schedule each produces from a Monday start with a Monday-to-Friday calendar and no holidays: per task, its start and finish dates. The dates are pinned from the current engine (characterization), the structure is the firm's starting point, not a standard. `phaseLength`: choosing 8 weeks for Schematic Design makes it Monday to Friday (54 calendar days against 40 by default) and moves everything after it by exactly 14 days.",
+ "cases": [
+  {
+   "id": "dbb",
+   "name": "Design services, design-bid-build",
+   "category": "Architectural design",
+   "start": "2027-01-04",
+   "template": {
+    "id": "dbb",
+    "name": "Design services, design-bid-build",
+    "category": "Architectural design",
+    "description": "Programming through construction administration with owner reviews after each design phase, permit, bidding and award.",
+    "scale": "months",
+    "execOn": true,
+    "tasks": [
+     {
+      "k": "ntp",
+      "name": "Notice to proceed",
+      "ms": true,
+      "exec": true
+     },
+     {
+      "k": "prog",
+      "name": "Programming",
+      "d": 21,
+      "after": [
+       "ntp"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sd",
+      "name": "Schematic design",
+      "d": 42,
+      "after": [
+       "prog"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sdr",
+      "name": "Owner review: schematic design",
+      "d": 14,
+      "after": [
+       "sd"
+      ],
+      "phase": true
+     },
+     {
+      "k": "sda",
+      "name": "Schematic design approved",
+      "ms": true,
+      "after": [
+       "sdr"
+      ]
+     },
+     {
+      "k": "dd",
+      "name": "Design development",
+      "d": 56,
+      "after": [
+       "sda"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "cons",
+      "name": "Consultant coordination",
+      "d": 98,
+      "after": [
+       [
+        "dd",
+        "SS",
+        7
+       ]
+      ],
+      "lvl": "design"
+     },
+     {
+      "k": "ddr",
+      "name": "Owner review: design development",
+      "d": 14,
+      "after": [
+       "dd"
+      ],
+      "phase": true
+     },
+     {
+      "k": "dda",
+      "name": "Design development approved",
+      "ms": true,
+      "after": [
+       "ddr"
+      ]
+     },
+     {
+      "k": "cd",
+      "name": "Construction documents",
+      "d": 84,
+      "after": [
+       "dda"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "qa",
+      "name": "Internal QA/QC review",
+      "d": 7,
+      "after": [
+       [
+        "cd",
+        "FS",
+        -7
+       ]
+      ],
+      "lvl": "internal"
+     },
+     {
+      "k": "cdr",
+      "name": "Owner review: construction documents",
+      "d": 14,
+      "after": [
+       "cd"
+      ],
+      "phase": true
+     },
+     {
+      "k": "permit",
+      "name": "Permit set issued",
+      "ms": true,
+      "after": [
+       "cdr"
+      ],
+      "exec": true
+     },
+     {
+      "k": "pr",
+      "name": "Building permit review",
+      "d": 42,
+      "after": [
+       "permit"
+      ],
+      "phase": true
+     },
+     {
+      "k": "bid",
+      "name": "Bidding and negotiation",
+      "d": 28,
+      "after": [
+       "permit"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "bdue",
+      "name": "Bids due",
+      "ms": true,
+      "after": [
+       "bid"
+      ]
+     },
+     {
+      "k": "award",
+      "name": "Construction contract award",
+      "ms": true,
+      "after": [
+       [
+        "bdue",
+        "FS",
+        14
+       ],
+       "pr"
+      ],
+      "exec": true
+     },
+     {
+      "k": "ca",
+      "name": "Construction administration",
+      "d": 280,
+      "after": [
+       "award"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sub",
+      "name": "Substantial completion",
+      "ms": true,
+      "after": [
+       "ca"
+      ],
+      "exec": true
+     }
+    ]
+   },
+   "expect": [
+    {
+     "key": "ntp",
+     "name": "Notice to proceed",
+     "start": "2027-01-04",
+     "finish": "2027-01-04"
+    },
+    {
+     "key": "prog",
+     "name": "Programming",
+     "start": "2027-01-04",
+     "finish": "2027-01-22"
+    },
+    {
+     "key": "sd",
+     "name": "Schematic design",
+     "start": "2027-01-25",
+     "finish": "2027-03-05"
+    },
+    {
+     "key": "sdr",
+     "name": "Owner review: schematic design",
+     "start": "2027-03-08",
+     "finish": "2027-03-19"
+    },
+    {
+     "key": "sda",
+     "name": "Schematic design approved",
+     "start": "2027-03-19",
+     "finish": "2027-03-19"
+    },
+    {
+     "key": "dd",
+     "name": "Design development",
+     "start": "2027-03-22",
+     "finish": "2027-05-14"
+    },
+    {
+     "key": "cons",
+     "name": "Consultant coordination",
+     "start": "2027-03-29",
+     "finish": "2027-07-02"
+    },
+    {
+     "key": "ddr",
+     "name": "Owner review: design development",
+     "start": "2027-05-17",
+     "finish": "2027-05-28"
+    },
+    {
+     "key": "dda",
+     "name": "Design development approved",
+     "start": "2027-05-28",
+     "finish": "2027-05-28"
+    },
+    {
+     "key": "cd",
+     "name": "Construction documents",
+     "start": "2027-05-31",
+     "finish": "2027-08-20"
+    },
+    {
+     "key": "qa",
+     "name": "Internal QA/QC review",
+     "start": "2027-08-16",
+     "finish": "2027-08-20"
+    },
+    {
+     "key": "cdr",
+     "name": "Owner review: construction documents",
+     "start": "2027-08-23",
+     "finish": "2027-09-03"
+    },
+    {
+     "key": "permit",
+     "name": "Permit set issued",
+     "start": "2027-09-03",
+     "finish": "2027-09-03"
+    },
+    {
+     "key": "pr",
+     "name": "Building permit review",
+     "start": "2027-09-06",
+     "finish": "2027-10-15"
+    },
+    {
+     "key": "bid",
+     "name": "Bidding and negotiation",
+     "start": "2027-09-06",
+     "finish": "2027-10-01"
+    },
+    {
+     "key": "bdue",
+     "name": "Bids due",
+     "start": "2027-10-01",
+     "finish": "2027-10-01"
+    },
+    {
+     "key": "award",
+     "name": "Construction contract award",
+     "start": "2027-10-15",
+     "finish": "2027-10-15"
+    },
+    {
+     "key": "ca",
+     "name": "Construction administration",
+     "start": "2027-10-18",
+     "finish": "2028-07-21"
+    },
+    {
+     "key": "sub",
+     "name": "Substantial completion",
+     "start": "2028-07-21",
+     "finish": "2028-07-21"
+    }
+   ]
+  },
+  {
+   "id": "ti",
+   "name": "Tenant improvement",
+   "category": "Architectural design",
+   "start": "2027-01-04",
+   "template": {
+    "id": "ti",
+    "name": "Tenant improvement",
+    "category": "Architectural design",
+    "description": "A compressed interiors schedule: test fit, schematic design, construction documents, permit and a short build-out.",
+    "scale": "weeks",
+    "execOn": true,
+    "tasks": [
+     {
+      "k": "ntp",
+      "name": "Notice to proceed",
+      "ms": true,
+      "exec": true
+     },
+     {
+      "k": "tf",
+      "name": "Programming and test fit",
+      "d": 14,
+      "after": [
+       "ntp"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sd",
+      "name": "Schematic design",
+      "d": 21,
+      "after": [
+       "tf"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sdr",
+      "name": "Owner review: schematic design",
+      "d": 7,
+      "after": [
+       "sd"
+      ],
+      "phase": true
+     },
+     {
+      "k": "cd",
+      "name": "Construction documents",
+      "d": 35,
+      "after": [
+       "sdr"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "mep",
+      "name": "MEP engineering",
+      "d": 28,
+      "after": [
+       [
+        "cd",
+        "SS",
+        3
+       ]
+      ],
+      "lvl": "design"
+     },
+     {
+      "k": "qa",
+      "name": "Internal QA/QC review",
+      "d": 7,
+      "after": [
+       [
+        "cd",
+        "FS",
+        -7
+       ]
+      ],
+      "lvl": "internal"
+     },
+     {
+      "k": "permit",
+      "name": "Permit set issued",
+      "ms": true,
+      "after": [
+       "cd"
+      ],
+      "exec": true
+     },
+     {
+      "k": "pr",
+      "name": "Permit review",
+      "d": 28,
+      "after": [
+       "permit"
+      ],
+      "phase": true
+     },
+     {
+      "k": "bid",
+      "name": "Pricing and contractor selection",
+      "d": 21,
+      "after": [
+       "permit"
+      ],
+      "phase": true
+     },
+     {
+      "k": "award",
+      "name": "Contractor award",
+      "ms": true,
+      "after": [
+       "bid",
+       "pr"
+      ],
+      "exec": true
+     },
+     {
+      "k": "con",
+      "name": "Construction",
+      "d": 84,
+      "after": [
+       "award"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sub",
+      "name": "Substantial completion",
+      "ms": true,
+      "after": [
+       "con"
+      ],
+      "exec": true
+     },
+     {
+      "k": "move",
+      "name": "Owner move-in",
+      "ms": true,
+      "after": [
+       [
+        "sub",
+        "FS",
+        14
+       ]
+      ],
+      "exec": true
+     }
+    ]
+   },
+   "expect": [
+    {
+     "key": "ntp",
+     "name": "Notice to proceed",
+     "start": "2027-01-04",
+     "finish": "2027-01-04"
+    },
+    {
+     "key": "tf",
+     "name": "Programming and test fit",
+     "start": "2027-01-04",
+     "finish": "2027-01-15"
+    },
+    {
+     "key": "sd",
+     "name": "Schematic design",
+     "start": "2027-01-18",
+     "finish": "2027-02-05"
+    },
+    {
+     "key": "sdr",
+     "name": "Owner review: schematic design",
+     "start": "2027-02-08",
+     "finish": "2027-02-12"
+    },
+    {
+     "key": "cd",
+     "name": "Construction documents",
+     "start": "2027-02-15",
+     "finish": "2027-03-19"
+    },
+    {
+     "key": "mep",
+     "name": "MEP engineering",
+     "start": "2027-02-18",
+     "finish": "2027-03-17"
+    },
+    {
+     "key": "qa",
+     "name": "Internal QA/QC review",
+     "start": "2027-03-15",
+     "finish": "2027-03-19"
+    },
+    {
+     "key": "permit",
+     "name": "Permit set issued",
+     "start": "2027-03-19",
+     "finish": "2027-03-19"
+    },
+    {
+     "key": "pr",
+     "name": "Permit review",
+     "start": "2027-03-22",
+     "finish": "2027-04-16"
+    },
+    {
+     "key": "bid",
+     "name": "Pricing and contractor selection",
+     "start": "2027-03-22",
+     "finish": "2027-04-09"
+    },
+    {
+     "key": "award",
+     "name": "Contractor award",
+     "start": "2027-04-16",
+     "finish": "2027-04-16"
+    },
+    {
+     "key": "con",
+     "name": "Construction",
+     "start": "2027-04-19",
+     "finish": "2027-07-09"
+    },
+    {
+     "key": "sub",
+     "name": "Substantial completion",
+     "start": "2027-07-09",
+     "finish": "2027-07-09"
+    },
+    {
+     "key": "move",
+     "name": "Owner move-in",
+     "start": "2027-07-23",
+     "finish": "2027-07-23"
+    }
+   ]
+  },
+  {
+   "id": "fed",
+   "name": "Federal design-bid-build",
+   "category": "Government",
+   "start": "2027-01-04",
+   "template": {
+    "id": "fed",
+    "name": "Federal design-bid-build",
+    "category": "Government",
+    "description": "35, 65, 95 and 100 percent design submittals, each followed by a government review, then ready-to-advertise, solicitation, award and construction.",
+    "scale": "months",
+    "execOn": true,
+    "tasks": [
+     {
+      "k": "ntp",
+      "name": "Design notice to proceed",
+      "ms": true,
+      "exec": true
+     },
+     {
+      "k": "char",
+      "name": "Design charrette",
+      "d": 7,
+      "after": [
+       "ntp"
+      ]
+     },
+     {
+      "k": "d35",
+      "name": "35% concept design",
+      "d": 42,
+      "after": [
+       "char"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "r35",
+      "name": "Government review: 35%",
+      "d": 21,
+      "after": [
+       "d35"
+      ],
+      "phase": true
+     },
+     {
+      "k": "c35",
+      "name": "35% review conference",
+      "ms": true,
+      "after": [
+       "r35"
+      ]
+     },
+     {
+      "k": "d65",
+      "name": "65% design",
+      "d": 56,
+      "after": [
+       "c35"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "r65",
+      "name": "Government review: 65%",
+      "d": 21,
+      "after": [
+       "d65"
+      ],
+      "phase": true
+     },
+     {
+      "k": "d95",
+      "name": "95% design",
+      "d": 56,
+      "after": [
+       "r65"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "qa",
+      "name": "Internal QA/QC review",
+      "d": 7,
+      "after": [
+       [
+        "d95",
+        "FS",
+        -7
+       ]
+      ],
+      "lvl": "internal"
+     },
+     {
+      "k": "r95",
+      "name": "Government review: 95%",
+      "d": 21,
+      "after": [
+       "d95"
+      ],
+      "phase": true
+     },
+     {
+      "k": "bc",
+      "name": "Backcheck and comment resolution",
+      "d": 14,
+      "after": [
+       "r95"
+      ],
+      "lvl": "design"
+     },
+     {
+      "k": "d100",
+      "name": "100% final design",
+      "d": 21,
+      "after": [
+       "bc"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "rta",
+      "name": "Ready to advertise",
+      "ms": true,
+      "after": [
+       "d100"
+      ],
+      "exec": true
+     },
+     {
+      "k": "sol",
+      "name": "Solicitation and proposals",
+      "d": 56,
+      "after": [
+       "rta"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "award",
+      "name": "Construction contract award",
+      "ms": true,
+      "after": [
+       [
+        "sol",
+        "FS",
+        30
+       ]
+      ],
+      "exec": true
+     },
+     {
+      "k": "con",
+      "name": "Construction",
+      "d": 364,
+      "after": [
+       "award"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "bod",
+      "name": "Beneficial occupancy",
+      "ms": true,
+      "after": [
+       "con"
+      ],
+      "exec": true
+     }
+    ]
+   },
+   "expect": [
+    {
+     "key": "ntp",
+     "name": "Design notice to proceed",
+     "start": "2027-01-04",
+     "finish": "2027-01-04"
+    },
+    {
+     "key": "char",
+     "name": "Design charrette",
+     "start": "2027-01-04",
+     "finish": "2027-01-08"
+    },
+    {
+     "key": "d35",
+     "name": "35% concept design",
+     "start": "2027-01-11",
+     "finish": "2027-02-19"
+    },
+    {
+     "key": "r35",
+     "name": "Government review: 35%",
+     "start": "2027-02-22",
+     "finish": "2027-03-12"
+    },
+    {
+     "key": "c35",
+     "name": "35% review conference",
+     "start": "2027-03-12",
+     "finish": "2027-03-12"
+    },
+    {
+     "key": "d65",
+     "name": "65% design",
+     "start": "2027-03-15",
+     "finish": "2027-05-07"
+    },
+    {
+     "key": "r65",
+     "name": "Government review: 65%",
+     "start": "2027-05-10",
+     "finish": "2027-05-28"
+    },
+    {
+     "key": "d95",
+     "name": "95% design",
+     "start": "2027-05-31",
+     "finish": "2027-07-23"
+    },
+    {
+     "key": "qa",
+     "name": "Internal QA/QC review",
+     "start": "2027-07-19",
+     "finish": "2027-07-23"
+    },
+    {
+     "key": "r95",
+     "name": "Government review: 95%",
+     "start": "2027-07-26",
+     "finish": "2027-08-13"
+    },
+    {
+     "key": "bc",
+     "name": "Backcheck and comment resolution",
+     "start": "2027-08-16",
+     "finish": "2027-08-27"
+    },
+    {
+     "key": "d100",
+     "name": "100% final design",
+     "start": "2027-08-30",
+     "finish": "2027-09-17"
+    },
+    {
+     "key": "rta",
+     "name": "Ready to advertise",
+     "start": "2027-09-17",
+     "finish": "2027-09-17"
+    },
+    {
+     "key": "sol",
+     "name": "Solicitation and proposals",
+     "start": "2027-09-20",
+     "finish": "2027-11-12"
+    },
+    {
+     "key": "award",
+     "name": "Construction contract award",
+     "start": "2027-12-13",
+     "finish": "2027-12-13"
+    },
+    {
+     "key": "con",
+     "name": "Construction",
+     "start": "2027-12-14",
+     "finish": "2028-12-11"
+    },
+    {
+     "key": "bod",
+     "name": "Beneficial occupancy",
+     "start": "2028-12-12",
+     "finish": "2028-12-12"
+    }
+   ]
+  },
+  {
+   "id": "db",
+   "name": "Design-build",
+   "category": "Delivery methods",
+   "start": "2027-01-04",
+   "template": {
+    "id": "db",
+    "name": "Design-build",
+    "category": "Delivery methods",
+    "description": "Design and construction overlap: an early site and foundation package goes to permit and construction while the rest of the documents are finished.",
+    "scale": "months",
+    "execOn": true,
+    "tasks": [
+     {
+      "k": "ntp",
+      "name": "Notice to proceed",
+      "ms": true,
+      "exec": true
+     },
+     {
+      "k": "con1",
+      "name": "Concept design",
+      "d": 28,
+      "after": [
+       "ntp"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "gmp",
+      "name": "Pricing and GMP development",
+      "d": 21,
+      "after": [
+       "con1"
+      ],
+      "phase": true
+     },
+     {
+      "k": "gmpa",
+      "name": "GMP approved",
+      "ms": true,
+      "after": [
+       "gmp"
+      ],
+      "exec": true
+     },
+     {
+      "k": "dd",
+      "name": "Design development",
+      "d": 42,
+      "after": [
+       "gmpa"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "ep",
+      "name": "Early package: site and foundations",
+      "d": 28,
+      "after": [
+       [
+        "dd",
+        "SS",
+        14
+       ]
+      ],
+      "phase": true
+     },
+     {
+      "k": "epp",
+      "name": "Early package permit",
+      "d": 28,
+      "after": [
+       "ep"
+      ],
+      "phase": true
+     },
+     {
+      "k": "cs",
+      "name": "Construction start",
+      "ms": true,
+      "after": [
+       "epp"
+      ],
+      "exec": true
+     },
+     {
+      "k": "cd",
+      "name": "Construction documents, remaining packages",
+      "d": 56,
+      "after": [
+       "dd"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "fp",
+      "name": "Full building permit",
+      "d": 42,
+      "after": [
+       "cd"
+      ],
+      "phase": true
+     },
+     {
+      "k": "con",
+      "name": "Construction",
+      "d": 308,
+      "after": [
+       "cs"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sub",
+      "name": "Substantial completion",
+      "ms": true,
+      "after": [
+       "con",
+       "fp"
+      ],
+      "exec": true
+     }
+    ]
+   },
+   "expect": [
+    {
+     "key": "ntp",
+     "name": "Notice to proceed",
+     "start": "2027-01-04",
+     "finish": "2027-01-04"
+    },
+    {
+     "key": "con1",
+     "name": "Concept design",
+     "start": "2027-01-04",
+     "finish": "2027-01-29"
+    },
+    {
+     "key": "gmp",
+     "name": "Pricing and GMP development",
+     "start": "2027-02-01",
+     "finish": "2027-02-19"
+    },
+    {
+     "key": "gmpa",
+     "name": "GMP approved",
+     "start": "2027-02-19",
+     "finish": "2027-02-19"
+    },
+    {
+     "key": "dd",
+     "name": "Design development",
+     "start": "2027-02-22",
+     "finish": "2027-04-02"
+    },
+    {
+     "key": "ep",
+     "name": "Early package: site and foundations",
+     "start": "2027-03-08",
+     "finish": "2027-04-02"
+    },
+    {
+     "key": "epp",
+     "name": "Early package permit",
+     "start": "2027-04-05",
+     "finish": "2027-04-30"
+    },
+    {
+     "key": "cs",
+     "name": "Construction start",
+     "start": "2027-04-30",
+     "finish": "2027-04-30"
+    },
+    {
+     "key": "cd",
+     "name": "Construction documents, remaining packages",
+     "start": "2027-04-05",
+     "finish": "2027-05-28"
+    },
+    {
+     "key": "fp",
+     "name": "Full building permit",
+     "start": "2027-05-31",
+     "finish": "2027-07-09"
+    },
+    {
+     "key": "con",
+     "name": "Construction",
+     "start": "2027-05-03",
+     "finish": "2028-03-03"
+    },
+    {
+     "key": "sub",
+     "name": "Substantial completion",
+     "start": "2028-03-03",
+     "finish": "2028-03-03"
+    }
+   ]
+  },
+  {
+   "id": "feas",
+   "name": "Programming and feasibility",
+   "category": "Pre-design",
+   "start": "2027-01-04",
+   "template": {
+    "id": "feas",
+    "name": "Programming and feasibility",
+    "category": "Pre-design",
+    "description": "Gather needs, write the space program, test options on the site, price them and deliver a report.",
+    "scale": "weeks",
+    "execOn": true,
+    "tasks": [
+     {
+      "k": "kick",
+      "name": "Kickoff meeting",
+      "ms": true,
+      "exec": true
+     },
+     {
+      "k": "data",
+      "name": "Interviews and data gathering",
+      "d": 21,
+      "after": [
+       "kick"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "prog",
+      "name": "Draft space program",
+      "d": 14,
+      "after": [
+       "data"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "pr",
+      "name": "Owner review: program",
+      "d": 7,
+      "after": [
+       "prog"
+      ],
+      "phase": true
+     },
+     {
+      "k": "opt",
+      "name": "Site and massing options",
+      "d": 21,
+      "after": [
+       "pr"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "cost",
+      "name": "Cost estimate of options",
+      "d": 14,
+      "after": [
+       [
+        "opt",
+        "SS",
+        7
+       ]
+      ],
+      "lvl": "design"
+     },
+     {
+      "k": "rep",
+      "name": "Feasibility report",
+      "d": 14,
+      "after": [
+       "opt",
+       "cost"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "pres",
+      "name": "Presentation to owner",
+      "ms": true,
+      "after": [
+       "rep"
+      ],
+      "exec": true
+     }
+    ]
+   },
+   "expect": [
+    {
+     "key": "kick",
+     "name": "Kickoff meeting",
+     "start": "2027-01-04",
+     "finish": "2027-01-04"
+    },
+    {
+     "key": "data",
+     "name": "Interviews and data gathering",
+     "start": "2027-01-04",
+     "finish": "2027-01-22"
+    },
+    {
+     "key": "prog",
+     "name": "Draft space program",
+     "start": "2027-01-25",
+     "finish": "2027-02-05"
+    },
+    {
+     "key": "pr",
+     "name": "Owner review: program",
+     "start": "2027-02-08",
+     "finish": "2027-02-12"
+    },
+    {
+     "key": "opt",
+     "name": "Site and massing options",
+     "start": "2027-02-15",
+     "finish": "2027-03-05"
+    },
+    {
+     "key": "cost",
+     "name": "Cost estimate of options",
+     "start": "2027-02-22",
+     "finish": "2027-03-05"
+    },
+    {
+     "key": "rep",
+     "name": "Feasibility report",
+     "start": "2027-03-08",
+     "finish": "2027-03-19"
+    },
+    {
+     "key": "pres",
+     "name": "Presentation to owner",
+     "start": "2027-03-19",
+     "finish": "2027-03-19"
+    }
+   ]
+  },
+  {
+   "id": "pursuit",
+   "name": "Proposal and conceptual design",
+   "category": "Pursuits",
+   "start": "2027-01-04",
+   "template": {
+    "id": "pursuit",
+    "name": "Proposal and conceptual design",
+    "category": "Pursuits",
+    "description": "For a pursuit: proposal, interview, award and agreement, then conceptual design. Mirrors the brand guide’s example schedule.",
+    "scale": "months",
+    "execOn": true,
+    "tasks": [
+     {
+      "k": "due",
+      "name": "Proposal due",
+      "ms": true,
+      "exec": true
+     },
+     {
+      "k": "int",
+      "name": "Interview",
+      "ms": true,
+      "after": [
+       [
+        "due",
+        "FS",
+        21
+       ]
+      ],
+      "exec": true
+     },
+     {
+      "k": "aw",
+      "name": "Award announcement",
+      "ms": true,
+      "after": [
+       [
+        "int",
+        "FS",
+        14
+       ]
+      ],
+      "exec": true
+     },
+     {
+      "k": "neg",
+      "name": "Negotiations and agreement",
+      "d": 28,
+      "after": [
+       "aw"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sd",
+      "name": "Schematic design",
+      "d": 56,
+      "after": [
+       "neg"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "ent",
+      "name": "Entitlements and incentives",
+      "d": 112,
+      "after": [
+       [
+        "sd",
+        "SS",
+        14
+       ]
+      ],
+      "lvl": "design"
+     },
+     {
+      "k": "dd",
+      "name": "Design development",
+      "d": 70,
+      "after": [
+       "sd"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "cd",
+      "name": "Construction documents",
+      "d": 98,
+      "after": [
+       "dd"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "bid",
+      "name": "Permit and bidding",
+      "d": 56,
+      "after": [
+       "cd"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "con",
+      "name": "Construction",
+      "d": 364,
+      "after": [
+       "bid"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "done",
+      "name": "Project complete",
+      "ms": true,
+      "after": [
+       "con"
+      ],
+      "exec": true
+     }
+    ]
+   },
+   "expect": [
+    {
+     "key": "due",
+     "name": "Proposal due",
+     "start": "2027-01-04",
+     "finish": "2027-01-04"
+    },
+    {
+     "key": "int",
+     "name": "Interview",
+     "start": "2027-01-25",
+     "finish": "2027-01-25"
+    },
+    {
+     "key": "aw",
+     "name": "Award announcement",
+     "start": "2027-02-08",
+     "finish": "2027-02-08"
+    },
+    {
+     "key": "neg",
+     "name": "Negotiations and agreement",
+     "start": "2027-02-09",
+     "finish": "2027-03-08"
+    },
+    {
+     "key": "sd",
+     "name": "Schematic design",
+     "start": "2027-03-09",
+     "finish": "2027-05-03"
+    },
+    {
+     "key": "ent",
+     "name": "Entitlements and incentives",
+     "start": "2027-03-23",
+     "finish": "2027-07-12"
+    },
+    {
+     "key": "dd",
+     "name": "Design development",
+     "start": "2027-05-04",
+     "finish": "2027-07-12"
+    },
+    {
+     "key": "cd",
+     "name": "Construction documents",
+     "start": "2027-07-13",
+     "finish": "2027-10-18"
+    },
+    {
+     "key": "bid",
+     "name": "Permit and bidding",
+     "start": "2027-10-19",
+     "finish": "2027-12-13"
+    },
+    {
+     "key": "con",
+     "name": "Construction",
+     "start": "2027-12-14",
+     "finish": "2028-12-11"
+    },
+    {
+     "key": "done",
+     "name": "Project complete",
+     "start": "2028-12-12",
+     "finish": "2028-12-12"
+    }
+   ]
+  },
+  {
+   "id": "ca",
+   "name": "Construction administration",
+   "category": "Construction",
+   "start": "2027-01-04",
+   "template": {
+    "id": "ca",
+    "name": "Construction administration",
+    "category": "Construction",
+    "description": "For a project already in construction: preconstruction, submittals, site observation, punch list and closeout.",
+    "scale": "months",
+    "execOn": true,
+    "tasks": [
+     {
+      "k": "pre",
+      "name": "Preconstruction meeting",
+      "ms": true,
+      "exec": true
+     },
+     {
+      "k": "sub",
+      "name": "Submittal review",
+      "d": 70,
+      "after": [
+       [
+        "pre",
+        "FS",
+        7
+       ]
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "obs",
+      "name": "Construction observation and RFIs",
+      "d": 280,
+      "after": [
+       "pre"
+      ],
+      "phase": true,
+      "exec": true
+     },
+     {
+      "k": "sc",
+      "name": "Substantial completion inspection",
+      "ms": true,
+      "after": [
+       "obs"
+      ],
+      "exec": true
+     },
+     {
+      "k": "punch",
+      "name": "Punch list",
+      "d": 21,
+      "after": [
+       "sc"
+      ],
+      "phase": true
+     },
+     {
+      "k": "fc",
+      "name": "Final completion",
+      "ms": true,
+      "after": [
+       "punch"
+      ],
+      "exec": true
+     },
+     {
+      "k": "close",
+      "name": "Closeout documents",
+      "d": 28,
+      "after": [
+       "fc"
+      ],
+      "phase": true
+     }
+    ]
+   },
+   "expect": [
+    {
+     "key": "pre",
+     "name": "Preconstruction meeting",
+     "start": "2027-01-04",
+     "finish": "2027-01-04"
+    },
+    {
+     "key": "sub",
+     "name": "Submittal review",
+     "start": "2027-01-11",
+     "finish": "2027-03-19"
+    },
+    {
+     "key": "obs",
+     "name": "Construction observation and RFIs",
+     "start": "2027-01-04",
+     "finish": "2027-10-08"
+    },
+    {
+     "key": "sc",
+     "name": "Substantial completion inspection",
+     "start": "2027-10-08",
+     "finish": "2027-10-08"
+    },
+    {
+     "key": "punch",
+     "name": "Punch list",
+     "start": "2027-10-11",
+     "finish": "2027-10-29"
+    },
+    {
+     "key": "fc",
+     "name": "Final completion",
+     "start": "2027-10-29",
+     "finish": "2027-10-29"
+    },
+    {
+     "key": "close",
+     "name": "Closeout documents",
+     "start": "2027-11-01",
+     "finish": "2027-11-26"
+    }
+   ]
+  }
+ ],
+ "phaseLength": {
+  "template": "dbb",
+  "start": "2027-01-04",
+  "weeks": {
+   "sd": 8
+  },
+  "expect": {
+   "schematicDays": 54,
+   "defaultSchematicDays": 40,
+   "substantialCompletionMovesDays": 14,
+   "earlierTasksMove": false
+  }
+ }
+}
