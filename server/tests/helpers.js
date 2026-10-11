@@ -9,6 +9,7 @@ async function start({ seeded = true } = {}) {
   if (seeded) seed(db);
   const server = createServer(db);
   await new Promise(r => server.listen(0, '127.0.0.1', r));
+  server.unref(); // a test that fails before close() must not keep the test process alive
   const base = `http://127.0.0.1:${server.address().port}`;
 
   const person = username => db.get('SELECT * FROM people WHERE username = ?', username);

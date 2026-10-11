@@ -47,3 +47,31 @@ test('every module has a bundle.json that lists files which exist', () => {
     for (const f of [...c.files, ...(c.css || []), c.pages].filter(Boolean)) assert.ok(fs.existsSync(path.resolve(MODULES, m, f)), `${m}: ${f} is missing`);
   }
 });
+
+test('every style variable a module uses is defined by the design system or the module’s own tokens.css', () => {
+  const T = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'design-system', 'project', 'tokens.json'), 'utf8'));
+  const system = new Set(['--f-ui', '--f-cond', '--font-ui', '--font-cond', '--side-w', '--row-h']);
+  for (const sec of ['color', 'shadow', 'fontsize', 'spacing', 'radius', 'size']) for (const t of T[sec].tokens) system.add('--' + t.name);
+  const RUNTIME = new Set(['--hold-w', '--tl-head', '--tl-list', '--tl-w']); // set from script while drawing the timeline
+  for (const m of fs.readdirSync(MODULES)) {
+    const tokensFile = path.join(MODULES, m, 'ui', 'tokens.css');
+    const own = new Set(fs.existsSync(tokensFile) ? [...fs.readFileSync(tokensFile, 'utf8').matchAll(/(--[a-z0-9-]+)\s*:/g)].map(x => x[1]) : []);
+    const bad = new Set();
+    for (const f of walk(path.join(MODULES, m)).filter(f => /\.(css|js)$/.test(f) && !DATA_FILES.test(f))) {
+      for (const x of fs.readFileSync(f, 'utf8').matchAll(/var\((--[a-z0-9-]+)/g)) if (!x[1].endsWith('-') && !system.has(x[1]) && !own.has(x[1]) && !RUNTIME.has(x[1])) bad.add(`${m}: ${x[1]}`);
+    }
+    assert.deepStrictEqual([...bad], []);
+  }
+});
+
+test('module token files add tokens; they never redefine or shadow a design-system token', () => {
+  const T = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'design-system', 'project', 'tokens.json'), 'utf8'));
+  const system = new Set(['--f-ui', '--f-cond']);
+  for (const sec of ['color', 'shadow', 'fontsize', 'spacing', 'radius', 'size']) for (const t of T[sec].tokens) system.add('--' + t.name);
+  for (const m of fs.readdirSync(MODULES)) {
+    const f = path.join(MODULES, m, 'ui', 'tokens.css');
+    if (!fs.existsSync(f)) continue;
+    const own = [...fs.readFileSync(f, 'utf8').matchAll(/(--[a-z0-9-]+)\s*:/g)].map(x => x[1]);
+    assert.deepStrictEqual(own.filter(n => system.has(n)), [], `${m}/ui/tokens.css redefines a design-system token`);
+  }
+});

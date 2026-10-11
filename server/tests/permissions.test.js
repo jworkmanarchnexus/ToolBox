@@ -146,3 +146,29 @@ test('a firm-* collection can name extra writers (template managers), set only b
   assert.strictEqual((await t.api('c.nguyen').put(writers, { data: { schemaVersion: 1, ids: [] } }, { ifMatch: writersRec.rev })).status, 403, 'a writer cannot change the writer list');
   await t.close();
 });
+
+test('owned-* collections: project access when linked, creator-only (plus firm admins and viewers) when not', async () => {
+  const t = await start();
+  const url = '/api/fee-builder/owned-proposals/prop-0001';
+  const made = await t.api('c.nguyen').put(url, rec());
+  assert.strictEqual(made.status, 201, 'anyone can start a pursuit');
+  assert.strictEqual((await t.api('c.nguyen').get(url)).status, 200);
+  assert.strictEqual((await t.api('s.patel').get(url)).status, 404, 'another PM cannot see a pursuit');
+  assert.strictEqual((await t.api('d.hollis').get(url)).status, 200, 'a firm viewer (leadership) can read it');
+  assert.strictEqual((await t.api('a.rivera').get(url)).status, 200, 'and a firm admin');
+  assert.strictEqual((await t.api('d.hollis').put(url, rec(), { ifMatch: 1 })).status, 403, 'but a viewer cannot change it');
+  assert.strictEqual((await t.api('a.rivera').put(url, rec(), { ifMatch: 1 })).status, 200, 'a firm admin can');
+  assert.strictEqual((await t.api('s.patel').put(url, rec(), { ifMatch: 3 })).status, 403, 'and he cannot change it either');
+  assert.strictEqual((await t.api('s.patel').get('/api/fee-builder/owned-proposals')).body.records.length, 0, 'not in his list either');
+
+  // link it to a project: now that project's rule applies (the creator must be able to edit there)
+  const p101 = t.project('26-101');
+  assert.strictEqual((await t.api('c.nguyen').put(url, rec({ projectId: p101.id }), { ifMatch: 2 })).status, 403, 'c.nguyen is only a team member of 26-101: cannot move it in');
+  const mine = await t.api('s.patel').put('/api/fee-builder/owned-proposals/prop-0002', rec());
+  assert.strictEqual(mine.status, 201);
+  assert.strictEqual((await t.api('s.patel').put('/api/fee-builder/owned-proposals/prop-0002', rec({ projectId: p101.id }), { ifMatch: 1 })).status, 200, 'the PM can link it to his project');
+  assert.strictEqual((await t.api('c.nguyen').get('/api/fee-builder/owned-proposals/prop-0002')).status, 200, 'now the project team can read it');
+  assert.strictEqual((await t.api('r.ortiz').get('/api/fee-builder/owned-proposals/prop-0002')).status, 404, 'but not outsiders');
+  assert.strictEqual((await t.api('c.nguyen').put('/api/fee-builder/owned-proposals/prop-0002', rec(), { ifMatch: 2 })).status, 403, 'team members can read but not edit');
+  await t.close();
+});

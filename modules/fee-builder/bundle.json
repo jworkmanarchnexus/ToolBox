@@ -1,0 +1,8 @@
+{
+  "id": "fee-builder",
+  "files": [
+    "logic/money.js", "logic/model.js", "logic/calc.js", "logic/analysis.js", "logic/exporter.js", "logic/sample.js",
+    "ui/util.js", "ui/store.js", "ui/views.js", "ui/app.js", "ui/api.js"
+  ],
+  "css": ["ui/tokens.css", "ui/styles.css"]
+}

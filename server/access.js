@@ -34,4 +34,4 @@ function can(db, userId, project, action) {
   return P.canDo(levelFor(db, userId, project), action, { archived: project.status === 'archived', firmAdmin: isFirmAdmin(db, userId) });
 }
 
-module.exports = { projectRow, accessInput, levelFor, isFirmAdmin, can, ACCESS_NAME: P.ACCESS_NAME, P };
+module.exports = { projectRow, firmRoleOf, accessInput, levelFor, isFirmAdmin, can, ACCESS_NAME: P.ACCESS_NAME, P };

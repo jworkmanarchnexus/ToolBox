@@ -1,0 +1,18 @@
+/* Fee Builder-only design tokens: the chart series (the brand's blue sequence for phases, blue grays for consultants) and
+   the brand marks used for save status and selection. This is the only Fee Builder stylesheet that may name a hex color or
+   a raw brand value (CLAUDE.md rule 4); styles.css uses tokens only. */
+:root {
+  --g-blue: var(--nx-blue); --g-green: var(--nx-green); --g-orange: var(--nx-orange); --g-light: var(--nx-lightblue);
+  --phase-1: #BEDAEC; --phase-2: #87BEDE; --phase-3: #6FAFE0; --phase-4: #0099D8; --phase-5: #0084BA; --phase-6: #006B97; --phase-7: #005175;
+  --cons-1: #778390; --cons-2: #A3ADB6; --cons-3: #CDD1D2; --cons-4: #50585E;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --phase-1: #1F4357; --phase-2: #245A78; --phase-3: #2C77A0; --phase-4: #2BAFE6; --phase-5: #5FC2EC; --phase-6: #8BD3F1; --phase-7: #B8E5F7;
+    --cons-1: #8A96A2; --cons-2: #66717C; --cons-3: #4A535B; --cons-4: #B4BEC6;
+  }
+}
+:root[data-theme="dark"] {
+  --phase-1: #1F4357; --phase-2: #245A78; --phase-3: #2C77A0; --phase-4: #2BAFE6; --phase-5: #5FC2EC; --phase-6: #8BD3F1; --phase-7: #B8E5F7;
+  --cons-1: #8A96A2; --cons-2: #66717C; --cons-3: #4A535B; --cons-4: #B4BEC6;
+}

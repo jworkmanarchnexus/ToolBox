@@ -11,6 +11,8 @@ const RESERVED = ['projects', 'people', 'me', 'locks', 'backup', 'admin', 'dev',
 
 /* Collection naming convention (see docs/DECISIONS.md):
    - linked to a project -> that project's access level decides
+   - "owned-*": with a project, that project's access level decides; without one (a pursuit that has no Vantagepoint project
+     yet), only its creator and firm admins can change it, and firm viewers can read it. Nobody else can see it.
    - "personal-*" (no project) -> only the person who created the record
    - "firm-*" (no project) -> everyone reads; firm admins write, and so does anyone listed as a writer for that
      collection in the record `firm-writers/<collection>` ({ ids: [person ids] }, itself writable only by admins)
@@ -32,6 +34,12 @@ function authorize(db, userId, action, ctx) {
     return access.can(db, userId, project, verb);
   }
   const admin = access.isFirmAdmin(db, userId);
+  if (ctx.collection.startsWith('owned-')) {
+    if (action === 'create') return true;
+    const mine = !ctx.createdBy || ctx.createdBy === userId;
+    if (action === 'read') return mine || admin || access.firmRoleOf(db, userId).includes('viewer');
+    return mine || admin;
+  }
   if (ctx.collection.startsWith('personal-')) return ctx.createdBy ? ctx.createdBy === userId : true;
   if (ctx.collection.startsWith('firm-')) return action === 'read' || admin || isWriter(db, userId, ctx);
   if (action === 'read') return true;

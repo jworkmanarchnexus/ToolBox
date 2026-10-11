@@ -4,7 +4,8 @@
    (Canvas drawing for PNG/PDF export needs a real browser; see docs/DECISIONS.md.) */
 const test = require('node:test');
 const assert = require('node:assert');
-const { start } = require('./ui-harness');
+const { start: startApp } = require('../../../server/tests/ui-harness');
+const start = () => startApp('scheduler');
 
 const rows = (res) => res.body.records;
 async function withApp(fn) {
