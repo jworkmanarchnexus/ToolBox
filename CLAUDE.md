@@ -34,10 +34,11 @@ shared/
   platform/         THE ONLY CODE THAT TALKS TO THE SERVER: Session, Directory, Store, Files, Locks
   rules/            permission rules (from the Scheduler), shared helpers
 modules/
-  scheduler/  fee-builder/  minutes/
+  scheduler/  fee-builder/  minutes/        (all three are ported; see docs/DECISIONS.md)
+    bundle.json     which files make the browser bundle, in order (tools/build.js builds dist/)
     logic/          pure business rules, no DOM, no network
-    ui/             screens
-    tests/          unit tests + fixtures/*.json (language-neutral input → expected output)
+    ui/             screens; store.js (or equivalent) is the only file that talks to shared/platform
+    tests/          unit tests, interface tests (jsdom against a real server), fixtures/*.json
 docs/               PLAN, CONTRACT, AUDIT, DECISIONS, one SPEC per module
 design-system/      the design system source (master copy, see "Design system")
 reference/          existing apps, read-only
@@ -86,6 +87,7 @@ On Windows PowerShell, type `npm.cmd` instead of `npm` (PowerShell blocks the `n
 - `npm run seed`: reset the local database to the seed data
 - `npm run backup`: write a full backup JSON to `backups/` (git-ignored)
 - `node design-system/tools/build_css.js`: regenerate `shared/design-system/` after changing `design-system/project/`
+- `node tools/build.js`: build each module's browser bundle (`modules/<id>/dist/`, generated and git-ignored). `npm start` and `npm test` run it first.
 
 ## Open questions for Kent (do not block on these)
 

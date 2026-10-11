@@ -239,6 +239,12 @@ exportBackup() -> Backup, importBackup(Backup)
 
 ---
 
+### Status after phases 1 to 4 (2026-10-11)
+
+All three apps now run on one local server through `shared/platform/`. Closed: platform calls confined to one data-layer file per module; `schemaVersion`, `rev` (server-owned), `createdBy/At` and `updatedBy/At` on every record (in the record envelope); `vp` numbers carried with projects; compare-and-set on `rev` everywhere; full and per-module backup (admin) in the section 6 format, and Minutes' own backup file in the same format; one design system. Still open: the people map in module-level backups is only filled for the exporting person in Minutes; Fee Builder's `extRefs.vp` holds the Vantagepoint number and project id once a proposal is linked; the Scheduler's history is stored by the client, not in the save transaction. Details and reasons: `docs/DECISIONS.md`.
+
+---
+
 ## 8. Decisions
 
 ### Answered (Josh, 2026-10-11)

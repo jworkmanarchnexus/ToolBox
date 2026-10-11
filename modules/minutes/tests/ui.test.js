@@ -260,3 +260,22 @@ test('editing offline then reconnecting sends everything without loss', async ()
   assert.strictEqual(after.projectId, p.id);
   await ui.until(() => /Saved/.test(ui.$('#sync-chip').textContent), 'Saved');
 });
+
+test('firm settings can be changed by firm admins only, and the server enforces it', async () => {
+  const app = await boot();
+  const admin = await open(app, 'a.rivera');
+  await admin.until(() => admin.$('[data-act="open-firm"]'), 'the Firm settings button');
+  admin.click(admin.$('[data-act="open-firm"]'));
+  await admin.until(() => admin.$('[data-bind="firmf"][data-field="name"]'), 'the firm form');
+  const f = admin.$('[data-bind="firmf"][data-field="name"]'); f.value = 'Arch Nexus Test Firm'; ev(admin, f, 'input'); ev(admin, f, 'change');
+  await admin.until(async () => (await stored(app, 'a.rivera', 'firm-settings')).records.length === 1, 'the firm record to be stored');
+  const rec = (await stored(app, 'a.rivera', 'firm-settings')).records[0];
+  assert.strictEqual(rec.data.name, 'Arch Nexus Test Firm');
+  assert.strictEqual(rec.projectId, null);
+  // everyone can read it; nobody else can write it
+  assert.strictEqual((await stored(app, 's.patel', 'firm-settings')).records.length, 1);
+  const refused = await api(app, 's.patel').put('/api/minutes/firm-settings/firm-settings', { data: { schemaVersion: 2, name: 'Hijacked' } }, { ifMatch: rec.rev });
+  assert.strictEqual(refused.status, 403);
+  const pm = await open(app, 's.patel');
+  assert.ok(!pm.$('[data-act="open-firm"]'), 'a project lead is not offered firm settings');
+});
