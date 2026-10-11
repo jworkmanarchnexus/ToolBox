@@ -14,8 +14,10 @@ const config = {
   /* per-device preference store; the shell swaps in Toolbox.pref when it is loaded */
   pref: (() => { const m = new Map(); return (k, v) => (v === undefined ? (m.has(k) ? m.get(k) : null) : (m.set(k, v), v)); })(),
   onSignedOut: () => {},
+  pollMs: 20000, // how often watchers look for changes (15-30 s is acceptable, CONTRACT section 8); tests shorten it
 };
 export function configure(opts) { Object.assign(config, opts); }
+export const pollInterval = () => config.pollMs;
 export function pref(k, v) { return config.pref(k, v); }
 
 export function currentUserId() { return config.pref('user'); }

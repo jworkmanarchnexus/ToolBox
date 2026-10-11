@@ -3,7 +3,7 @@
      await schedules.save(id, { schemaVersion: 1, ... }, { projectId, baseRev });   // baseRev omitted when creating
    Saves are compare-and-set on rev: a stale save throws ConflictError with `.current`, and nothing is overwritten.
    `watch` polls every 20 seconds (15-30 s is acceptable, CONTRACT section 8) instead of using a live feed. */
-import { request } from './http.js';
+import { request, pollInterval } from './http.js';
 
 export { ApiError, ConflictError } from './http.js';
 
@@ -29,7 +29,8 @@ export const Store = {
 
       /* keeps `cb(records, changes)` up to date: `records` is every live record, `changes` only what just arrived.
          Returns a function that stops watching. Polls again at once when the tab becomes visible. */
-      watch(cb, { projectId, intervalMs = POLL_MS, onError } = {}) {
+      watch(cb, { projectId, intervalMs, onError } = {}) {
+        const every = () => intervalMs || pollInterval();
         const known = new Map();
         let cursor = null, timer = null, stopped = false, busy = false;
         const tick = async () => {
@@ -44,7 +45,7 @@ export const Store = {
             if (first || changes.length) cb([...known.values()], changes);
           } catch (e) { if (onError) onError(e); }
           busy = false;
-          if (!stopped) timer = setTimeout(tick, intervalMs);
+          if (!stopped) timer = setTimeout(tick, every());
         };
         const onVisible = () => { if (typeof document !== 'undefined' && !document.hidden) { clearTimeout(timer); tick(); } };
         if (typeof document !== 'undefined') document.addEventListener('visibilitychange', onVisible);

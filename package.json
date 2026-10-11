@@ -3,11 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "description": "Arch Nexus Toolbox: internal tools prototype",
-  "engines": { "node": ">=22.5" },
+  "engines": {
+    "node": ">=22.5"
+  },
   "scripts": {
+    "prestart": "node tools/build.js",
     "start": "node server/index.js",
+    "pretest": "node tools/build.js",
     "test": "node --test \"server/**/*.test.js\" \"shared/**/*.test.js\" \"modules/**/*.test.js\"",
     "seed": "node server/seed.js",
     "backup": "node server/backup-cli.js"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.2"
   }
 }

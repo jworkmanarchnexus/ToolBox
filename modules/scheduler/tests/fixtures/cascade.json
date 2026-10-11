@@ -1,0 +1,94 @@
+{
+  "description": "Schedule cascade fixtures: input tasks and a calendar, expected start/finish dates and flags. Language-neutral, taken from the Scheduler's engine suite (tests/engine.test.js). Dates are ISO. 'finish' is the last working-or-not day the task covers (inclusive); a task of N days starting on day D finishes on D+N-1 (durations count calendar days). Weekends and listed holidays are non-working: a task never *starts* on one (it moves to the next working day), and a milestone placed on one is flagged.",
+  "calendar": {
+    "offDays": [0, 6],
+    "holidays": [
+      { "date": "2026-10-12", "name": "Columbus / Indigenous Peoples' Day" },
+      { "date": "2026-11-11", "name": "Veterans Day" },
+      { "date": "2026-11-26", "name": "Thanksgiving" },
+      { "date": "2026-12-25", "name": "Christmas Day" }
+    ]
+  },
+  "cases": [
+    {
+      "name": "finish-to-start, start-to-start with lag, and a milestone after both (max of predecessors)",
+      "tasks": [
+        { "id": "a", "start": "2026-10-05", "duration": 5 },
+        { "id": "b", "duration": 3, "deps": [{ "id": "a", "type": "FS", "lag": 0 }] },
+        { "id": "c", "duration": 2, "deps": [{ "id": "a", "type": "SS", "lag": 2 }] },
+        { "id": "m", "kind": "milestone", "duration": 0, "deps": [{ "id": "b", "type": "FS", "lag": 0 }, { "id": "c", "type": "FS", "lag": 0 }] }
+      ],
+      "expect": { "b": { "start": "2026-10-10", "finish": "2026-10-12" }, "c": { "start": "2026-10-07" }, "m": { "start": "2026-10-13" } }
+    },
+    {
+      "name": "a predecessor slips a week: everything after it follows",
+      "tasks": [
+        { "id": "a", "start": "2026-10-12", "duration": 5 },
+        { "id": "b", "duration": 3, "deps": [{ "id": "a", "type": "FS", "lag": 0 }] },
+        { "id": "c", "duration": 2, "deps": [{ "id": "a", "type": "SS", "lag": 2 }] },
+        { "id": "m", "kind": "milestone", "duration": 0, "deps": [{ "id": "b", "type": "FS", "lag": 0 }, { "id": "c", "type": "FS", "lag": 0 }] }
+      ],
+      "expect": { "b": { "start": "2026-10-17" }, "c": { "start": "2026-10-14" }, "m": { "start": "2026-10-20" } }
+    },
+    {
+      "name": "a predecessor shortens: dependents pull in",
+      "tasks": [
+        { "id": "a", "start": "2026-10-12", "duration": 2 },
+        { "id": "b", "duration": 3, "deps": [{ "id": "a", "type": "FS", "lag": 0 }] }
+      ],
+      "expect": { "b": { "start": "2026-10-14" } }
+    },
+    {
+      "name": "a hold (notBefore) keeps a task from starting early, and the delay cascades",
+      "tasks": [
+        { "id": "a", "start": "2026-10-12", "duration": 2 },
+        { "id": "b", "duration": 3, "notBefore": "2026-10-30", "deps": [{ "id": "a", "type": "FS", "lag": 0 }] },
+        { "id": "m", "kind": "milestone", "duration": 0, "deps": [{ "id": "b", "type": "FS", "lag": 0 }] }
+      ],
+      "expect": { "b": { "start": "2026-10-30", "held": true }, "m": { "start": "2026-11-02" } }
+    },
+    {
+      "name": "negative lag starts a task before its predecessor finishes",
+      "tasks": [
+        { "id": "a", "start": "2026-10-12", "duration": 2 },
+        { "id": "b", "duration": 3, "deps": [{ "id": "a", "type": "FS", "lag": -1 }] }
+      ],
+      "expect": { "b": { "start": "2026-10-13" } }
+    },
+    {
+      "name": "a locked milestone that predecessors would push past: it stays, and a lock-conflict flag offers the later date",
+      "tasks": [
+        { "id": "a", "start": "2026-10-05", "duration": 10 },
+        { "id": "d", "kind": "milestone", "duration": 0, "start": "2026-10-14", "locked": true, "deps": [{ "id": "a", "type": "FS", "lag": 0 }] },
+        { "id": "e", "duration": 2, "deps": [{ "id": "d", "type": "FS", "lag": 0 }] }
+      ],
+      "expect": { "d": { "start": "2026-10-14", "flags": ["lockConflict"], "fixDate": "2026-10-15" }, "e": { "start": "2026-10-14" } }
+    },
+    {
+      "name": "the lock conflict goes away once the predecessor is short enough",
+      "tasks": [
+        { "id": "a", "start": "2026-10-05", "duration": 5 },
+        { "id": "d", "kind": "milestone", "duration": 0, "start": "2026-10-14", "locked": true, "deps": [{ "id": "a", "type": "FS", "lag": 0 }] }
+      ],
+      "expect": { "d": { "start": "2026-10-14", "flags": [] } }
+    },
+    {
+      "name": "a milestone on a Saturday and one on a holiday are errors; a task finishing on a weekend is a warning",
+      "tasks": [
+        { "id": "w", "kind": "milestone", "duration": 0, "start": "2026-10-10" },
+        { "id": "x", "duration": 3, "start": "2026-10-09" },
+        { "id": "y", "kind": "milestone", "duration": 0, "start": "2026-10-12" }
+      ],
+      "expect": { "w": { "flags": ["milestoneNonwork"], "fixDate": "2026-10-13" }, "x": { "flags": ["finishNonwork"] }, "y": { "levelCount": { "error": 1 } } }
+    },
+    {
+      "name": "a dependency loop is detected on both tasks and not on an unrelated one",
+      "tasks": [
+        { "id": "p", "start": "2026-10-05", "duration": 5, "deps": [{ "id": "q", "type": "FS", "lag": 0 }] },
+        { "id": "q", "start": "2026-10-05", "duration": 5, "deps": [{ "id": "p", "type": "FS", "lag": 0 }] },
+        { "id": "z", "start": "2026-10-05", "duration": 5 }
+      ],
+      "expect": { "p": { "cycle": true }, "q": { "cycle": true }, "z": { "cycle": false } }
+    }
+  ]
+}

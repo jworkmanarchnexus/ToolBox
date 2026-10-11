@@ -12,8 +12,17 @@ const RESERVED = ['projects', 'people', 'me', 'locks', 'backup', 'admin', 'dev',
 /* Collection naming convention (see docs/DECISIONS.md):
    - linked to a project -> that project's access level decides
    - "personal-*" (no project) -> only the person who created the record
-   - "firm-*" (no project) -> everyone reads, firm admins write
+   - "firm-*" (no project) -> everyone reads; firm admins write, and so does anyone listed as a writer for that
+     collection in the record `firm-writers/<collection>` ({ ids: [person ids] }, itself writable only by admins)
    - anything else without a project -> everyone reads, the creator or a firm admin writes */
+function isWriter(db, userId, ctx) {
+  if (!ctx.module || ctx.collection === 'firm-writers') return false;
+  const row = db.get('SELECT data FROM records WHERE module = ? AND collection = ? AND id = ? AND deleted = 0', ctx.module, 'firm-writers', ctx.collection);
+  if (!row) return false;
+  const ids = JSON.parse(row.data).ids;
+  return Array.isArray(ids) && ids.includes(userId);
+}
+
 function authorize(db, userId, action, ctx) {
   // action: read | create | update | delete
   const verb = { read: 'view', create: 'create', update: 'edit', delete: 'delete' }[action];
@@ -24,7 +33,7 @@ function authorize(db, userId, action, ctx) {
   }
   const admin = access.isFirmAdmin(db, userId);
   if (ctx.collection.startsWith('personal-')) return ctx.createdBy ? ctx.createdBy === userId : true;
-  if (ctx.collection.startsWith('firm-')) return action === 'read' || admin;
+  if (ctx.collection.startsWith('firm-')) return action === 'read' || admin || isWriter(db, userId, ctx);
   if (action === 'read') return true;
   if (action === 'create') return true;
   return admin || ctx.createdBy === userId;
@@ -49,7 +58,7 @@ function checkId(id) {
 function getRow(db, module, collection, id) {
   return db.get('SELECT * FROM records WHERE module = ? AND collection = ? AND id = ?', module, collection, id);
 }
-const ctxOf = (row, collection) => ({ projectId: row.project_id, createdBy: row.created_by, collection });
+const ctxOf = (row, collection, module) => ({ projectId: row.project_id, createdBy: row.created_by, collection, module: module || row.module });
 
 function list(db, userId, module, collection, query) {
   checkNames(module, collection);
@@ -62,7 +71,7 @@ function list(db, userId, module, collection, query) {
   sql += ' ORDER BY updated_at, id';
   const serverTime = db.now();
   const records = db.all(sql, ...params)
-    .filter(r => authorize(db, userId, 'read', ctxOf(r, collection)))
+    .filter(r => authorize(db, userId, 'read', ctxOf(r, collection, module)))
     .map(toRecord);
   return { serverTime, records };
 }
@@ -91,7 +100,7 @@ function put(db, userId, module, collection, id, body, ifMatch) {
     const row = getRow(db, module, collection, id);
     const now = db.now();
     if (!row) {
-      if (!authorize(db, userId, 'create', { projectId, collection, createdBy: userId })) throw new HttpError(403, 'You do not have permission to create this here.');
+      if (!authorize(db, userId, 'create', { projectId, collection, module, createdBy: userId })) throw new HttpError(403, 'You do not have permission to create this here.');
       db.run('INSERT INTO records (module, collection, id, project_id, rev, schema_version, data, created_at, created_by, updated_at, updated_by, deleted) VALUES (?,?,?,?,?,?,?,?,?,?,?,0)',
         module, collection, id, projectId, 1, schemaVersion, json, now, userId, now, userId);
       return { status: 201, record: toRecord(getRow(db, module, collection, id)) };
@@ -101,7 +110,7 @@ function put(db, userId, module, collection, id, body, ifMatch) {
     if (!authorize(db, userId, 'update', ctxOf(row, collection))) throw new HttpError(403, 'You do not have permission to change this.');
     if (want !== row.rev) throw new HttpError(409, 'Someone else saved a newer version.', { current: toRecord(row) });
     const newProject = body.projectId === undefined ? row.project_id : projectId;
-    if (newProject !== row.project_id && !authorize(db, userId, 'create', { projectId: newProject, collection, createdBy: row.created_by })) {
+    if (newProject !== row.project_id && !authorize(db, userId, 'create', { projectId: newProject, collection, module, createdBy: row.created_by })) {
       throw new HttpError(403, 'You do not have permission to move this into that project.');
     }
     db.run('UPDATE records SET project_id=?, rev=rev+1, schema_version=?, data=?, updated_at=?, updated_by=?, deleted=0 WHERE module=? AND collection=? AND id=?',

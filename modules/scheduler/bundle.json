@@ -1,0 +1,12 @@
+{
+  "id": "scheduler",
+  "pages": "ui/pages.html",
+  "files": [
+    "logic/engine.js", "logic/merge.js", "ui/brand.js", "ui/icons.js", "logic/templates.js", "logic/commit.js", "logic/impact.js",
+    "../../shared/rules/permissions.js", "logic/dup.js",
+    "ui/app-core.js", "ui/store.js", "ui/data.js", "ui/app-ui.js", "ui/gantt.js", "ui/app-task.js", "ui/app-order.js",
+    "ui/logo.js", "ui/pdffonts.js", "ui/app-export.js", "ui/export-draw.js", "ui/export-ui.js",
+    "ui/browser.js", "ui/tpl-store.js", "ui/tpl-ui.js", "ui/router.js", "ui/api.js"
+  ],
+  "css": ["ui/tokens.css", "ui/scheduler.css", "ui/editor.css"]
+}

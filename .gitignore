@@ -5,3 +5,4 @@ backups/
 Thumbs.db
 *.log
 reference/source-zips/*.zip
+modules/*/dist/

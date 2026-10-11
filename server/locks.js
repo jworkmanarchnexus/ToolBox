@@ -13,7 +13,7 @@ function purge(db, now) { db.run('DELETE FROM locks WHERE expires_at <= ?', now)
 function acquire(db, userId, module, collection, id) {
   records.checkNames(module, collection);
   const row = db.get('SELECT * FROM records WHERE module=? AND collection=? AND id=?', module, collection, id);
-  if (row && !records.authorize(db, userId, 'update', { projectId: row.project_id, createdBy: row.created_by, collection })) {
+  if (row && !records.authorize(db, userId, 'update', { projectId: row.project_id, createdBy: row.created_by, collection, module })) {
     throw new HttpError(403, 'You do not have permission to edit this.');
   }
   const now = db.now();

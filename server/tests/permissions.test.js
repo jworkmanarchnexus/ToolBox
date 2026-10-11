@@ -132,3 +132,17 @@ test('personal and firm-level collections follow their naming rule', async () =>
   assert.strictEqual((await t.api('c.nguyen').get(firm)).status, 200, 'everyone reads them');
   await t.close();
 });
+
+test('a firm-* collection can name extra writers (template managers), set only by admins', async () => {
+  const t = await start();
+  const tpl = '/api/scheduler/firm-templates/tpl-0001';
+  assert.strictEqual((await t.api('c.nguyen').put(tpl, rec())).status, 403);
+  const writers = '/api/scheduler/firm-writers/firm-templates';
+  assert.strictEqual((await t.api('c.nguyen').put(writers, { data: { schemaVersion: 1, ids: [t.person('c.nguyen').id] } })).status, 403, 'only admins name writers');
+  assert.strictEqual((await t.api('a.rivera').put(writers, { data: { schemaVersion: 1, ids: [t.person('c.nguyen').id] } })).status, 201);
+  assert.strictEqual((await t.api('c.nguyen').put(tpl, rec())).status, 201, 'a listed writer can now write');
+  assert.strictEqual((await t.api('r.ortiz').put(tpl + '9', rec())).status, 403, 'others still cannot');
+  const writersRec = (await t.api('a.rivera').get(writers)).body;
+  assert.strictEqual((await t.api('c.nguyen').put(writers, { data: { schemaVersion: 1, ids: [] } }, { ifMatch: writersRec.rev })).status, 403, 'a writer cannot change the writer list');
+  await t.close();
+});

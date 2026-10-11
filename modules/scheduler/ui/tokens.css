@@ -1,0 +1,39 @@
+/* Scheduler-only design tokens: the schedule graphics, audience colors, the older preset hues, and a few
+   dark overlays. The design system keeps these in the Scheduler until a second app needs them (README, "Known gaps").
+   This is the only Scheduler stylesheet that may name a hex color or a raw brand value. */
+:root {
+  --g-blue: var(--nx-blue); --g-t20: var(--nx-t20); --g-t40: var(--nx-t40); --g-t70: var(--nx-t70);
+  --g-d20: var(--nx-d20); --g-d40: var(--nx-d40); --g-d60: var(--nx-d60);
+
+  /* schedule graphics */
+  --today: var(--nx-orange);
+  --bar: var(--nx-blue);
+  --bar-ms: var(--nx-d60);
+  --bar-hold: var(--nx-t40);
+  --wknd: #F4F5F6;
+  --hol: #E9EBED;
+  --ghost: #9AA4AD;
+  --f-body: var(--f-ui);
+  --on-bar: #fff; --paper: #fff;
+  --tip-crit: #FF9C96; --paper-ink: #1E2428; --paper-rule: #EDEDEE; --paper-rule-2: #C9CDD2;
+  --tip-bg: #2D3034; --tip-bg-2: #3A3E43; --tip-fg: #F2F4F5;
+
+  /* audience colors (overridden per schedule at runtime) */
+  --lv-client: var(--nx-blue); --lv-design: var(--nx-d40); --lv-internal: var(--nx-bluegray);
+
+  /* older preset colors, kept for schedules that saved them */
+  --p-blue: #3B79C3; --p-teal: #1F8A8A; --p-green: #4C8F3F; --p-violet: #7653B5; --p-slate: #5F7285; --p-brown: #8A5A3A; --p-amber: #C98A1B; --p-red: #B94A48; --p-rose: #B5527E; --p-olive: #7F8A2E; --p-navy: #2B4C7E; --p-sky: #3C9BD1; --p-mint: #2FA77A; --p-coral: #E0663F; --p-plum: #7A3E6E; --p-indigo: #4B4FB5; --p-sand: #B49A6B; --p-charcoal: #3A4550;
+  /* brand presets */
+  --p-nexus: #0099D8; --p-nexus-t20: #BEDAEC; --p-nexus-t40: #87BEDE; --p-nexus-t70: #6FAFE0; --p-nexus-d20: #0084BA; --p-nexus-d40: #006B97; --p-nexus-d60: #005175;
+  --p-nexus-light: #99D6EF; --p-bluegray: #778390; --p-darkgray: #504F51; --p-brand-orange: #F18A00; --p-brand-green: #93D500;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wknd: #1A1E22; --hol: #232930; --ghost: #6F7A84; --bar-ms: #7FCBEE; --bar-hold: #2D5F7E;
+    --p-nexus-d60: #3F8FBF; --p-nexus-d40: #2C9AD0; --p-darkgray: #9A99A0; --p-charcoal: #A9B4BF; --p-navy: #7DA2D6;
+  }
+}
+:root[data-theme="dark"] {
+  --wknd: #1A1E22; --hol: #232930; --ghost: #6F7A84; --bar-ms: #7FCBEE; --bar-hold: #2D5F7E;
+  --p-nexus-d60: #3F8FBF; --p-nexus-d40: #2C9AD0; --p-darkgray: #9A99A0; --p-charcoal: #A9B4BF; --p-navy: #7DA2D6;
+}
