@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Arch Nexus design tokens (Toolbox)
+   Source: Arch Nexus Brand Elements Guide (2019), pages 5, 10, 11.
+   Brand values are kept exact. Where a brand value fails WCAG AA for small text,
+   a darker brand shade (or a darkened derivative, marked "derived") is used for
+   text only; the brand value stays in graphics. See docs/DESIGN-SYSTEM.md.
+   ========================================================================== */
+:root {
+  /* brand: primary */
+  --nx-blue: #0099D8;            /* Pantone Process Blue C. The dominant accent. */
+  /* brand: shades of Nexus Blue (page 11) */
+  --nx-t20: #BEDAEC; --nx-t40: #87BEDE; --nx-t70: #6FAFE0;
+  --nx-d20: #0084BA; --nx-d40: #006B97; --nx-d60: #005175;
+  /* brand: secondary */
+  --nx-bluegray: #778390; --nx-lightgray: #EDEDEE; --nx-darkgray: #504F51;
+  /* brand: grey shades (page 11) */
+  --nx-g1: #CDD1D2; --nx-g2: #85939E; --nx-g3: #50585E;
+  /* brand: tertiary (infographic support, small accents only) */
+  --nx-orange: #F18A00; --nx-green: #93D500; --nx-lightblue: #99D6EF;
+
+  /* surfaces */
+  --bg: #FFFFFF;                 /* working canvas */
+  --surface: #FFFFFF;
+  --surface-2: #F7F7F8;          /* quiet bands, side bar */
+  --surface-3: #EDEDEE;          /* brand light gray: headers, hover on quiet */
+  --scrim: rgba(36, 40, 46, .44);
+
+  /* lines */
+  --line: #DFE2E5;               /* hairline divider (blue-gray at ~22%) */
+  --line-2: #ECEEF0;             /* row rule */
+  --line-strong: #C3C9CF;        /* input borders */
+
+  /* text */
+  --text: #504F51;               /* brand dark gray, 8.1:1 on white */
+  --text-strong: #3A393B;        /* titles */
+  --text-2: #66707B;             /* derived from Blue Gray, 5.0:1 (brand #778390 is 3.9:1) */
+  --text-3: #8C959E;             /* placeholders, disabled */
+  --on-accent: #FFFFFF;
+
+  /* interaction */
+  --accent: var(--nx-blue);      /* indicators, focus, selected marks, bars */
+  --accent-text: var(--nx-d40);  /* links and primary buttons: 5.9:1 */
+  --accent-hover: var(--nx-d60);
+  --accent-soft: #E5F5FB;        /* selected rows (Nexus Blue 10%) */
+  --accent-softer: #F2FAFD;      /* hover tint */
+  --focus: 0 0 0 3px rgba(0, 153, 216, .28);
+  --primary-bg: var(--nx-d40); --primary-hover: var(--nx-d60); --primary-fg: #FFFFFF;
+
+  /* semantic states (one meaning each) */
+  --info: var(--nx-d40);   --info-bg: #EAF5FB;
+  --warn: #A65F00;         --warn-fill: var(--nx-orange); --warn-bg: #FEF4E6;   /* derived text value, 4.9:1 */
+  --ok: #4D7A00;           --ok-fill: var(--nx-green);    --ok-bg: #F2F9E6;     /* derived text value, 5.1:1 */
+  --crit: #C4312B;         --crit-bg: #FCECEB;   /* not in the brand palette: used only for errors and conflicts */
+  --today: var(--nx-orange);
+
+  /* schedule graphics */
+  --bar: var(--nx-blue);
+  --bar-ms: var(--nx-d60);
+  --bar-hold: var(--nx-t40);
+  --wknd: #F4F5F6;
+  --hol: #E9EBED;
+  --ghost: #9AA4AD;
+
+  /* audience colors (overridden per schedule at runtime) */
+  --lv-client: var(--nx-blue); --lv-design: var(--nx-d40); --lv-internal: var(--nx-bluegray);
+
+  /* legacy preset colors used by older schedules */
+  --p-blue: #3B79C3; --p-teal: #1F8A8A; --p-green: #4C8F3F; --p-violet: #7653B5; --p-slate: #5F7285; --p-brown: #8A5A3A; --p-amber: #C98A1B; --p-red: #B94A48; --p-rose: #B5527E; --p-olive: #7F8A2E; --p-navy: #2B4C7E; --p-sky: #3C9BD1; --p-mint: #2FA77A; --p-coral: #E0663F; --p-plum: #7A3E6E; --p-indigo: #4B4FB5; --p-sand: #B49A6B; --p-charcoal: #3A4550;
+  /* brand presets */
+  --p-nexus: #0099D8; --p-nexus-t20: #BEDAEC; --p-nexus-t40: #87BEDE; --p-nexus-t70: #6FAFE0; --p-nexus-d20: #0084BA; --p-nexus-d40: #006B97; --p-nexus-d60: #005175;
+  --p-nexus-light: #99D6EF; --p-bluegray: #778390; --p-darkgray: #504F51; --p-brand-orange: #F18A00; --p-brand-green: #93D500;
+
+  /* type */
+  --f-ui: 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-cond: 'Roboto Condensed', 'Arial Narrow', 'Segoe UI', sans-serif;
+  --fs-xs: 11px; --fs-sm: 12.5px; --fs-md: 14px; --fs-lg: 16px; --fs-xl: 20px; --fs-2xl: 28px;
+
+  /* space (4px grid) */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px;
+  --r1: 3px; --r2: 4px; --r3: 6px; --r4: 8px;
+  --shadow-1: 0 1px 2px rgba(40, 46, 52, .08);
+  --shadow-2: 0 8px 24px rgba(40, 46, 52, .14), 0 1px 3px rgba(40, 46, 52, .08);
+
+  /* layout */
+  --side-w: 232px;
+  --row-h: 32px;                 /* table and timeline row height (density) */
+  --ctl-h: 32px;
+  color-scheme: light;
+}
+body.dense { --row-h: 27px; }
+
+/* dark theme: same roles, values chosen for contrast on dark surfaces */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181B; --surface: #1B1F23; --surface-2: #1F2429; --surface-3: #272D33; --scrim: rgba(0, 0, 0, .55);
+    --line: #2E353C; --line-2: #262C32; --line-strong: #3E464E;
+    --text: #E2E5E8; --text-strong: #F4F6F7; --text-2: #A5AEB7; --text-3: #7C8690; --on-accent: #06202C;
+    --accent-text: #4DB8E6; --accent-hover: #7FCBEE; --primary-bg: #0099D8; --primary-hover: #33ADE0; --primary-fg: #04161F; --accent-soft: #10334A; --accent-softer: #142836;
+    --info: #4DB8E6; --info-bg: #11293A; --warn: #F5A33A; --warn-bg: #33270F; --ok: #A8DB4D; --ok-bg: #1E2C0F; --crit: #EF6F68; --crit-bg: #3A1D1C;
+    --wknd: #1A1E22; --hol: #232930; --ghost: #6F7A84; --bar-ms: #7FCBEE; --bar-hold: #2D5F7E;
+    --shadow-2: 0 10px 28px rgba(0, 0, 0, .5), 0 1px 3px rgba(0, 0, 0, .4);
+    --p-nexus-d60: #3F8FBF; --p-nexus-d40: #2C9AD0; --p-darkgray: #9A99A0; --p-charcoal: #A9B4BF; --p-navy: #7DA2D6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181B; --surface: #1B1F23; --surface-2: #1F2429; --surface-3: #272D33; --scrim: rgba(0, 0, 0, .55);
+  --line: #2E353C; --line-2: #262C32; --line-strong: #3E464E;
+  --text: #E2E5E8; --text-strong: #F4F6F7; --text-2: #A5AEB7; --text-3: #7C8690; --on-accent: #06202C;
+  --accent-text: #4DB8E6; --accent-hover: #7FCBEE; --primary-bg: #0099D8; --primary-hover: #33ADE0; --primary-fg: #04161F; --accent-soft: #10334A; --accent-softer: #142836;
+  --info: #4DB8E6; --info-bg: #11293A; --warn: #F5A33A; --warn-bg: #33270F; --ok: #A8DB4D; --ok-bg: #1E2C0F; --crit: #EF6F68; --crit-bg: #3A1D1C;
+  --wknd: #1A1E22; --hol: #232930; --ghost: #6F7A84; --bar-ms: #7FCBEE; --bar-hold: #2D5F7E;
+  --shadow-2: 0 10px 28px rgba(0, 0, 0, .5), 0 1px 3px rgba(0, 0, 0, .4);
+  --p-nexus-d60: #3F8FBF; --p-nexus-d40: #2C9AD0; --p-darkgray: #9A99A0; --p-charcoal: #A9B4BF; --p-navy: #7DA2D6;
+  color-scheme: dark;
+}

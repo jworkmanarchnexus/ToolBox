@@ -1,0 +1,13 @@
+{
+  "name": "archnexus-toolbox",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Arch Nexus Toolbox: internal tools prototype",
+  "engines": { "node": ">=22.5" },
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --test \"server/**/*.test.js\" \"shared/**/*.test.js\" \"modules/**/*.test.js\"",
+    "seed": "node -e \"console.log('Seeding arrives in Phase 1.')\"",
+    "backup": "node -e \"console.log('Backup arrives in Phase 1.')\""
+  }
+}

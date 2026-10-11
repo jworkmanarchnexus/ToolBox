@@ -1,0 +1,165 @@
+<div class="shell" id="shell">
+  <aside class="side" id="side" aria-label="Toolbox navigation">
+    <div class="side-brand">
+      <img class="side-logo" id="sideLogo" alt="Arch Nexus" width="96" height="96">
+      <div class="side-product"><strong>Toolbox</strong></div>
+    </div>
+    <nav class="side-nav" id="sideNav" aria-label="Tools"></nav>
+    <div class="side-foot">
+      <div class="side-user" id="sideUser"><span class="avatar" id="meAvatar">·</span><span class="nm" id="meName"></span></div>
+      <button class="ib" id="btnDensity" type="button" title="Row density" aria-label="Row density"><i data-i="rows-3"></i></button>
+      <button class="ib" id="btnTheme" type="button" title="Theme: follows your system. Click for light or dark." aria-label="Change theme"><i data-i="sun"></i></button>
+      <button class="ib side-collapse" id="btnCollapse" type="button" title="Collapse the side bar" aria-label="Collapse the side bar"><i data-i="panel-left-close"></i></button>
+    </div>
+  </aside>
+  <div class="mainwrap">
+    <header class="mtop">
+      <button class="ib" id="btnMenu" type="button" aria-label="Open navigation" title="Navigation"><i data-i="menu"></i></button>
+      <strong>Toolbox</strong><span class="crumb" id="mCrumb">Scheduler</span>
+    </header>
+
+    <!-- Scheduler home: find a project -->
+    <main class="page" id="pageHome" hidden>
+      <div class="phead">
+        <nav class="crumbs" aria-label="Breadcrumb"><span>Toolbox</span><i data-i="chevron-right" data-s="12"></i><span>Scheduler</span></nav>
+        <div class="ptitle">
+          <h1 class="brand">Scheduler</h1>
+          <span class="sub">Project schedules that recalculate themselves.</span>
+          <span class="grow"></span>
+          <button class="btn quiet" id="btnHomeTpl" type="button" title="Company templates and your own"><i data-i="layout-template"></i>Templates</button>
+          <button class="btn" id="btnNewProject" type="button"><i data-i="plus"></i>Add project</button>
+          <button class="btn primary" id="btnHomeNew" type="button"><i data-i="file-plus-2"></i>New schedule</button>
+        </div>
+      </div>
+      <div class="pbody" id="homeBody">
+        <div id="empty"></div>
+      </div>
+    </main>
+
+    <!-- one project and its schedules -->
+    <main class="page" id="pageProject" hidden>
+      <div class="phead" id="projHead"></div>
+      <div class="pbody" id="projBody"></div>
+    </main>
+
+    <!-- templates: company and my templates -->
+    <main class="page" id="pageTemplates" hidden>
+      <div class="phead" id="tplHead"></div>
+      <div class="pbody" id="tplBody"></div>
+    </main>
+
+    <!-- the schedule editor -->
+    <main class="page editor" id="pageEditor" hidden>
+      <header class="ed-top">
+        <button class="btn quiet icon" id="btnBack" type="button" title="Back to the project" aria-label="Back to the project"><i data-i="arrow-left" data-s="18"></i></button>
+        <div class="ed-title">
+          <a class="ed-proj" id="edProj" href="#/">Unassigned schedules</a>
+          <div class="ed-sched">
+            <select id="schedSel" aria-label="Schedule" title="Switch to another schedule in this project"><option value="">Loading…</option></select>
+            <span class="tpl-name" id="edTplName" hidden></span>
+            <div class="menu-wrap">
+              <button class="ib" id="btnSchedMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Schedule actions" title="Rename, duplicate or delete this schedule"><i data-i="ellipsis"></i></button>
+              <div class="menu left" id="schedMenu" hidden>
+                <button type="button" id="btnRename"><i data-i="pencil"></i><span>Rename…</span></button>
+                <button type="button" id="btnDup"><i data-i="copy"></i><span>Duplicate…</span></button>
+                <button type="button" id="btnNew"><i data-i="file-plus-2"></i><span>New schedule…</span></button>
+                <button type="button" id="btnSaveTpl"><i data-i="layout-template"></i><span>Save as template…</span></button>
+                <button type="button" id="btnTplDup" hidden><i data-i="copy"></i><span>Duplicate to My templates…</span></button>
+                <button type="button" id="btnTplMove" hidden><i data-i="arrow-right"></i><span>Move to Company templates…</span></button>
+                <button type="button" id="btnShortcuts"><i data-i="keyboard"></i><span>Keyboard shortcuts</span></button>
+                <div class="menu-sep"></div>
+                <button type="button" id="btnDelete" class="danger"><i data-i="trash-2"></i><span>Delete schedule…</span></button>
+                <button type="button" id="btnTplDelete" class="danger" hidden><i data-i="trash-2"></i><span>Delete template…</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ed-status"><span id="status" role="status">—</span><span id="savedBy">—</span></div>
+        <div id="here"></div>
+        <div class="ed-actions">
+          <button class="btn quiet icon" id="btnUndo" type="button" title="Undo (Ctrl+Z)" aria-label="Undo"><i data-i="undo-2"></i></button>
+          <button class="btn quiet" id="btnHistory" type="button" title="Earlier saved versions of this schedule. Restore one if something went wrong."><i data-i="history"></i><span class="lbl-hide">History</span></button>
+          <button class="btn primary" id="btnSave" type="button" disabled title="Save for everyone (Ctrl+S)">Save</button>
+        </div>
+      </header>
+
+      <div class="ed-bar toolbar">
+        <div class="seg" role="group" aria-label="View">
+          <button id="vTable" type="button" aria-pressed="true" title="Table: edit names, dates and durations"><i data-i="table-2"></i>Table</button>
+          <button id="vGantt" type="button" aria-pressed="false" title="Timeline: the activity list beside the chart. Drag bars to move them."><i data-i="chart-gantt"></i>Timeline</button>
+          <button id="vExec" type="button" aria-pressed="false" hidden title="Executive overview: only the activities marked for it"><i data-i="layout-template"></i>Executive</button>
+        </div>
+        <span class="vsep"></span>
+        <div class="menu-wrap">
+          <button class="btn" id="btnAdd" type="button" title="Add an activity below the selected row (Ctrl+Enter)"><i data-i="plus"></i>Add activity</button>
+        </div>
+        <button class="btn quiet" id="btnAddMs" type="button" title="Add a milestone below the selected row"><i data-i="diamond"></i><span class="lbl-hide">Milestone</span></button>
+        <span class="vsep"></span>
+        <button class="switch" id="btnDetail" type="button" aria-pressed="false" title="Detailed view adds the dependency tools (predecessors, link handles), the audience column and audience colors"><span class="track"></span><span class="lbl-hide">Detailed view</span></button>
+        <span class="grp" id="filterGrp" hidden><label class="chk"><input type="checkbox" id="onlyIssues"> Only rows with issues</label></span>
+        <span class="grow"></span>
+        <div id="scaleWrap" hidden>
+          <div class="menu-wrap">
+            <button class="btn" id="btnScale" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Time scale" title="Time scale"><i data-i="calendar"></i><span id="scaleLbl">Weeks</span><i data-i="chevron-down" data-s="14"></i></button>
+            <div class="menu" id="scaleMenu" role="menu" aria-label="Time scale" hidden>
+              <div class="menu-head">Time scale for this schedule</div>
+              <button type="button" role="menuitemradio" data-scale="days" aria-checked="false"><span><strong>Days</strong><small>A column for every day</small></span><span class="tick"><i data-i="check"></i></span></button>
+              <button type="button" role="menuitemradio" data-scale="weeks" aria-checked="true"><span><strong>Weeks</strong><small>One tick per Monday</small></span><span class="tick"><i data-i="check"></i></span></button>
+              <button type="button" role="menuitemradio" data-scale="months" aria-checked="false"><span><strong>Months</strong><small>Best for long projects</small></span><span class="tick"><i data-i="check"></i></span></button>
+              <button type="button" role="menuitemradio" data-scale="quarters" aria-checked="false"><span><strong>Quarters</strong><small>Squeezes very long projects, good for executive summaries</small></span><span class="tick"><i data-i="check"></i></span></button>
+              <div class="menu-foot">Saved with the schedule and used for PDF and image exports. Zoom changes only your view.</div>
+            </div>
+          </div>
+          <div class="zoom" role="group" aria-label="Zoom">
+            <button class="btn icon sm" id="btnZoomOut" type="button" title="Zoom out (your view only)" aria-label="Zoom out"><i data-i="zoom-out"></i></button>
+            <button class="btn icon sm" id="btnZoomIn" type="button" title="Zoom in (your view only)" aria-label="Zoom in"><i data-i="zoom-in"></i></button>
+            <button class="btn icon sm" id="btnFit" type="button" title="Fit the whole project in view" aria-label="Fit the whole project in view"><i data-i="scan"></i></button>
+            <button class="btn icon sm" id="btnToday" type="button" title="Scroll to today" aria-label="Scroll to today"><i data-i="crosshair"></i></button>
+          </div>
+        </div>
+        <button class="btn" id="btnIssues" type="button" aria-pressed="true" title="Show or hide the list of scheduling issues">Issues</button>
+        <button class="btn" id="btnSettings" type="button" title="Project details, holidays, working days, colors, executive summary and baseline"><i data-i="sliders-horizontal"></i><span class="lbl-hide">Settings</span></button>
+        <button class="btn" id="btnExport" type="button" aria-haspopup="dialog" title="PDF, image, Excel or CSV: choose the format and audience in the export window"><i data-i="download"></i>Export</button>
+      </div>
+
+      <div id="banners"></div>
+      <section id="issues" aria-label="Schedule issues" hidden></section>
+
+      <div class="ed-work">
+        <div class="ed-main">
+          <div id="tableView" hidden>
+            <div class="twrap" id="twrap">
+              <table>
+                <colgroup><col class="k-n"><col class="k-flag"><col class="k-name"><col class="k-kind"><col class="k-aud"><col class="k-exec"><col class="k-start"><col class="k-dur"><col class="k-fin"><col class="k-slip"><col class="k-commit"><col class="k-pred"><col class="k-lock"><col class="k-act"></colgroup>
+                <thead><tr>
+                  <th title="Row number. Click to select (Shift or Ctrl for several); drag to reorder.">#</th>
+                  <th></th>
+                  <th data-col="name" title="Activity name">Activity</th>
+                  <th data-col="kind" title="Activity (has a duration) or milestone (a single date)">Type</th>
+                  <th class="h-aud" data-col="aud" title="Who sees this activity in exports">Audience</th>
+                  <th class="h-exec" title="Show in the executive overview">Exec</th>
+                  <th data-col="start" title="Start date. Gray when predecessors set it; type a later date to hold the activity.">Start</th>
+                  <th data-col="dur" title="Duration in calendar days">Days</th>
+                  <th data-col="fin" title="Finish date. Change it to change the duration.">Finish</th>
+                  <th class="h-slip" title="Days the finish has moved against the baseline. + is later, − is earlier.">Slip</th>
+                  <th class="h-commit" data-col="commit" title="A committed date to protect, compared with the forecast">Commitment</th>
+                  <th class="h-pred" data-col="pred" title="Activities this one waits on, by row number. 3 = after row 3 finishes; 5SS+2 = two days after row 5 starts.">Predecessors</th>
+                  <th title="Lock a date so predecessors can't move it"></th>
+                  <th title="Row actions: move, add, insert linked, delete"></th>
+                </tr></thead>
+                <tbody id="tbody"></tbody>
+              </table>
+              <div class="t-empty" id="tEmpty" hidden><p>No activities yet.</p><button class="btn primary" id="btnAddEmpty" type="button"><i data-i="plus"></i>Add the first activity</button></div>
+            </div>
+          </div>
+          <div id="ganttView" hidden></div>
+          <div class="bulkbar" id="bulkbar" hidden></div>
+          <div class="impact" id="impact" hidden></div>
+        </div>
+        <aside class="drawer" id="inspector" hidden aria-label="Activity details"></aside>
+      </div>
+    </main>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="modalRoot"></div>

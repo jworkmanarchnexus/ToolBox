@@ -1,0 +1,10 @@
+{
+  "name": "scheduler-tests",
+  "private": true,
+  "scripts": {
+    "unit": "node ../test-engine.js && node ../test-merge.js && node test-units.js",
+    "e2e": "python3 e2e-export.py && python3 e2e-legacy.py && python3 e2e-templates.py",
+    "test": "npm run unit && npm run e2e"
+  },
+  "devDependencies": { "jsdom": "^25.0.0", "jszip": "^3.10.1", "xlsx": "^0.18.5" }
+}

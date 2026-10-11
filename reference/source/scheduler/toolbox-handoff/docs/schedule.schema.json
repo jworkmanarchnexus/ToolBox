@@ -1,0 +1,455 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://toolbox.archnexus.com/schemas/schedule.json",
+  "title": "Schedule document",
+  "description": "The JSON document stored for one schedule. Server-side metadata (id, project_id, version, created/updated by/at, is_primary) lives outside this document. The prototype also stored sid/updatedBy/updatedAt/createdBy/createdAt inside it; in production those become table columns and are NOT part of the document.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "tasks"
+  ],
+  "$defs": {
+    "isoDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "color": {
+      "description": "A preset key or a custom #rrggbb hex (lowercase on write).",
+      "type": "string",
+      "pattern": "^(blue|teal|green|violet|slate|brown|amber|red|rose|olive|navy|sky|mint|coral|plum|indigo|sand|charcoal|nexus|nexus-t20|nexus-t40|nexus-t70|nexus-d20|nexus-d40|nexus-d60|nexus-light|bluegray|darkgray|brand-orange|brand-green|#[0-9a-fA-F]{6})$"
+    },
+    "level": {
+      "enum": [
+        "client",
+        "design",
+        "internal"
+      ]
+    },
+    "dep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "id of the predecessor task in the same schedule"
+        },
+        "type": {
+          "enum": [
+            "FS",
+            "SS"
+          ],
+          "default": "FS"
+        },
+        "lag": {
+          "type": "integer",
+          "default": 0,
+          "description": "Calendar days. May be negative."
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "duration",
+        "start"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable id within the schedule (prototype: 't' + 7 random base36 chars)."
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "task",
+            "milestone"
+          ]
+        },
+        "duration": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Calendar days. 0 for milestones, at least 1 for tasks."
+        },
+        "start": {
+          "$ref": "#/$defs/isoDate",
+          "description": "The entered start. Used as-is when the task has no predecessors; otherwise the computed start is written back here by the engine (recalc)."
+        },
+        "locked": {
+          "type": "boolean",
+          "default": false
+        },
+        "notBefore": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/isoDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "A 'hold': do not start before this date. Only meaningful when the task has predecessors."
+        },
+        "deps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dep"
+          },
+          "default": []
+        },
+        "ignore": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "startNonwork",
+              "finishNonwork"
+            ]
+          },
+          "default": [],
+          "description": "Issue codes the user chose to dismiss for this task."
+        },
+        "lvl": {
+          "$ref": "#/$defs/level",
+          "default": "client",
+          "description": "Audience level. Client tasks appear in every export; design in design+internal; internal only in the internal export."
+        },
+        "exec": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include in the Executive summary. Only takes effect when lvl is 'client'."
+        },
+        "exColor": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/color"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Bar color in the Executive view/export only. null means use execColor."
+        },
+        "commit": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "$ref": "#/$defs/isoDate"
+                },
+                "note": {
+                  "type": "string",
+                  "maxLength": 80
+                }
+              },
+              "required": [
+                "date"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "exportOptions": {
+      "description": "Shared export settings for one report type. Unknown keys are dropped on save.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "projInfo": {
+          "type": "boolean"
+        },
+        "logo": {
+          "type": "boolean"
+        },
+        "fit": {
+          "type": "boolean"
+        },
+        "numbers": {
+          "type": "boolean"
+        },
+        "arrows": {
+          "type": "boolean"
+        },
+        "today": {
+          "type": "boolean"
+        },
+        "shade": {
+          "type": "boolean"
+        },
+        "dur": {
+          "type": "boolean"
+        },
+        "flags": {
+          "type": "boolean"
+        },
+        "legend": {
+          "type": "boolean"
+        },
+        "saved": {
+          "type": "boolean"
+        },
+        "printed": {
+          "type": "boolean"
+        },
+        "descOn": {
+          "type": "boolean"
+        },
+        "catColors": {
+          "type": "boolean"
+        },
+        "baseline": {
+          "type": "boolean"
+        },
+        "ganttDates": {
+          "enum": [
+            "none",
+            "start",
+            "finish",
+            "range"
+          ]
+        },
+        "leftDates": {
+          "enum": [
+            "none",
+            "start",
+            "finish",
+            "both"
+          ]
+        },
+        "paper": {
+          "enum": [
+            "letter",
+            "tabloid",
+            "a4",
+            "a3"
+          ]
+        },
+        "scale": {
+          "enum": [
+            "auto",
+            "days",
+            "weeks",
+            "months",
+            "quarters"
+          ],
+          "description": "auto = follow the schedule's own scale"
+        }
+      }
+    }
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scale": {
+      "enum": [
+        "days",
+        "weeks",
+        "months",
+        "quarters"
+      ],
+      "default": "weeks"
+    },
+    "colors": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Bar color per audience level.",
+      "properties": {
+        "client": {
+          "$ref": "#/$defs/color"
+        },
+        "design": {
+          "$ref": "#/$defs/color"
+        },
+        "internal": {
+          "$ref": "#/$defs/color"
+        }
+      }
+    },
+    "customColors": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^#[0-9a-f]{6}$"
+      },
+      "description": "Project-saved custom colors."
+    },
+    "holidays": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date"
+        ],
+        "properties": {
+          "date": {
+            "$ref": "#/$defs/isoDate"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This project's holidays. Null/absent in old documents means 'use the firm list until first saved'."
+    },
+    "hset": {
+      "type": "boolean",
+      "description": "True once the project's holidays have been deliberately set (even to none)."
+    },
+    "offDays": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 6,
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 6
+      },
+      "default": [
+        0,
+        6
+      ],
+      "description": "Non-working weekdays, 0 = Sunday. Seven days off is not allowed."
+    },
+    "execOn": {
+      "type": "boolean",
+      "default": false,
+      "description": "Executive summary view enabled for this schedule."
+    },
+    "execColor": {
+      "$ref": "#/$defs/color",
+      "default": "blue",
+      "description": "Default bar color for the Executive view/export."
+    },
+    "baselineOn": {
+      "type": "boolean",
+      "default": false,
+      "description": "Baseline and slip feature enabled for this schedule."
+    },
+    "baseline": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "tasks"
+          ],
+          "properties": {
+            "at": {
+              "type": "integer",
+              "description": "Epoch ms when the baseline was set."
+            },
+            "by": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "User id."
+            },
+            "tasks": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "s",
+                  "d"
+                ],
+                "properties": {
+                  "s": {
+                    "$ref": "#/$defs/isoDate"
+                  },
+                  "d": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              "description": "task id -> start date and duration at the time the baseline was set."
+            }
+          }
+        }
+      ]
+    },
+    "info": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "client": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "issue": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Issue note, e.g. 'Issued for owner review, rev 2'."
+        }
+      },
+      "description": "Printed under the export title. In production, number and client are pre-filled from the VP project (the user may still edit the issue note)."
+    },
+    "exportDefaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "executive": {
+          "$ref": "#/$defs/exportOptions"
+        },
+        "client": {
+          "$ref": "#/$defs/exportOptions"
+        },
+        "design": {
+          "$ref": "#/$defs/exportOptions"
+        },
+        "internal": {
+          "$ref": "#/$defs/exportOptions"
+        }
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/task"
+      },
+      "maxItems": 2000
+    },
+    "commitWarn": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 365,
+      "default": 0,
+      "description": "Days of margin below which a met commitment is at risk; 0 = off."
+    },
+    "projectId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Owning project. Production: schedules.project_id column."
+    }
+  }
+}

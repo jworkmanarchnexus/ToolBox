@@ -1,0 +1,75 @@
+<div class="app">
+  <header class="sheet" id="titleblock">
+    <div class="cell">
+      <span class="lbl">Schedule</span>
+      <div class="sched-row">
+        <select id="schedSel" aria-label="Choose a schedule"><option value="">Loading…</option></select>
+        <button class="btn sm" id="btnNew" type="button">New</button>
+        <button class="btn sm ghost" id="btnRename" type="button">Rename</button>
+        <button class="btn sm ghost" id="btnDelete" type="button">Delete</button>
+      </div>
+    </div>
+    <div class="cell"><span class="lbl">Last saved</span><span class="val" id="savedBy">—</span></div>
+    <div class="cell"><span class="lbl">Status</span><span class="val" id="status">—</span></div>
+    <div class="cell"><span class="lbl">Here now</span><span class="val" id="here"></span></div>
+  </header>
+
+  <div id="banners"></div>
+
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="View">
+      <button class="btn" id="vTable" type="button" aria-pressed="true">Table</button>
+      <button class="btn" id="vGantt" type="button" aria-pressed="false">Gantt</button>
+      <button class="btn" id="vExec" type="button" aria-pressed="false" hidden>Executive</button>
+    </div>
+    <button class="btn" id="btnAdd" type="button">Add task</button>
+    <button class="btn" id="btnUndo" type="button">Undo</button>
+    <button class="btn" id="btnHistory" type="button" title="Earlier saved versions of this schedule. Restore one if something went wrong.">History</button>
+    <div class="menu-wrap" id="scaleWrap" hidden>
+      <button class="btn icon" id="btnScale" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Time scale" title="Time scale">
+        <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 8.5h14M6.5 2.5v3.5M13.5 2.5v3.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 11.5h2M11.5 11.5h2M6.5 14.2h2" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+      <div class="menu left" id="scaleMenu" role="menu" aria-label="Time scale" hidden>
+        <div class="menu-head">Time scale for this schedule</div>
+        <button type="button" role="menuitemradio" data-scale="days" aria-checked="false"><span><strong>Days</strong><small>A column for every day</small></span><span class="tick">&#10003;</span></button>
+        <button type="button" role="menuitemradio" data-scale="weeks" aria-checked="true"><span><strong>Weeks</strong><small>One tick per Monday</small></span><span class="tick">&#10003;</span></button>
+        <button type="button" role="menuitemradio" data-scale="months" aria-checked="false"><span><strong>Months</strong><small>Best for long projects</small></span><span class="tick">&#10003;</span></button>
+        <button type="button" role="menuitemradio" data-scale="quarters" aria-checked="false"><span><strong>Quarters</strong><small>Squeezes very long projects, good for executive summaries</small></span><span class="tick">&#10003;</span></button>
+        <div class="menu-foot">Saved with the schedule and used for PDF and image exports.</div>
+      </div>
+    </div>
+    <button class="btn" id="btnDetail" type="button" aria-pressed="false" title="Detailed view adds the dependency tools (predecessors, link nodes), the audience column, category colors and a legend">Detailed view</button>
+    <span class="grp" id="filterGrp" hidden><label class="chk"><input type="checkbox" id="onlyIssues"> Only rows with issues</label></span>
+    <button class="btn" id="btnIssues" type="button" aria-pressed="true">Issues</button>
+    <button class="btn" id="btnSettings" type="button" title="Time scale, holidays and colors for this project">Project settings</button>
+    <div class="menu-wrap">
+      <button class="btn" id="btnExport" type="button" aria-haspopup="true" aria-expanded="false">Export ▾</button>
+      <div class="menu" id="exportMenu" hidden>
+        <button type="button" data-exp="pdf">PDF <small>Gantt, choose what to show</small></button>
+        <button type="button" data-exp="png">Image <small>Gantt, choose what to show</small></button>
+        <button type="button" data-exp="xlsx">Excel <small>Task table, .xlsx</small></button>
+        <button type="button" data-exp="csv">CSV <small>Task table</small></button>
+      </div>
+    </div>
+    <button class="btn primary grow" id="btnSave" type="button" disabled>Save</button>
+  </div>
+
+  <section id="issues" aria-label="Schedule issues" hidden></section>
+
+  <main>
+    <div id="empty"><h2>Loading schedules…</h2></div>
+    <div id="tableView" hidden>
+      <div class="twrap">
+        <table>
+          <colgroup><col class="k-n"><col class="k-flag"><col class="k-name"><col class="k-kind"><col class="k-aud"><col class="k-exec"><col class="k-start"><col class="k-dur"><col class="k-fin"><col class="k-slip"><col class="k-pred"><col class="k-lock"><col class="k-act"></colgroup>
+          <thead><tr><th title="Row number. Click a number to select the row; drag it to reorder.">#</th><th></th><th title="Task name">Task</th><th title="Activity (has a duration) or milestone (a single date)">Type</th><th class="h-aud">Audience</th><th class="h-exec" title="Show in the executive summary">Exec</th><th title="Start date. Grayed when predecessors set it; type a later date to hold the task.">Start</th><th title="Duration in calendar days">Days</th><th title="Finish date. Change it to change the duration.">Finish</th><th class="h-slip" title="Days the finish has moved against the baseline. + is later, − is earlier. Hover a value to see the baseline dates.">Slip</th><th title="Tasks this one waits on, by row number. 3 = finish-to-start; 5SS+2 = start-to-start from row 5, two days later." class="h-pred">Predecessors</th><th title="Lock a date so predecessors can't move it"></th><th title="Row actions: move up or down, add a task, insert a linked task, delete"></th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div class="t-empty muted" id="tEmpty" hidden>No tasks yet. <button class="btn sm" id="btnAddEmpty" type="button">Add the first task</button></div>
+      </div>
+    </div>
+    <div id="ganttView" hidden></div>
+  </main>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="modalRoot"></div>
