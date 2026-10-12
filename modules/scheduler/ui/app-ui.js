@@ -502,33 +502,36 @@ function renderTable() {
 }
 
 /* column widths: drag the edge of a header; remembered on this device */
-const COL_KEYS = ['kind', 'aud', 'start', 'dur', 'fin', 'commit', 'pred'];
+/* Column widths in the Table: drag the right edge of any header to widen or narrow it; double-click the edge to put it back.
+   Temporary on purpose: kept in memory only, so a reload starts fresh, and never saved with the schedule or in any setting. */
+const colW = {}; // column key (the <col> class, e.g. 'k-name') -> width in pixels
+const COL_MIN = 40;
+const colEl = (k) => $('col.' + k);
 function applyColWidths() {
-  let w = {};
-  try { w = JSON.parse(pref('colw') || '{}'); } catch (e) { w = {}; }
-  for (const k of COL_KEYS) { const col = $('col.k-' + k); if (col) col.style.width = w[k] ? w[k] + 'px' : ''; }
+  for (const col of $$('.twrap colgroup col')) {
+    const k = [...col.classList].find((c) => c.startsWith('k-'));
+    if (k) col.style.width = colW[k] ? colW[k] + 'px' : '';
+  }
 }
 function bindColResize() {
-  for (const th of $$('.twrap th[data-col]')) {
-    const k = th.dataset.col;
-    if (!COL_KEYS.includes(k)) continue;
+  const cols = $$('.twrap colgroup col'), ths = $$('.twrap thead th');
+  ths.forEach((th, i) => {
+    const col = cols[i], k = col && [...col.classList].find((c) => c.startsWith('k-'));
+    if (!k || ['k-flag', 'k-lock', 'k-act'].includes(k) || !th.textContent.trim()) return; // narrow icon columns stay as they are
     th.style.position = 'sticky';
-    const grip = h('span', { class: 'rz', title: 'Drag to resize. Double-click to reset.' });
+    const grip = h('span', { class: 'rz', title: 'Drag to resize this column. Double-click to reset it. (Temporary: not saved.)' });
     th.append(grip);
-    grip.addEventListener('dblclick', () => { let w = {}; try { w = JSON.parse(pref('colw') || '{}'); } catch (e) { w = {}; } delete w[k]; pref('colw', JSON.stringify(w)); applyColWidths(); });
+    grip.addEventListener('dblclick', (e) => { e.stopPropagation(); delete colW[k]; applyColWidths(); });
+    grip.addEventListener('click', (e) => e.stopPropagation()); // a header click must not sort or select
     grip.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      const col = $('col.k-' + k), x0 = e.clientX, w0 = th.getBoundingClientRect().width;
+      e.preventDefault(); e.stopPropagation();
+      const x0 = e.clientX, w0 = th.getBoundingClientRect().width;
       grip.classList.add('on');
-      const move = (ev) => { col.style.width = Math.max(48, Math.round(w0 + ev.clientX - x0)) + 'px'; };
-      const up = () => {
-        document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up); grip.classList.remove('on');
-        let w = {}; try { w = JSON.parse(pref('colw') || '{}'); } catch (err) { w = {}; }
-        w[k] = parseInt(col.style.width, 10); pref('colw', JSON.stringify(w));
-      };
+      const move = (ev) => { colW[k] = Math.max(COL_MIN, Math.round(w0 + ev.clientX - x0)); colEl(k).style.width = colW[k] + 'px'; };
+      const up = () => { document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up); grip.classList.remove('on'); };
       document.addEventListener('pointermove', move); document.addEventListener('pointerup', up);
     });
-  }
+  });
   applyColWidths();
 }
 

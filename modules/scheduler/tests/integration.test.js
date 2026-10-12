@@ -227,3 +227,30 @@ test('template managers: listed people can change company templates, others see 
   assert.strictEqual((await app.t.api('r.ortiz').put('/api/scheduler/firm-templates/starter_fed', { data: { schemaVersion: 1, kind: 'template', name: 'x' } }, { ifMatch: rec.rev })).status, 403);
   noErrors(other);
 }));
+
+test('table column widths can be dragged for the moment, and are never stored', () => withApp(async (app) => {
+  const ui = await app.open('s.patel');
+  const p = proj(app, '26-101');
+  const id = await createFromTemplate(ui, p);
+  await ui.until(() => ui.$$('#tbody input[data-f=name]').length > 5, 'the activity table');
+  const heads = ui.$$('.twrap thead th');
+  const grips = ui.$$('.twrap thead th .rz');
+  assert.ok(grips.length >= 8, 'most headers have a resize edge: ' + grips.length);
+  assert.ok(heads.find(h => /Activity/.test(h.textContent)).querySelector('.rz'), 'including the Activity column');
+  const nameGrip = heads.find(h => /Activity/.test(h.textContent)).querySelector('.rz');
+  const mouse = (type, x, target) => (target || ui.w.document).dispatchEvent(new ui.w.MouseEvent(type, { bubbles: true, cancelable: true, clientX: x }));
+  mouse('pointerdown', 100, nameGrip); mouse('pointermove', 260); mouse('pointerup', 260);
+  assert.strictEqual(ui.$('col.k-name').style.width, '160px', 'the column follows the drag');
+  mouse('pointerdown', 100, nameGrip); mouse('pointermove', 100 - 500); mouse('pointerup', 0);
+  assert.strictEqual(ui.$('col.k-name').style.width, '40px', 'there is a smallest width');
+  ui.w.document.dispatchEvent(new ui.w.Event('pointerup'));
+  nameGrip.dispatchEvent(new ui.w.MouseEvent('dblclick', { bubbles: true }));
+  assert.strictEqual(ui.$('col.k-name').style.width, '', 'double-click puts it back');
+  mouse('pointerdown', 0, nameGrip); mouse('pointermove', 200); mouse('pointerup', 200);
+  // temporary: nothing about it in the device settings, and the schedule is not changed or marked unsaved
+  const stored = Object.keys(ui.w.localStorage).filter(k => /colw|width/i.test(k) || /colw/.test(ui.w.localStorage.getItem(k) || ''));
+  assert.deepStrictEqual(stored, []);
+  assert.strictEqual(ui.$('#status').textContent, 'All changes saved');
+  assert.strictEqual((await app.t.api('s.patel').get('/api/scheduler/schedules/' + id)).body.rev, 1);
+  noErrors(ui);
+}));
