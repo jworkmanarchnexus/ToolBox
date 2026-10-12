@@ -27,6 +27,24 @@ function openExportDialog(kind0) {
   const body = h('div');
   const preview = h('div', { class: 'xo-prev', 'aria-live': 'polite' });
   const prevNav = h('div', { class: 'xw-pnav' });
+  /* "Fit page" shows the whole page at once; "Full width" fills the pane (scroll down for the rest). Remembered on this device. */
+  let fitPage = pref('sched.xfit') !== '0';
+  const viewBar = h('div', { class: 'xw-view', role: 'group', 'aria-label': 'Preview size' });
+  const paintView = () => {
+    viewBar.textContent = '';
+    const b = (on, label, title) => h('button', { type: 'button', 'aria-pressed': String(fitPage === on), title, text: label, onclick: () => { if (fitPage === on) return; fitPage = on; pref('sched.xfit', on ? '1' : '0'); paintView(); redraw(); } });
+    viewBar.append(h('div', { class: 'seg sm' }, b(true, 'Fit page', 'Shrink the preview so the whole page is visible without scrolling'), b(false, 'Full width', 'Show the page at the full width of this area; scroll for the rest')));
+  };
+  /* size the page so all of it fits the pane (both across and down); only when the pane itself scrolls, not on a phone */
+  const fitSheet = (sheet, aspect) => {
+    const pane = sheet.closest('.xw-prev');
+    if (!pane || !fitPage || getComputedStyle(pane).overflowY === 'visible') { sheet.style.width = ''; return; }
+    const cs = getComputedStyle(pane), gap = parseFloat(cs.rowGap) || 12;
+    const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight), padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    const others = [viewBar, prevNav].reduce((n, el) => n + (el.offsetHeight ? el.offsetHeight + gap : 0), 0) + gap;
+    const w = Math.max(160, Math.min(pane.clientWidth - padX, (pane.clientHeight - padY - others) * aspect));
+    sheet.style.width = Math.floor(w) + 'px';
+  };
   const summary = h('span', { class: 'xw-sum' });
   const dl = h('button', { type: 'button', class: 'btn primary', text: 'Download' });
   const cancel = h('button', { type: 'button', class: 'btn', text: 'Cancel' });
@@ -39,11 +57,13 @@ function openExportDialog(kind0) {
       h('span', { class: 'grow' }), closeBtn),
     h('div', { class: 'xw-main' },
       h('div', { class: 'xw-opts' }, info, shareBar, body),
-      h('div', { class: 'xw-prev' }, preview, prevNav)),
+      h('div', { class: 'xw-prev' }, viewBar, preview, prevNav)),
     h('div', { class: 'xw-foot' }, summary, h('span', { class: 'grow' }), h('div', { class: 'dlg-act' }, cancel, dl)));
   let timer = null, token = 0;
+  const onResize = () => redraw();
   const close = () => {
     clearTimeout(timer);
+    window.removeEventListener('resize', onResize);
     root.textContent = '';
     document.removeEventListener('keydown', onKey, true);
     if (xwReturnFocus && xwReturnFocus.focus && document.contains(xwReturnFocus)) xwReturnFocus.focus();
@@ -100,7 +120,7 @@ function openExportDialog(kind0) {
       if (isGantt()) { await fontsReady(); if (O.logo) await loadLogo(); }
       if (my !== token) return;
       preview.textContent = ''; prevNav.textContent = '';
-      if (!counts[active]) { preview.append(h('p', { class: 'pnote', text: 'Nothing to export for this audience yet.' })); summary.textContent = ''; return; }
+      if (!counts[active]) { viewBar.hidden = true; preview.append(h('p', { class: 'pnote', text: 'Nothing to export for this audience yet.' })); summary.textContent = ''; return; }
       try {
         if (kind === 'pdf') {
           const job = pdfJob(O);
@@ -109,7 +129,9 @@ function openExportDialog(kind0) {
           const cv = pdfPageCanvas(job, page, Math.min(2400, Math.max(800, (avail - 48) * (window.devicePixelRatio || 1))));
           cv.setAttribute('role', 'img');
           cv.setAttribute('aria-label', 'Page ' + (page + 1) + ' of ' + job.count + ' of the ' + typeLabel(active) + ' PDF');
-          preview.append(h('div', { class: 'sheet', style: 'aspect-ratio:' + job.P.w + '/' + job.P.h }, cv));
+          const sheetEl = h('div', { class: 'sheet', style: 'aspect-ratio:' + job.P.w + '/' + job.P.h }, cv);
+          preview.append(sheetEl);
+          viewBar.hidden = false;
           if (job.count > 1) {
             prevNav.append(
               h('button', { type: 'button', class: 'btn sm', html: icon('chevron-left', 14), 'aria-label': 'Previous page', disabled: page === 0 ? '' : null, onclick: () => { page--; redraw(); } }),
@@ -118,17 +140,22 @@ function openExportDialog(kind0) {
           }
           const bits = [(PAPER[O.paper] || PAPER.letter).label + ', landscape', job.count + (job.count === 1 ? ' page' : ' pages') + (job.across > 1 ? ' (' + job.across + ' across, ' + job.down + ' down)' : '')];
           summary.textContent = 'PDF · ' + bits.join(' · ') + ' · vector text';
+          fitSheet(sheetEl, job.P.w / job.P.h);
           if (job.s && job.s < 0.6) prevNav.append(h('p', { class: 'pnote', text: 'Fitting to the page prints at about ' + Math.round(job.s * 100) + '% size, so text will be small. A coarser time scale or larger paper keeps it readable.' }));
         } else if (kind === 'png') {
           const job = pngJob(O);
           const cv = pngCanvas(job, 2400);
           cv.setAttribute('role', 'img');
           cv.setAttribute('aria-label', 'Preview of the ' + typeLabel(active) + ' image');
-          preview.append(h('div', { class: 'sheet' }, cv));
+          const sheetEl = h('div', { class: 'sheet' }, cv);
+          preview.append(sheetEl);
+          viewBar.hidden = false;
+          fitSheet(sheetEl, cv.width / cv.height);
           const SC = Math.min(2, 12000 / job.H, 12000 / job.W);
           summary.textContent = 'PNG image · ' + Math.ceil(job.W * SC) + ' × ' + Math.ceil(job.H * SC) + ' px';
         } else {
           const { head, rows, dateCols } = tableData(active, O);
+          viewBar.hidden = true;
           const n = Math.min(rows.length, 14);
           preview.append(h('div', { class: 'sheet xw-table' }, h('table', { class: 'xw-tbl' },
             h('thead', null, h('tr', null, head.map((x) => h('th', { text: x })))),
@@ -232,7 +259,7 @@ function openExportDialog(kind0) {
     }
     shareBar.append(row);
   };
-  const paintAll = () => { paintFormat(); paintTabs(); paintInfo(); paintShare(); paintBody(); updateButton(); redraw(); };
+  const paintAll = () => { paintFormat(); paintView(); paintTabs(); paintInfo(); paintShare(); paintBody(); updateButton(); redraw(); };
 
   cancel.addEventListener('click', close);
   closeBtn.addEventListener('click', close);
@@ -250,6 +277,7 @@ function openExportDialog(kind0) {
   root.textContent = '';
   root.append(ws);
   document.addEventListener('keydown', onKey, true);
+  window.addEventListener('resize', onResize);
   paintAll();
   const first = tabs.querySelector('.xtab.on .xtab-b') || dl;
   if (first) first.focus();

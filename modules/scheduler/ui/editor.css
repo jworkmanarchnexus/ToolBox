@@ -432,6 +432,9 @@ body.row-dragging, body.row-dragging * { cursor: grabbing !important; user-selec
 .xw-tbl td { padding: 6px 10px; border-bottom: 1px solid var(--paper-rule); white-space: nowrap; max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
 .xw-grp { display: flex; align-items: center; gap: 8px; }
 .xw-lbl { font: 700 11.5px/1 var(--f-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); }
+.xw-view { display: flex; justify-content: center; }
+.xw-view[hidden] { display: none; }
+.xw-view .seg button { min-height: 26px; height: 26px; padding: 0 12px; font-size: 12.5px; }
 .xw-pnav { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; font: 400 13px/1 var(--f-cond); color: var(--text-2); }
 .xw-pnav .pnote { flex-basis: 100%; margin: 0; }
 .xw-sum { font: 400 13px/1.3 var(--f-cond); color: var(--text-2); }
