@@ -17,12 +17,12 @@ const BRAND_PRESETS = {
 };
 Object.assign(PRESETS, BRAND_PRESETS);
 for (const k of Object.keys(PRESETS)) if (!PRESETS[k].brand) PRESETS[k].extra = true; // older generic hues: kept, offered under "Other colors"
-/* new schedules: Nexus Blue for the client view, a deeper shade for the design team, blue gray for internal */
+/* new schedules: three clearly different colours, so the audiences can be told apart at a glance: Nexus Blue (client), orange (design team), dark gray (internal) */
 DEFAULT_COLORS.client = 'nexus';
-DEFAULT_COLORS.design = 'nexus-d40';
-DEFAULT_COLORS.internal = 'bluegray';
+DEFAULT_COLORS.design = 'brand-orange';
+DEFAULT_COLORS.internal = 'darkgray';
 /* the progression from page 11 of the brand guide: light to dark through a project */
 const PHASE_SHADES = ['nexus-t20', 'nexus-t40', 'nexus-t70', 'nexus', 'nexus-d20', 'nexus-d40', 'nexus-d60'];
 const BRAND_COLORS = ['nexus', 'nexus-t20', 'nexus-t40', 'nexus-t70', 'nexus-d20', 'nexus-d40', 'nexus-d60', 'nexus-light', 'bluegray', 'darkgray', 'brand-orange', 'brand-green'];
 /* the Arch Nexus palette in one click, for schedules made before it existed */
-const BRAND_AUDIENCE = { client: 'nexus', design: 'nexus-d40', internal: 'bluegray' };
+const BRAND_AUDIENCE = { client: 'nexus', design: 'brand-orange', internal: 'darkgray' };

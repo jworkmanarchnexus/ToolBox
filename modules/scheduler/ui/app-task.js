@@ -194,7 +194,7 @@ function renderInspector() {
   const succ = tasks.map((x, i) => ({ x, i, d: (x.deps || []).find((q) => q.id === id) })).filter((o) => o.d);
   const used = new Set((t.deps || []).map((d) => d.id));
   const optsFor = (keep) => tasks.map((x, i) => ({ x, i })).filter(({ x }) => x.id !== id && (x.id === keep || (!used.has(x.id) && !wouldCycle(tasks, id, [x.id]))));
-  if (S.detail) {
+  if (detailOn()) {
     if (!ro) links.querySelector('h3').append(h('span', { class: 'grow' }), h('button', { type: 'button', class: 'btn sm quiet', title: 'Make this activity wait for another one', 'aria-label': 'Add a link', disabled: S.pendingLink || !optsFor(null).length, 'data-k': 'add', html: icon('plus', 14) + 'Add a link', onclick: () => { S.pendingLink = true; renderInspector(); } }));
     const list = h('div', { class: 'td-deps', style: 'display:flex;flex-direction:column;gap:6px' });
     (t.deps || []).forEach((d, di) => {

@@ -89,7 +89,7 @@ function renderGantt() {
   const rows = tasks.map((t) => S.res.get(t.id));
   const narrow = window.innerWidth <= 860;
   let listW = parseInt(pref('tlList'), 10);
-  if (!(listW >= 160 && listW <= 640)) listW = narrow ? 168 : 320;
+  if (!(listW >= 160 && listW <= 640)) listW = narrow ? 168 : 400;
   if (narrow) listW = Math.min(listW, 168);
   const sc = scaleOf(), dayW = SCALES[sc].px * S.zoomF, tier = tierOf(dayW);
   const avail = Math.max(360, (root.clientWidth || 1000) - listW - 2);
@@ -114,7 +114,7 @@ function renderGantt() {
   const showDate = listW >= 280;
 
   /* corner + activity list */
-  const corner = h('div', { class: 'tl-corner' }, h('span', { class: 'lbl', text: exView ? 'Executive overview' : 'Activity' }), showDate ? h('span', { class: 'lbl cdate', text: 'Finish' }) : null);
+  const corner = h('div', { class: 'tl-corner' }, h('span', { class: 'lbl', text: exView ? 'Executive overview' : 'Activity' }), showDate ? h('span', { class: 'lbl cdate', text: 'Start' }) : null, showDate ? h('span', { class: 'lbl cdate', text: 'Finish' }) : null);
   const list = h('div', { class: 'tl-list' });
   tasks.forEach((t, i) => {
     const r = rows[i], w = worst(r.flags);
@@ -126,7 +126,9 @@ function renderGantt() {
       onpointerdown: (ev) => { if (!exView) startRowDrag(ev, t.id, labelRowsOf); } },
     exView ? exSwatch(t) : null,
     h('span', { class: 'rn mono', text: S.work.tasks.indexOf(t) + 1 }), h('span', { class: 'nm', text: t.name || 'Untitled' }), fl,
-    showDate ? h('span', { class: 'cd', text: fmtShortNoDow(r.kind === 'milestone' ? r.start : r.finish) }) : null));
+    showDate ? h('span', { class: 'cd', text: fmtShortNoDow(r.start) }) : null,
+    showDate ? h('span', { class: 'cd', text: fmtShortNoDow(r.kind === 'milestone' ? r.start : r.finish) }) : null,
+    exView && !S.readonly ? exRemove(t) : null));
   });
 
   /* header: two tiers */
@@ -179,20 +181,34 @@ function renderGantt() {
   svg.setAttribute('class', 'deps' + (sel ? ' has-sel' : ''));
   svg.setAttribute('width', chartW); svg.setAttribute('height', bodyH);
   const idx = new Map(tasks.map((t, i) => [t.id, i]));
+  if (S.selLink && (exView || !tasks.some((t) => t.id === S.selLink.to && (t.deps || []).some((d) => d.id === S.selLink.from)))) S.selLink = null;
+  let anyLink = false;
   tasks.forEach((t, j) => {
     for (const dp of t.deps || []) {
       const i = idx.get(dp.id);
       if (i == null || rows[j].cycle) continue;
       const pts = arrowPath(ganttGeom(rows[i], minD, dayW), ganttGeom(rows[j], minD, dayW), dp.type, i * GROW + GROW / 2, j * GROW + GROW / 2, GROW);
+      anyLink = true;
+      const isPick = !!S.selLink && S.selLink.to === t.id && S.selLink.from === dp.id;
       const isHot = sel && (sel === t.id || sel === dp.id || (down.has(t.id) && (down.has(dp.id) || dp.id === sel)));
       const path = document.createElementNS(NS, 'path');
       path.setAttribute('d', 'M' + pts.map((pt) => pt[0].toFixed(1) + ' ' + pt[1].toFixed(1)).join('L'));
-      path.setAttribute('class', 'dp' + (isHot ? ' hot' : ''));
+      path.setAttribute('class', 'dp' + (isHot ? ' hot' : '') + (isPick ? ' pick' : ''));
       svg.append(path);
+      if (!exView) { // a wide invisible stroke on top, so a thin line is easy to click
+        const hit = document.createElementNS(NS, 'path');
+        hit.setAttribute('d', path.getAttribute('d'));
+        hit.setAttribute('class', 'dpx');
+        const a = taskById(dp.id), bn = (a && a.name) || 'Untitled', cn = t.name || 'Untitled';
+        const tt = document.createElementNS(NS, 'title'); tt.textContent = 'Link: ' + cn + ' starts after ' + bn + (S.readonly ? '' : '\nClick to select it, then press Delete to remove it.'); hit.append(tt);
+        hit.addEventListener('pointerdown', (ev) => ev.stopPropagation());
+        hit.addEventListener('click', (ev) => { ev.stopPropagation(); S.selLink = isPick ? null : { from: dp.id, to: t.id }; renderGantt(); const tlEl = $('#ganttView .tl'); if (tlEl) tlEl.focus({ preventScroll: true }); });
+        svg.append(hit);
+      }
       const [x2, y2] = pts[pts.length - 1];
       const hd = document.createElementNS(NS, 'path');
       hd.setAttribute('d', 'M' + x2 + ' ' + y2 + 'l-6 -3.5v7z');
-      hd.setAttribute('class', 'dh' + (isHot ? ' hot' : ''));
+      hd.setAttribute('class', 'dh' + (isHot ? ' hot' : '') + (isPick ? ' pick' : ''));
       svg.append(hd);
     }
   });
@@ -276,18 +292,24 @@ function renderGantt() {
   /* legend and notes */
   const foot = h('div', { class: 'tl-foot' });
   let any = false;
-  if (S.detail && !exView) {
+  if (!exView) {
     any = true;
     for (const k of LEVELS) foot.append(h('span', { class: 'lg aud', title: LEVEL_INFO[k].hint }, h('span', { class: 'sw lv-' + k }), LEVEL_INFO[k].label));
   }
   if (!exView) { foot.append(h('span', { class: 'lg' }, h('span', { class: 'sw dm' }), 'Milestone')); }
+  if (anyLink) {
+    any = true;
+    foot.append(h('span', { class: 'lg', title: 'An arrow means the activity it points to starts after the one it leaves.' }, h('span', { class: 'lk-key' }), 'Link'));
+    foot.append(h('span', { class: 'lg', title: 'Select an activity: its links, and everything that depends on it further down the chain, turn blue. All other links fade.' }, h('span', { class: 'lk-key hot' }), 'Blue: leads to or from the selected activity'));
+    if (!S.readonly) foot.append(h('span', { class: 'lg', title: 'Click an arrow to select it, then press Delete or Backspace.' }, h('span', { class: 'lk-key pick' }), 'Click an arrow, then Delete, to unlink'));
+  }
   if (showBase) {
     any = true;
     const bl = S.work.baseline;
     foot.append(h('span', { class: 'lg basestrip' }, h('span', { class: 'bghost key' }), 'Baseline, set ' + whenText(bl.at) + (bl.by ? ' by ' + nameOf(bl.by) : '')), h('span', { class: 'slip late', text: '+ later' }), h('span', { class: 'slip early', text: '− earlier' }));
   }
   if (commits.size) { any = true; foot.append(h('span', { class: 'lg' }, h('span', { class: 'cmk', style: 'position:relative;height:12px;display:inline-block;margin:0 4px 0 2px' }), 'Commitment (red when the forecast misses it)')); }
-  if (S.detail && !exView && !S.readonly) foot.append(h('button', { class: 'btn sm', type: 'button', text: 'Colors…', onclick: openSettings }));
+  if (!exView && !S.readonly) foot.append(h('button', { class: 'btn sm', type: 'button', text: 'Colors…', onclick: openSettings }));
   if (any || !exView) root.append(foot);
 
   tlView = { minD, maxD, dayW, listW, chartW, tier };
@@ -297,8 +319,37 @@ function renderGantt() {
   tl.scrollTop = keepT;
   S.zoomJustChanged = false;
 }
+/* Executive view: take an activity off the overview (it stays in the schedule; only its Exec check is cleared) */
+function exRemove(t) {
+  const x = h('span', { class: 'xrm', role: 'button', tabindex: '0', 'aria-label': 'Remove ' + (t.name || 'this activity') + ' from the Executive view', title: 'Remove from the Executive view. The activity stays in the schedule. Undo brings it back.', html: ICON.x });
+  const go = (ev) => { ev.stopPropagation(); ev.preventDefault(); removeFromExec(t.id); };
+  x.addEventListener('click', go);
+  x.addEventListener('pointerdown', (ev) => ev.stopPropagation());
+  x.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') go(e); });
+  return x;
+}
+function removeFromExec(id) {
+  const t = taskById(id);
+  if (!t || S.readonly) return;
+  const name = t.name || 'Untitled';
+  edit(() => { taskById(id).exec = false; });
+  toast('Removed “' + name + '” from the Executive view.', { label: 'Undo', run: undo });
+}
+/* delete the link picked in the Timeline (the activity keeps its other links and its dates may move) */
+function deleteSelectedLink() {
+  const k = S.selLink;
+  if (!k || S.readonly || S.view !== 'gantt') return false;
+  const to = taskById(k.to);
+  S.selLink = null;
+  if (!to || !(to.deps || []).some((d) => d.id === k.from)) { renderGantt(); return true; }
+  const from = taskById(k.from), a = (from && from.name) || 'Untitled', b = to.name || 'Untitled';
+  edit(() => { const y = taskById(k.to); y.deps = y.deps.filter((q) => q.id !== k.from); });
+  toast('Removed the link: “' + b + '” no longer waits for “' + a + '”.', { label: 'Undo', run: undo });
+  return true;
+}
 function selectGantt(id, ev) {
   if (S.suppressClick) return;
+  S.selLink = null;
   clickSelect(id, ev, { toggle: true });
   renderGantt();
   renderBulk();

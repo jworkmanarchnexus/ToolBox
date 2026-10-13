@@ -109,3 +109,13 @@ Record non-obvious technical decisions here with a date and one line of reasonin
 - **Not turned into fixtures:** the Scheduler's change-impact wording, the Fee Builder's exports and snapshots, and Minutes' publish blockers. They are covered by tests that assert behavior in code (and described in the specs) but are tied to text or document structure that a port will redesign.
 - **`docs/FOR-KENT.md`:** how to run it, what is durable and what is a prototype, the API, the permission conventions, what to watch (no real authentication, polling, server-side history), moving data from the artifacts, and the four decisions still open.
 - **Design-system artifact:** the design system itself (`design-system/project/`) was not changed in these phases, so the published artifact needs no refresh. Scheduler-only, Fee Builder-only and Minutes-only tokens stay in each module's `ui/tokens.css` (the design system's README says to keep them there until a second app needs them; the three chart and brand marks that two apps share, such as `--g-blue`, are candidates to promote).
+
+## Scheduler repairs: Detailed view, timeline links, colors (2026-10-12)
+
+- **Detailed view hid the Activity column.** Fixed-width columns plus the extra Detailed ones were wider than the table, so Activity was squeezed to 0. The table now keeps Activity at 240 px at least and scrolls sideways instead (`fitTableMin`).
+- **The Timeline is always "detailed".** The Detailed switch only affects the Table and is hidden on the Timeline; the Timeline always shows the audience colors, the color key, "Colors…" and the link tools in the activity panel (`detailOn()`).
+- **New default audience colors:** Client = Nexus Blue, Design team = brand orange, Internal = dark gray (the blues and grays were too close). Schedules already saved keep their colors; Settings offers "Use the Arch Nexus colors" for them. The orange also happens to be the "Today" line color; if that confuses anyone, the Design color can change to the brand green.
+- **Executive view:** each row has an × that clears that activity's Exec check (the activity stays in the schedule). Undo restores it.
+- **Links in the Timeline** can be clicked (a wide invisible hit area over the thin line); Delete or Backspace removes the picked link (Undo restores it; Escape un-picks). Gray vs blue: blue marks links that touch the selected activity or that lead on from it; the rest are gray and fade. The key under the Timeline now says so.
+- **Timeline list** shows Start and Finish (default list width 400 px; narrower than 280 px hides the dates as before).
+- Untested in a real browser: the exact look at very small windows; jsdom tests cover the behavior (`integration.test.js`).

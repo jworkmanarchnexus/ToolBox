@@ -259,6 +259,7 @@ function renderToolbar() {
   $('#btnAdd').disabled = $('#btnAddMs').disabled = ro || S.view === 'exec';
   $('#btnDetail').setAttribute('aria-pressed', String(!!S.detail));
   $('#btnDetail').disabled = !has;
+  $('#btnDetail').hidden = S.view !== 'table';
   $('#btnUndo').disabled = ro || !S.undo.length;
   $('#btnHistory').disabled = !has || !S.db;
   $('#scaleWrap').hidden = (S.view !== 'gantt' && S.view !== 'exec') || !has;
@@ -492,13 +493,24 @@ function renderTable() {
     if (cur !== tr) tbody.insertBefore(tr, cur || null);
   });
   $('#tEmpty').hidden = tasks.length > 0;
-  document.body.classList.toggle('commit-col', !!S.detail || tasks.some((t) => t.commit));
+  document.body.classList.toggle('commit-col', detailOn() || tasks.some((t) => t.commit));
   if (S.focusId) {
     const tr = $('#tbody tr[data-id="' + S.focusId + '"]');
     S.focusId = null;
     if (tr) { const n = $('[data-f=name]', tr); n.focus(); n.select(); }
   }
+  fitTableMin();
   renderBulk();
+}
+
+/* The Activity column never gets squeezed away: if the other columns (more of them in Detailed view) leave it less than ACT_MIN, the table grows and scrolls sideways instead. */
+const ACT_MIN = 240;
+function fitTableMin() {
+  const tbl = $('.twrap table'), name = colEl('k-name');
+  if (!tbl || !name || !tbl.offsetWidth) return;
+  tbl.style.minWidth = '';
+  const short = ACT_MIN - name.getBoundingClientRect().width;
+  if (short > 0.5) tbl.style.minWidth = Math.ceil(tbl.getBoundingClientRect().width + short) + 'px';
 }
 
 /* column widths: drag the edge of a header; remembered on this device */
@@ -521,13 +533,13 @@ function bindColResize() {
     th.style.position = 'sticky';
     const grip = h('span', { class: 'rz', title: 'Drag to resize this column. Double-click to reset it. (Temporary: not saved.)' });
     th.append(grip);
-    grip.addEventListener('dblclick', (e) => { e.stopPropagation(); delete colW[k]; applyColWidths(); });
+    grip.addEventListener('dblclick', (e) => { e.stopPropagation(); delete colW[k]; applyColWidths(); fitTableMin(); });
     grip.addEventListener('click', (e) => e.stopPropagation()); // a header click must not sort or select
     grip.addEventListener('pointerdown', (e) => {
       e.preventDefault(); e.stopPropagation();
       const x0 = e.clientX, w0 = th.getBoundingClientRect().width;
       grip.classList.add('on');
-      const move = (ev) => { colW[k] = Math.max(COL_MIN, Math.round(w0 + ev.clientX - x0)); colEl(k).style.width = colW[k] + 'px'; };
+      const move = (ev) => { colW[k] = Math.max(COL_MIN, Math.round(w0 + ev.clientX - x0)); colEl(k).style.width = colW[k] + 'px'; fitTableMin(); };
       const up = () => { document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up); grip.classList.remove('on'); };
       document.addEventListener('pointermove', move); document.addEventListener('pointerup', up);
     });
@@ -548,7 +560,7 @@ function renderBulk() {
   const btn = (label, title, run, cls) => h('button', { class: 'btn sm' + (cls ? ' ' + cls : ''), type: 'button', text: label, title, onclick: run });
   bar.append(...[h('strong', { text: ids.length + ' selected' }),
     btn('Link in order', 'Each selected activity starts when the one above it finishes (finish-to-start). Existing links stay.', () => linkInOrder(ids)),
-    S.detail ? aud : null,
+    detailOn() ? aud : null,
     S.work.execOn ? btn('Exec on', 'Show the selected Client-level activities in the executive overview', () => edit(() => { for (const t of tasks()) if ((t.lvl || 'client') === 'client') t.exec = true; })) : null,
     btn(tasks().every((t) => t.locked) ? 'Unlock' : 'Lock', 'Lock or unlock the dates of the selected activities', () => {
       const all = tasks().every((t) => t.locked);
@@ -648,7 +660,7 @@ function colorRows() {
       box.append(h('div', { class: 'lv-row' }, h('div', null, h('strong', { text: LEVEL_INFO[k].label }), h('small', { text: LEVEL_INFO[k].hint })), btn));
     }
     const isBrand = LEVELS.every((k) => cols[k] === BRAND_AUDIENCE[k]);
-    if (!isBrand && !S.readonly) box.append(h('div', null, h('button', { type: 'button', class: 'btn sm', text: 'Use the Arch Nexus colors', title: 'Nexus Blue for Client, a deeper shade for Design team, Blue Gray for Internal', onclick: () => { edit(() => { S.work.colors = Object.assign({}, BRAND_AUDIENCE); }); paint(); } })));
+    if (!isBrand && !S.readonly) box.append(h('div', null, h('button', { type: 'button', class: 'btn sm', text: 'Use the Arch Nexus colors', title: 'Nexus Blue for Client, orange for Design team, Dark Gray for Internal', onclick: () => { edit(() => { S.work.colors = Object.assign({}, BRAND_AUDIENCE); }); paint(); } })));
   };
   paint();
   return box;
@@ -868,7 +880,7 @@ function openShortcuts() {
 
 /* ----- orchestration ----- */
 function applyAudienceStyle() {
-  document.body.classList.toggle('detail', !!S.detail);
+  document.body.classList.toggle('detail', detailOn());
   document.body.classList.toggle('base-on', baseActive());
   document.body.classList.toggle('exec-on', !!(S.work && S.work.execOn));
   document.body.classList.toggle('ro', !!S.readonly);
@@ -1010,6 +1022,8 @@ function bindStatic() {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); }
     else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !typing) { e.preventDefault(); undo(); }
     else if (e.key === '?' && !typing && !$('#modalRoot').children.length) { e.preventDefault(); openShortcuts(); }
+    else if ((e.key === 'Delete' || e.key === 'Backspace') && !typing && S.selLink && !$('#modalRoot').children.length && !e.target.isContentEditable) { if (deleteSelectedLink()) e.preventDefault(); }
+    else if (e.key === 'Escape' && S.selLink && !$('#modalRoot').children.length) { S.selLink = null; renderGantt(); }
     else if (e.key === 'Escape' && S.inspect && !$('#modalRoot').children.length && !$('.cpick')) closeInspector();
   });
   bindColResize();

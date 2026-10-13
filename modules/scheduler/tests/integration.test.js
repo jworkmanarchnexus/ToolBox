@@ -254,3 +254,76 @@ test('table column widths can be dragged for the moment, and are never stored', 
   assert.strictEqual((await app.t.api('s.patel').get('/api/scheduler/schedules/' + id)).body.rev, 1);
   noErrors(ui);
 }));
+
+test('timeline: always detailed, Start column, clickable links that Delete removes, and new default audience colours', () => withApp(async (app) => {
+  const ui = await app.open('s.patel');
+  const id = await createFromTemplate(ui, proj(app, '26-101'));
+  await ui.until(() => ui.$$('#tbody input[data-f=name]').length > 5, 'the activity table');
+  // the Detailed switch belongs to the Table only
+  assert.ok(!ui.$('#btnDetail').hidden, 'Detailed switch is there in the Table');
+  assert.ok(!ui.w.document.body.classList.contains('detail'), 'and it starts off');
+  ui.click(ui.$('#vGantt'));
+  await ui.until(() => ui.$('#ganttView .tl-grid'), 'the timeline');
+  assert.ok(ui.$('#btnDetail').hidden, 'the Detailed switch is gone on the Timeline');
+  assert.ok(ui.w.document.body.classList.contains('detail'), 'but the Timeline always shows the audience colours');
+  const lg = ui.$$('.tl-foot .lg.aud').map(e => e.textContent);
+  assert.deepStrictEqual(lg.length, 3, 'the audience key is shown');
+  // new defaults are three clearly different colours
+  const cols = ['client', 'design', 'internal'].map(k => ui.w.document.documentElement.style.getPropertyValue('--lv-' + k));
+  assert.strictEqual(new Set(cols).size, 3);
+  assert.ok(cols.every(c => c), 'all three set');
+  assert.deepStrictEqual(cols.map(c => /var\(--p-(.+)\)/.exec(c)[1]), ['nexus', 'brand-orange', 'darkgray']);
+  // start and finish both listed
+  assert.deepStrictEqual(ui.$$('.tl-corner .lbl').map(e => e.textContent), ['Activity', 'Start', 'Finish']);
+  assert.strictEqual(ui.$$('.grl')[0].querySelectorAll('.cd').length, 2);
+  // links: click one, press Delete, it is gone, Undo brings it back
+  const links = () => ui.$$('.deps .dp').length;
+  const n0 = links();
+  assert.ok(n0 > 2, 'the template has links: ' + n0);
+  assert.ok(ui.$$('.deps .dpx').length === n0, 'each link has a click target');
+  ui.click(ui.$('.deps .dpx'));
+  await ui.until(() => ui.$('.deps .dp.pick'), 'the link to be selected');
+  const key = (k) => ui.w.document.dispatchEvent(new ui.w.KeyboardEvent('keydown', { key: k, bubbles: true, cancelable: true }));
+  key('Delete');
+  await ui.until(() => links() === n0 - 1, 'the link to be removed');
+  assert.ok(!ui.$('.deps .dp.pick'));
+  key('Delete'); // nothing selected: nothing more is removed
+  assert.strictEqual(links(), n0 - 1);
+  ui.click(ui.$('#btnUndo'));
+  await ui.until(() => links() === n0, 'undo to bring it back');
+  ui.click(ui.$$('.deps .dpx')[1]);
+  await ui.until(() => ui.$('.deps .dp.pick'), 'a link to be selected');
+  key('Backspace');
+  await ui.until(() => links() === n0 - 1, 'Backspace removes it too');
+  ui.click(ui.$('#vTable'));
+  await ui.until(() => !ui.$('#btnDetail').hidden, 'the Detailed switch to come back in the Table');
+  noErrors(ui);
+}));
+
+test('executive view: an activity added by mistake can be taken off it', () => withApp(async (app) => {
+  const ui = await app.open('s.patel');
+  await createFromTemplate(ui, proj(app, '26-101'));
+  await ui.until(() => ui.$$('#tbody input[data-f=name]').length > 5, 'the activity table');
+  ui.click(ui.$('#btnSettings'));
+  await ui.until(() => ui.$('#psExec'), 'settings');
+  const cb = ui.$('#psExec'); cb.checked = true; ui.change(cb);
+  await ui.until(() => !ui.$('#vExec').hidden, 'the Executive tab');
+  ui.w.document.dispatchEvent(new ui.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  await ui.until(() => !ui.$('#modalRoot').children.length, 'settings to close');
+  ui.click(ui.$('#vExec'));
+  await ui.until(() => ui.$$('.grl').length > 1, 'activities on the Executive view');
+  const n = ui.$$('.grl').length;
+  assert.strictEqual(ui.$$('.grl .xrm').length, n, 'each has a remove button');
+  const name = ui.$('.grl .nm').textContent;
+  ui.click(ui.$('.grl .xrm'));
+  await ui.until(() => ui.$$('.grl').length === n - 1, 'the activity to leave the Executive view');
+  ui.click(ui.$('#vTable'));
+  await ui.until(() => ui.$$('#tbody tr[data-id]').length > 5, 'the table');
+  const row = ui.$$('#tbody tr[data-id]').find(tr => tr.querySelector('[data-f=name]').value === name);
+  assert.ok(row, 'the activity itself is still in the schedule');
+  assert.strictEqual(row.querySelector('[data-f=exec]').checked, false, 'only its Exec check was cleared');
+  ui.click(ui.$('#btnUndo'));
+  ui.click(ui.$('#vExec'));
+  await ui.until(() => ui.$$('.grl').length === n, 'undo to put it back');
+  noErrors(ui);
+}));

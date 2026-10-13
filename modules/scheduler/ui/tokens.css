@@ -19,7 +19,7 @@
   --tip-bg: #2D3034; --tip-bg-2: #3A3E43; --tip-fg: #F2F4F5;
 
   /* audience colors (overridden per schedule at runtime) */
-  --lv-client: var(--nx-blue); --lv-design: var(--nx-d40); --lv-internal: var(--nx-bluegray);
+  --lv-client: var(--nx-blue); --lv-design: var(--nx-orange); --lv-internal: var(--nx-darkgray);
 
   /* older preset colors, kept for schedules that saved them */
   --p-blue: #3B79C3; --p-teal: #1F8A8A; --p-green: #4C8F3F; --p-violet: #7653B5; --p-slate: #5F7285; --p-brown: #8A5A3A; --p-amber: #C98A1B; --p-red: #B94A48; --p-rose: #B5527E; --p-olive: #7F8A2E; --p-navy: #2B4C7E; --p-sky: #3C9BD1; --p-mint: #2FA77A; --p-coral: #E0663F; --p-plum: #7A3E6E; --p-indigo: #4B4FB5; --p-sand: #B49A6B; --p-charcoal: #3A4550;

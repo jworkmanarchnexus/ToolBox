@@ -19,6 +19,8 @@ function h(tag, props, ...kids) {
   for (const c of kids.flat()) if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(String(c)));
   return e;
 }
+/* The timeline always shows the Detailed look (audience colours, link handles); the Detailed switch only affects the Table. */
+const detailOn = () => !!S.detail || S.view === 'gantt';
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 function todayDay() { const t = new Date(); return dayNum(t.getFullYear(), t.getMonth(), t.getDate()); }
 function whenText(ms) {

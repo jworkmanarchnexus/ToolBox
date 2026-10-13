@@ -17,7 +17,7 @@ Not in scope: resource leveling, cost, percent complete, Gantt printing beyond t
 | Scheduler home | Projects the person can see (active; archived collapsed). Search, "My projects" (on the Vantagepoint team) or all, filter by has-a-schedule, sort. Each row opens the project's primary schedule or offers New schedule. |
 | Project page | The project's schedules, the primary one starred and first, the team and the person's access. New schedule, Duplicate, Open. |
 | New schedule | Pick a template (company, personal, or blank), a start date and the length of each phase in weeks; see the resulting dates before creating. The project is required. |
-| Editor | Table view, Timeline (Gantt) view, optional Executive view. See section 4. |
+| Editor | Table view, Timeline (Gantt) view, optional Executive view. See section 4. The Timeline always shows audience colors and link tools; the Detailed switch applies to the Table only. Timeline links can be clicked and removed with Delete or Backspace; the Executive view can remove activities from itself; the Timeline list shows Start and Finish. Default audience colors: Nexus Blue (Client), orange (Design team), dark gray (Internal). |
 | Templates | Company templates (starters plus the firm's own) and My templates. Managers edit company templates. Edit a template in the same editor. |
 
 ## 3. Data
