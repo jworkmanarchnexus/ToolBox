@@ -8,11 +8,11 @@
    strokeRect, fillText, measureText, setLineDash, and solid colors (no alpha). */
 
 /* print palette: Nexus Blue leads; grays from the brand guide (Pantone 171-1 C, 174-5 U, 178-11 C).
-   Orange is only the small today marker. The error red is not a brand color; it marks real conflicts only. */
+   Today is drawn in ink, not orange, because orange is the Design team audience color. The error red is not a brand color; it marks real conflicts only. */
 const PAL = {
   bg: '#FFFFFF', ink: '#24292E', text2: '#50585E', muted: '#6E777D', blue: '#0099D8', blueInk: '#0077A8',
   grid: '#CDD1D2', grid2: '#E7E9EA', bar: '#0099D8', ms: '#005175', ghost: '#9AA3A9',
-  wknd: '#F2F4F5', hol: '#E0E5E8', err: '#B3261E', warn: '#8A5300', today: '#F18A00', locked: '#24292E',
+  wknd: '#F2F4F5', hol: '#E0E5E8', err: '#B3261E', warn: '#8A5300', today: '#24292E', locked: '#24292E',
 };
 const FONTS_CANVAS = { ui: 'Lato, Arial, sans-serif', cond: '"Roboto Condensed", "Arial Narrow", Arial, sans-serif' };
 const FONTS_PDF = { ui: 'Lato', cond: 'RobotoCondensed' };

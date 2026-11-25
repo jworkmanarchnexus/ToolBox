@@ -218,11 +218,11 @@ body:not(.commit-col) .k-commit, body:not(.commit-col) .h-commit, body:not(.comm
 .dh.hot { fill: var(--g-blue); }
 .deps.has-sel .dp:not(.hot), .deps.has-sel .dh:not(.hot) { opacity: .35; }
 .dpx { fill: none; stroke: transparent; stroke-width: 12; pointer-events: stroke; cursor: pointer; }
-.dp.pick { stroke: var(--today); stroke-width: 2.6; opacity: 1 !important; }
-.dh.pick { fill: var(--today); opacity: 1 !important; }
+.dp.pick { stroke: var(--link-pick); stroke-width: 2.6; opacity: 1 !important; }
+.dh.pick { fill: var(--link-pick); opacity: 1 !important; }
 .lk-key { display: inline-block; width: 22px; height: 0; border-top: 1.5px solid var(--text-3); margin: 0 5px 0 2px; vertical-align: middle; }
 .lk-key.hot { border-top: 2px solid var(--g-blue); }
-.lk-key.pick { border-top: 3px solid var(--today); }
+.lk-key.pick { border-top: 3px solid var(--link-pick); }
 .xrm { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 4px; color: var(--text-3); cursor: pointer; }
 .xrm svg { width: 13px; height: 13px; }
 .xrm:hover, .xrm:focus-visible { background: var(--accent-soft); color: var(--text-strong); }

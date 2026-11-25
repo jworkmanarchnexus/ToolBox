@@ -6,7 +6,9 @@
   --g-d20: var(--nx-d20); --g-d40: var(--nx-d40); --g-d60: var(--nx-d60);
 
   /* schedule graphics */
-  --today: var(--nx-orange);
+  /* Today and the picked link are ink, not orange: orange is the Design team audience color */
+  --today: var(--text-strong);
+  --link-pick: var(--text-strong);
   --bar: var(--nx-blue);
   --bar-ms: var(--nx-d60);
   --bar-hold: var(--nx-t40);
