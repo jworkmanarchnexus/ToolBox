@@ -125,3 +125,10 @@ Record non-obvious technical decisions here with a date and one line of reasonin
 - **Josh:** the Today line and the Design team color were the same orange (#F18A00), as was a picked link. Josh chose to recolor Today and keep orange for Design team.
 - **Today is now ink:** `--today: var(--text-strong)` on screen (near-black in light mode, near-white in dark), and `PAL.today = #24292E` in PDF and image exports. A picked link has its own token, `--link-pick`, also ink. Orange now means only "Design team".
 - In exports the "Today" key entry and "Locked date" share the ink color; they are told apart by shape (thin tick vs square).
+
+## Design refresh shared with Compass (2026-11-25)
+
+- **(Josh) One modern look for the Toolbox and Compass.** Designed in Compass first, then moved here as the master: four new tokens (`canvas`, `shadow-soft`, `r5`, `r6`) in `tokens.json` and a "Modern layer" block at the end of `components/bundle.css`. Compass copies the generated `shared/design-system/toolbox.css` back, so both apps use the same file.
+- **What changed:** the shell sits on a tinted canvas; the side bar and the page are floating white panels with soft shadows; nav items are rounder; the user and settings buttons sit in a small box at the foot of the side bar. The side bar still expands, shrinks to icons and becomes a slide-out menu below 860px. Branding (logo, product line on the blue rule) unchanged.
+- **Pages opt in.** A page that adds `.on-canvas` to `.mainwrap` drops its white sheet and shows its sections as cards. No Toolbox page has opted in yet, so every page looks as before inside the new frame.
+- **Fixed in passing:** shrinking the side bar to icons on a wide window and then narrowing it left the slide-out menu centered like the icon bar.
